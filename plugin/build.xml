@@ -1,0 +1,46 @@
+<project name="csharpRunner-custom-build" default="dist" basedir=".">
+
+  <property file="build.properties"/>
+  <property name="plugin.name" value="csharpRunner"/>
+  <property name="javac2.home" value="${basedir}/lib-compile"/>
+
+  <import file="teamcity-common.xml"/>
+  <import file="csharprunner.xml"/>
+
+  <target name="package" depends="define.version">
+    <package.teamcity.plugin name="${plugin.name}"
+                             common.output="${csharprunner-common.output.dir}"
+                             server.output="${csharprunner-server.output.dir}"
+                             agent.output="${csharprunner-agent.output.dir}"
+                             server.lib.dir="lib" server.lib.includes="*.jar"
+                             plugin.descriptor.file="${basedir}/teamcity-plugin.xml"
+                             plugin.version="${plugin.version}">
+        <agent-additional-files>
+            <fileset dir="${csharprunner-agent.output.dir}" id="agent-additional-files">
+                <include name="**/*.exe"></include>
+            </fileset>
+        </agent-additional-files>
+    </package.teamcity.plugin>
+  </target>
+
+
+
+  <target name="define.version" depends="define.version.if.under.teamcity">
+    <tstamp>
+      <format property="current.time" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+    <property name="plugin.version" value="SNAPSHOT-${current.time}"/>
+  </target>
+
+  <target name="define.version.if.under.teamcity" if="build.number">
+    <property name="plugin.version" value="${build.number}"/>
+  </target>
+
+  <target name="dist" depends="check.teamcitydistribution,all,package"/>
+
+  <target name="clean" depends="csharprunner.clean"/>
+
+  <target name="deploy" depends="dist">
+    <deploy.teamcity.plugin name="${plugin.name}"/>
+  </target>
+</project>        
