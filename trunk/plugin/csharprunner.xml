@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="csharprunner" default="all">
+  
+  
+  <property file="csharprunner.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.zip"/>
+    <include name="*.jar"/>
+    <include name="*.swc"/>
+    <include name="*.ear"/>
+    <include name="*.war"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+    <include name="**/?*.htm"/>
+    <include name="**/?*.jsp"/>
+    <include name="**/?*.js"/>
+    <include name="**/?*.exe"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.teamcity_open_api_agent.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/agent-api.jar"/>
+  </path>
+  
+  <path id="library.teamcity_open_api_common.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/common-api.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/runtime-util.jar"/>
+  </path>
+  
+  <path id="library.teamcity_open_api_server.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/server-api.jar"/>
+  </path>
+  
+  <path id="library.teamcity_third-party_common.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/annotations.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/openapi.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/spring.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/util.jar"/>
+  </path>
+  
+  <path id="library.teamcity_third-party_server.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar"/>
+  </path>
+  
+  <path id="library.tomcat.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/lib/servlet-api.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module csharpRunner-common -->
+  
+  <dirname property="module.csharprunner-common.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.csharprunner-common" value="${compiler.args}"/>
+  
+  <property name="csharprunner-common.output.dir" value="${module.csharprunner-common.basedir}/out/production/csharpRunner-common"/>
+  <property name="csharprunner-common.testoutput.dir" value="${module.csharprunner-common.basedir}/out/test/csharpRunner-common"/>
+  
+  <path id="csharprunner-common.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="csharprunner-common.module.production.classpath">
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+  </path>
+  
+  <path id="csharprunner-common.runtime.production.module.classpath">
+    <pathelement location="${csharprunner-common.output.dir}"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+  </path>
+  
+  <path id="csharprunner-common.module.classpath">
+    <pathelement location="${csharprunner-common.output.dir}"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+  </path>
+  
+  <path id="csharprunner-common.runtime.module.classpath">
+    <pathelement location="${csharprunner-common.output.dir}"/>
+    <pathelement location="${csharprunner-common.testoutput.dir}"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.csharprunner-common">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.csharprunner-common">
+    <patternset refid="excluded.from.module.csharprunner-common"/>
+  </patternset>
+  
+  <path id="csharprunner-common.module.sourcepath">
+    <dirset dir="${module.csharprunner-common.basedir}/common">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.csharprunner-common" depends="compile.module.csharprunner-common.production,compile.module.csharprunner-common.tests" description="Compile module csharpRunner-common"/>
+  
+  <target name="compile.module.csharprunner-common.production" description="Compile module csharpRunner-common; production classes">
+    <mkdir dir="${csharprunner-common.output.dir}"/>
+    <javac destdir="${csharprunner-common.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.csharprunner-common}"/>
+      <bootclasspath refid="csharprunner-common.module.bootclasspath"/>
+      <classpath refid="csharprunner-common.module.production.classpath"/>
+      <src refid="csharprunner-common.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.csharprunner-common"/>
+    </javac>
+    
+    <copy todir="${csharprunner-common.output.dir}">
+      <fileset dir="${module.csharprunner-common.basedir}/common/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.csharprunner-common.tests" depends="compile.module.csharprunner-common.production" description="compile module csharpRunner-common; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.csharprunner-common" description="cleanup module">
+    <delete dir="${csharprunner-common.output.dir}"/>
+    <delete dir="${csharprunner-common.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module csharpRunner-agent -->
+  
+  <dirname property="module.csharprunner-agent.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.csharprunner-agent" value="${compiler.args}"/>
+  
+  <property name="csharprunner-agent.output.dir" value="${module.csharprunner-agent.basedir}/out/production/csharpRunner-agent"/>
+  <property name="csharprunner-agent.testoutput.dir" value="${module.csharprunner-agent.basedir}/out/test/csharpRunner-agent"/>
+  
+  <path id="csharprunner-agent.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="csharprunner-agent.module.production.classpath">
+    <path refid="library.teamcity_open_api_agent.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <pathelement location="${csharprunner-common.output.dir}"/>
+  </path>
+  
+  <path id="csharprunner-agent.runtime.production.module.classpath">
+    <pathelement location="${csharprunner-agent.output.dir}"/>
+    <path refid="library.teamcity_open_api_agent.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <path refid="csharprunner-common.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="csharprunner-agent.module.classpath">
+    <pathelement location="${csharprunner-agent.output.dir}"/>
+    <path refid="library.teamcity_open_api_agent.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <pathelement location="${csharprunner-common.output.dir}"/>
+    <pathelement location="${csharprunner-common.testoutput.dir}"/>
+  </path>
+  
+  <path id="csharprunner-agent.runtime.module.classpath">
+    <pathelement location="${csharprunner-agent.output.dir}"/>
+    <pathelement location="${csharprunner-agent.testoutput.dir}"/>
+    <path refid="library.teamcity_open_api_agent.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <path refid="csharprunner-common.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.csharprunner-agent">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.csharprunner-agent">
+    <patternset refid="excluded.from.module.csharprunner-agent"/>
+  </patternset>
+  
+  <path id="csharprunner-agent.module.sourcepath">
+    <dirset dir="${module.csharprunner-agent.basedir}/agent">
+      <include name="src"/>
+      <include name="bin"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.csharprunner-agent" depends="compile.module.csharprunner-agent.production,compile.module.csharprunner-agent.tests" description="Compile module csharpRunner-agent"/>
+  
+  <target name="compile.module.csharprunner-agent.production" depends="compile.module.csharprunner-common" description="Compile module csharpRunner-agent; production classes">
+    <mkdir dir="${csharprunner-agent.output.dir}"/>
+    <javac destdir="${csharprunner-agent.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.csharprunner-agent}"/>
+      <bootclasspath refid="csharprunner-agent.module.bootclasspath"/>
+      <classpath refid="csharprunner-agent.module.production.classpath"/>
+      <src refid="csharprunner-agent.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.csharprunner-agent"/>
+    </javac>
+    
+    <copy todir="${csharprunner-agent.output.dir}">
+      <fileset dir="${module.csharprunner-agent.basedir}/agent/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+    <copy todir="${csharprunner-agent.output.dir}/bin">
+      <fileset dir="${module.csharprunner-agent.basedir}/agent/bin">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.csharprunner-agent.tests" depends="compile.module.csharprunner-agent.production" description="compile module csharpRunner-agent; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.csharprunner-agent" description="cleanup module">
+    <delete dir="${csharprunner-agent.output.dir}"/>
+    <delete dir="${csharprunner-agent.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module csharpRunner-server -->
+  
+  <dirname property="module.csharprunner-server.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.csharprunner-server" value="${compiler.args}"/>
+  
+  <property name="csharprunner-server.output.dir" value="${module.csharprunner-server.basedir}/out/production/csharpRunner-server"/>
+  <property name="csharprunner-server.testoutput.dir" value="${module.csharprunner-server.basedir}/out/test/csharpRunner-server"/>
+  
+  <path id="csharprunner-server.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="csharprunner-server.module.production.classpath">
+    <path refid="library.tomcat.classpath"/>
+    <path refid="library.teamcity_open_api_server.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <path refid="library.teamcity_third-party_server.classpath"/>
+    <pathelement location="${csharprunner-common.output.dir}"/>
+  </path>
+  
+  <path id="csharprunner-server.runtime.production.module.classpath">
+    <pathelement location="${csharprunner-server.output.dir}"/>
+    <path refid="library.tomcat.classpath"/>
+    <path refid="library.teamcity_open_api_server.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <path refid="library.teamcity_third-party_server.classpath"/>
+    <path refid="csharprunner-common.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="csharprunner-server.module.classpath">
+    <pathelement location="${csharprunner-server.output.dir}"/>
+    <path refid="library.tomcat.classpath"/>
+    <path refid="library.teamcity_open_api_server.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <path refid="library.teamcity_third-party_server.classpath"/>
+    <pathelement location="${csharprunner-common.output.dir}"/>
+    <pathelement location="${csharprunner-common.testoutput.dir}"/>
+  </path>
+  
+  <path id="csharprunner-server.runtime.module.classpath">
+    <pathelement location="${csharprunner-server.output.dir}"/>
+    <pathelement location="${csharprunner-server.testoutput.dir}"/>
+    <path refid="library.tomcat.classpath"/>
+    <path refid="library.teamcity_open_api_server.classpath"/>
+    <path refid="library.teamcity_open_api_common.classpath"/>
+    <path refid="library.teamcity_third-party_common.classpath"/>
+    <path refid="library.teamcity_third-party_server.classpath"/>
+    <path refid="csharprunner-common.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.csharprunner-server">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.csharprunner-server">
+    <patternset refid="excluded.from.module.csharprunner-server"/>
+  </patternset>
+  
+  <path id="csharprunner-server.module.sourcepath">
+    <dirset dir="${module.csharprunner-server.basedir}/server">
+      <include name="src"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.csharprunner-server" depends="compile.module.csharprunner-server.production,compile.module.csharprunner-server.tests" description="Compile module csharpRunner-server"/>
+  
+  <target name="compile.module.csharprunner-server.production" depends="compile.module.csharprunner-common" description="Compile module csharpRunner-server; production classes">
+    <mkdir dir="${csharprunner-server.output.dir}"/>
+    <javac destdir="${csharprunner-server.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.csharprunner-server}"/>
+      <bootclasspath refid="csharprunner-server.module.bootclasspath"/>
+      <classpath refid="csharprunner-server.module.production.classpath"/>
+      <src refid="csharprunner-server.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.csharprunner-server"/>
+    </javac>
+    
+    <copy todir="${csharprunner-server.output.dir}">
+      <fileset dir="${module.csharprunner-server.basedir}/server/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.csharprunner-server.basedir}/server/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.csharprunner-server.tests" depends="compile.module.csharprunner-server.production" description="compile module csharpRunner-server; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.csharprunner-server" description="cleanup module">
+    <delete dir="${csharprunner-server.output.dir}"/>
+    <delete dir="${csharprunner-server.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.csharprunner-common, clean.module.csharprunner-agent, clean.module.csharprunner-server" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.csharprunner-common, compile.module.csharprunner-agent, compile.module.csharprunner-server" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
