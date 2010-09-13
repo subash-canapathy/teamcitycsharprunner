@@ -16,6 +16,7 @@
 
 package csharpRunner.agent;
 
+import csharpRunner.common.PluginConstants;
 import csharpRunner.common.Util;
 import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.agent.AgentRunningBuild;
@@ -24,10 +25,15 @@ import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
+import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,9 +62,29 @@ public class CSharpRunnerBuildService extends CommandLineBuildService {
     @Override
     public ProgramCommandLine makeProgramCommandLine() throws RunBuildException {
         AgentRunningBuild build = getBuild();
-        
+
+        List<String> args = CreateArgs();
+
         return new SimpleProgramCommandLine(build,
-                build.getAgentConfiguration().getAgentPluginsDirectory() +  "\\" + Util.NAME + "\\bin\\ciao.exe",
-                new ArrayList<String>());
+                build.getAgentConfiguration().getAgentPluginsDirectory() +  "\\" + Util.NAME + "\\bin\\" + PluginConstants.EXTERNAL_RUNNER_NAME,
+                args);
+    }
+
+    private List<String> CreateArgs() {
+        Map<String,String> parameters = getBuild().getRunnerParameters();
+        List<String> result = new ArrayList<String>();
+
+        BASE64Encoder encoder = new BASE64Encoder();
+
+        String program = encoder.encode(parameters.get(PluginConstants.PROPERTY_SCRIPT_CONTENT).getBytes(Charset.forName("UTF8")));
+
+        result.add(program);
+
+        String namespaces = parameters.get(PluginConstants.PROPERTY_SCRIPT_NAMESPACES);
+        result.add(namespaces == null || namespaces.isEmpty() ? ";" : StringUtil.convertLineSeparators(namespaces, ";"));
+        String references = parameters.get(PluginConstants.PROPERTY_SCRIPT_REFERENCES);
+        result.add(references == null || references.isEmpty() ? ";" : StringUtil.convertLineSeparators(references, ";"));
+
+        return result;
     }
 }

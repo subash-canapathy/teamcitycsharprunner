@@ -5,18 +5,24 @@
 
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
-<forms:workingDirectory />
 <tr>
     <th>
-        <label for="script.type">Type: </label>
+        <label for="script.namespaces">Additional namespaces: </label>
     </th>
     <td>
-        <props:selectProperty name="script.type">
-            <props:option value="auto">&lt;Auto&gt;</props:option>
-            <props:option value="expression">Expression</props:option>
-            <props:option value="statement">Statement</props:option>
-            <props:option value="program">Program</props:option>
-        </props:selectProperty>
+        <props:multilineProperty name="script.namespaces" rows="3" cols="30" expanded="${not empty propertiesBean.properties['script.namespaces']}" linkTitle="Enter additional namespaces" />
+        <span class="error" id="error_script.namespaces"></span>
+        <span class="smallNote">Enter additional namespaces, one per line</span>
+    </td>
+</tr>
+<tr>
+    <th>
+        <label for="script.references">Additional assembly references: </label>
+    </th>
+    <td>
+        <props:multilineProperty name="script.references" rows="3" cols="30" expanded="${not empty propertiesBean.properties['script.references']}" linkTitle="Enter additional assembly references" />
+        <span class="error" id="error_script.references"></span>
+        <span class="smallNote">Enter additional assembly references, one per line</span>
     </td>
 </tr>
 <tr>
@@ -26,7 +32,7 @@
     <td>
         <c:set var="onkeydown">
         (function(e) {
-            if(window.event) // IE {
+            if(window.event) { // IE
                 keynum = e.keyCode
             }
             else if(e.which) {

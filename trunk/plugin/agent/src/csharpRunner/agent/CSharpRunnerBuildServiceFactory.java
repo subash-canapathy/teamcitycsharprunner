@@ -24,13 +24,6 @@ import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Simone
- * Date: 11-set-2010
- * Time: 16.12.16
- * To change this template use File | Settings | File Templates.
- */
 public class CSharpRunnerBuildServiceFactory implements CommandLineBuildServiceFactory {
     private final ArtifactsWatcher artifactsWatcher;
 
