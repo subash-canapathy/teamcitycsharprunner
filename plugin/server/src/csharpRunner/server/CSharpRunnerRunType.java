@@ -69,6 +69,6 @@ public class CSharpRunnerRunType extends RunType {
 
     @Override
     public Map<String, String> getDefaultRunnerProperties() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 }

@@ -8,8 +8,8 @@
     <ProjectGuid>{44A5F931-6140-48E6-BF51-5FB017293A8E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CsharpCompiler.Tests</RootNamespace>
-    <AssemblyName>CsharpCompiler.Tests</AssemblyName>
+    <RootNamespace>CSharpCompiler.Tests</RootNamespace>
+    <AssemblyName>CSharpCompiler.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,16 +40,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Compilation\Expression.cs" />
     <Compile Include="Execution\OutputReporting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\CsharpCompiler\CsharpCompiler.csproj">
+    <ProjectReference Include="..\CsharpCompiler\CSharpCompiler.csproj">
       <Project>{82BBF1B4-4E86-416A-ADCB-B1FDB5A874A7}</Project>
-      <Name>CsharpCompiler</Name>
+      <Name>CSharpCompiler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
