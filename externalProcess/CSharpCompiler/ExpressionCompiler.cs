@@ -13,19 +13,9 @@ namespace CsharpCompiler
             return !expression.Contains(";");
         }
 
-        public override CompilerResults Compile(string expression)
+        protected override void CreateProgram(string expression, StringBuilder program)
         {
-            var program = new StringBuilder()
-                .Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";")))
-                .AppendLine()
-                .AppendFormat(MainTemplate, expression, GeneratedFileName);
-
-            return new CSharpCodeProvider()
-                .CompileAssemblyFromSource(new CompilerParameters(References.ToArray())
-                                               {
-                                                   GenerateExecutable = true
-                                               },
-                                           program.ToString());
+            program.AppendFormat(MainTemplate, expression + ";");
         }
     }
 }

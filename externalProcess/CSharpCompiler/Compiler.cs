@@ -1,25 +1,55 @@
 ﻿using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System;
+using Microsoft.CSharp;
+using CSharpCompiler;
 
 namespace CsharpCompiler
 {
-    public abstract class Compiler
+    public abstract class Compiler : ICompiler
     {
-        protected const string GeneratedFileName = "TempFile.cs";
-
         protected const string MainTemplate =
             @"class Program 
 {{
     static void Main() 
     {{
-#line 1 ""{1}""
-{0};
+#line 1 ""TempFile.cs""
+{0}
     }}
 }}";
 
         public abstract bool CanCompile(string expression);
-        public abstract CompilerResults Compile(string expression);
+
+        public CompilerResults Compile(string expression)
+        {
+            var program = new StringBuilder();
+
+            AddUsingStatements(program);
+
+            CreateProgram(expression, program);
+
+            return Compile(program);
+        }
+
+        protected abstract void CreateProgram(string expression, StringBuilder program);
+
+        private StringBuilder AddUsingStatements(StringBuilder program)
+        {
+            return program.Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";")))
+                            .AppendLine();
+        }
+
+        private CompilerResults Compile(StringBuilder program)
+        {
+            return new CSharpCodeProvider()
+                .CompileAssemblyFromSource(new CompilerParameters(References.ToArray())
+                {
+                    GenerateExecutable = true
+                },
+                                           program.ToString());
+        }
 
         private readonly string[] defaultNamespaces = new[]
                                                           {
@@ -62,6 +92,24 @@ namespace CsharpCompiler
         protected IEnumerable<string> References
         {
             get { return defaulReferences.Union(AdditionalReferences); }
+        }
+
+        protected bool ContainsSemicolumn(string expression)
+        {
+            return expression.Contains(";");
+        }
+
+        protected bool ContainsClassDefinition(string expression)
+        {
+            return expression.Contains("class ");
+        }
+
+        protected bool ContainsMainMethod(string expression)
+        {
+            var mains = new[] { "void main(", "int main(" };
+            var lowercaseExpression = expression.ToLowerInvariant();
+
+            return mains.Any(m => lowercaseExpression.Contains(m));
         }
     }
 }

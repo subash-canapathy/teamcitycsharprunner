@@ -1,10 +1,11 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
+using CSharpCompiler;
 
 namespace CsharpCompiler
 {
-    public class CompositeCompiler : Compiler
+    public class CompositeCompiler : ICompiler
     {
         private readonly IEnumerable<Compiler> innerCompilers = new Compiler[]
                                                                     {
@@ -13,12 +14,12 @@ namespace CsharpCompiler
                                                                         new ProgramCompiler()
                                                                     };
 
-        public override bool CanCompile(string expression)
+        public bool CanCompile(string expression)
         {
             return innerCompilers.Any(c => c.CanCompile(expression));
         }
 
-        public override IEnumerable<string> AdditionalNamespaces
+        public IEnumerable<string> AdditionalNamespaces
         {
             set
             {
@@ -27,7 +28,7 @@ namespace CsharpCompiler
             }
         }
 
-        public override IEnumerable<string> AdditionalReferences
+        public IEnumerable<string> AdditionalReferences
         {
             set
             {
@@ -37,7 +38,7 @@ namespace CsharpCompiler
         }
 
         /// <exception cref="CannotCompileException"></exception>
-        public override CompilerResults Compile(string expression)
+        public CompilerResults Compile(string expression)
         {
             foreach (var innerCompiler in innerCompilers)
             {

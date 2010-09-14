@@ -42,6 +42,7 @@
     <Compile Include="CompositeCompiler.cs" />
     <Compile Include="Executor.cs" />
     <Compile Include="ExpressionCompiler.cs" />
+    <Compile Include="ICompiler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
