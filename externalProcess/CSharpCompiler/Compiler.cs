@@ -1,14 +1,26 @@
-using System;
-using System.CodeDom.Compiler;
+﻿using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.CSharp;
 using System.Linq;
 
 namespace CsharpCompiler
 {
-    public class Compiler
+    public abstract class Compiler
     {
+        protected const string GeneratedFileName = "TempFile.cs";
+
+        protected const string MainTemplate =
+            @"class Program 
+{{
+    static void Main() 
+    {{
+#line 1 ""{1}""
+{0};
+    }}
+}}";
+
+        public abstract bool CanCompile(string expression);
+        public abstract CompilerResults Compile(string expression);
+
         private readonly string[] defaultNamespaces = new[]
                                                           {
                                                               "System", "System.IO", "System.Text",
@@ -26,44 +38,30 @@ namespace CsharpCompiler
                                                              "System.Xml.dll", "System.Xml.Linq.dll"
                                                          };
 
+        private IEnumerable<string> additionalNamespaces = Enumerable.Empty<string>();
 
-        private const string MainTemplate =
-            @"class Program 
-{{
-    static void Main() 
-    {{
-#line 1 ""TempFile.cs""
-{0};
-    }}
-}}";
+        public virtual IEnumerable<string> AdditionalNamespaces
+        {
+            private get { return additionalNamespaces; }
+            set { additionalNamespaces = value; }
+        }
 
-        public IEnumerable<string> AdditionalNamespaces { private get; set; }
+        private IEnumerable<string> additionalReferences = Enumerable.Empty<string>();
 
-        public IEnumerable<string> AdditionalReferences { private get; set; }
+        public virtual IEnumerable<string> AdditionalReferences
+        {
+            private get { return additionalReferences; }
+            set { additionalReferences = value; }
+        }
 
-        private IEnumerable<string> Namespaces
+        protected IEnumerable<string> Namespaces
         {
             get { return defaultNamespaces.Union(AdditionalNamespaces); }
         }
 
-        private IEnumerable<string> References
+        protected IEnumerable<string> References
         {
             get { return defaulReferences.Union(AdditionalReferences); }
-        }
-
-        public CompilerResults Compile(string expression)
-        {
-            var program = new StringBuilder()
-                .Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";")))
-                .AppendLine()
-                .AppendFormat(MainTemplate, expression);
-
-            return new CSharpCodeProvider()
-                .CompileAssemblyFromSource(new CompilerParameters(References.ToArray())
-                                               {
-                                                   GenerateExecutable = true
-                                               },
-                                           program.ToString());
         }
     }
 }
