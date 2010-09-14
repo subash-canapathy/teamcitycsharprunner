@@ -23,9 +23,19 @@ namespace CsharpCompiler
             if (args.Length > 2)
                 references.AddRange(args[2].Split(new[]{';'}, StringSplitOptions.RemoveEmptyEntries));
 
-            var compiler = new Compiler { AdditionalNamespaces = namespaces, AdditionalReferences = references };
+            var compiler = new CompositeCompiler { AdditionalNamespaces = namespaces, AdditionalReferences = references };
 
-            var results = compiler.Compile(program);
+            CompilerResults results;
+
+            try
+            {
+                results = compiler.Compile(program);
+            }
+            catch (CannotCompileException e)
+            {
+                Console.Out.WriteLine(e.Message);
+                return -1;
+            }
 
             if(results.Errors.HasErrors)
             {

@@ -5,12 +5,12 @@ namespace CsharpCompiler.Tests.Compilation
     [TestFixture]
     public class Expression
     {
-        private Compiler compiler;
+        private CompositeCompiler compiler;
 
         [SetUp]
         public void Setup()
         {
-            compiler = new Compiler();            
+            compiler = new CompositeCompiler();            
         }
 
         [Test]
