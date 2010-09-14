@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Text;
 
 namespace CsharpCompiler
 {
@@ -7,12 +8,18 @@ namespace CsharpCompiler
     {
         public override bool CanCompile(string expression)
         {
-            return false;
+            return !ContainsClassDefinition(expression) &&
+                    ContainsStatement(expression);
         }
 
-        public override CompilerResults Compile(string expression)
+        private bool ContainsStatement(string expression)
         {
-            throw new NotImplementedException();
+            return ContainsSemicolumn(expression);
+        }
+        
+        protected override void CreateProgram(string expression, StringBuilder program)
+        {
+            program.AppendFormat(MainTemplate, expression);
         }
     }
 }

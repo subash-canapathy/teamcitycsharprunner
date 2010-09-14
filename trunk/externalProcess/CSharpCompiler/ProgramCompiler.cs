@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Text;
 
 namespace CsharpCompiler
 {
@@ -7,12 +8,12 @@ namespace CsharpCompiler
     {
         public override bool CanCompile(string expression)
         {
-            return false;
+            return ContainsClassDefinition(expression) && ContainsMainMethod(expression);
         }
 
-        public override CompilerResults Compile(string expression)
+        protected override void CreateProgram(string expression, StringBuilder program)
         {
-            throw new NotImplementedException();
+            program.Append(expression);
         }
     }
 }
