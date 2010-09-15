@@ -71,7 +71,7 @@ namespace CsharpCompiler.Tests.Compilation
         [Test]
         public void Should_call_utility_methods_as_statics()
         {
-            var results = compiler.Compile("CSharpCompiler.Success<string>(\"hello\", \"ciao\")");
+            var results = compiler.Compile("TeamCityExtensions.Success<string>(\"hello\")");
 
             Assert.IsEmpty(results.Errors);
         }
