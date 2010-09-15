@@ -59,5 +59,21 @@ namespace CsharpCompiler.Tests.Compilation
 
             Assert.AreEqual(expression.IndexOf("RITE"), results.Errors[0].Column);
         }
+
+        [Test]
+        public void Should_call_utility_methods_as_extensions()
+        {
+            var results = compiler.Compile("\"hello\".Success(\"hello\")");
+
+            Assert.IsEmpty(results.Errors);
+        }
+
+        [Test]
+        public void Should_call_utility_methods_as_statics()
+        {
+            var results = compiler.Compile("CSharpCompiler.Success<string>(\"hello\", \"ciao\")");
+
+            Assert.IsEmpty(results.Errors);
+        }
     }
 }

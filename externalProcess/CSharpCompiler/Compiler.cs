@@ -5,6 +5,7 @@ using System.Text;
 using System;
 using Microsoft.CSharp;
 using CSharpCompiler;
+using System.Reflection;
 
 namespace CsharpCompiler
 {
@@ -43,12 +44,25 @@ namespace CsharpCompiler
 
         private CompilerResults Compile(StringBuilder program)
         {
-            return new CSharpCodeProvider()
-                .CompileAssemblyFromSource(new CompilerParameters(References.ToArray())
-                {
-                    GenerateExecutable = true
-                },
-                                           program.ToString());
+            var options = new CompilerParameters(References.ToArray()) { GenerateExecutable = true };
+
+            return new CSharpCodeProvider().CompileAssemblyFromSource(options, GetSources(program).ToArray());
+        }
+
+        private IEnumerable<string> GetSources(StringBuilder program)
+        {
+            yield return program.ToString();
+
+            foreach (var additionalCode in AdditionalCode)
+                yield return additionalCode;
+        }
+
+        public IEnumerable<string> AdditionalCode 
+        { 
+            get 
+            {
+                yield return Resources.TeamCityExtensions;
+            } 
         }
 
         private readonly string[] defaultNamespaces = new[]
@@ -58,7 +72,7 @@ namespace CsharpCompiler
                                                               "System.Threading", "System.Reflection",
                                                               "System.Collections", "System.Collections.Generic",
                                                               "System.Linq", "System.Linq.Expressions",
-                                                              "System.Xml", "System.Xml.Linq", "System.Xml.XPath"
+                                                              "System.Xml", "System.Xml.Linq", "System.Xml.XPath", typeof(TeamCityExtensions).Namespace
                                                           };
 
         private readonly string[] defaulReferences = new[]
