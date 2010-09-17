@@ -61,29 +61,250 @@ namespace CSharpCompiler {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Messages
+        ///{
+        ///    internal class BuildFailureMessage : BuildStatusMessage
+        ///    {
+        ///        public BuildFailureMessage(object value, string format) : base(&quot;FAILURE&quot;, value, format)
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string BuildFailureMessage {
+            get {
+                return ResourceManager.GetString("BuildFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Messages
+        ///{
+        ///    internal class BuildNumberMessage : TeamCityServiceMessageSimple
+        ///    {
+        ///        public BuildNumberMessage(object buildNumber) : base(&quot;buildNumber&quot;, buildNumber)
+        ///        {
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string BuildNumberMessage {
+            get {
+                return ResourceManager.GetString("BuildNumberMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Collections.Generic;
+        ///
+        ///namespace CSharpCompiler.Messages
+        ///{
+        ///    public class BuildStatisticMessage : TeamCityServiceMessageWithAttributes
+        ///    {
+        ///        private readonly object key;
+        ///        private readonly int value;
+        ///
+        ///        public static readonly ISet&lt;string&gt; PredefinedStatisticsKeys = new HashSet&lt;string&gt;(StringComparer.InvariantCultureIgnoreCase)
+        ///                                                                           {
+        ///                                               [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BuildStatisticMessage {
+            get {
+                return ResourceManager.GetString("BuildStatisticMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///
+        ///namespace CSharpCompiler.Messages
+        ///{
+        ///    public class BuildStatusMessage : TeamCityServiceMessageWithAttributes
+        ///    {
+        ///        private readonly string status;
+        ///        private readonly object value;
+        ///        private readonly string format;
+        ///
+        ///        protected BuildStatusMessage(string status, object value, string format) : base(&quot;buildStatus&quot;)
+        ///        {
+        ///            this.status = status;
+        ///            this.value = value;
+        ///            this.format = format [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BuildStatusMessage {
+            get {
+                return ResourceManager.GetString("BuildStatusMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Messages
+        ///{
+        ///    internal class BuildSuccessMessage : BuildStatusMessage
+        ///    {
+        ///        public BuildSuccessMessage(object value, string format) : base(&quot;SUCCESS&quot;, value, format)
+        ///        {
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string BuildSuccessMessage {
+            get {
+                return ResourceManager.GetString("BuildSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Messages
+        ///{
+        ///    internal class ProgressMessage : TeamCityServiceMessageSimple
+        ///    {
+        ///        public ProgressMessage(object value) : base(&quot;progressMessage&quot;, value)
+        ///        {
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string ProgressMessage {
+            get {
+                return ResourceManager.GetString("ProgressMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
         ///using System.Linq;
         ///using System.Text;
         ///
-        ///namespace CSharpCompiler
+        ///namespace CSharpCompiler.Messages
         ///{
-        ///    public static class TeamCityExtensions
+        ///    internal class PublishArtifactsMessage : TeamCityServiceMessageSimple
         ///    {
-        ///        public static T Failure&lt;T&gt;(this T value, object message)
+        ///        public PublishArtifactsMessage(string artifact, params string[] targets) : base(&quot;publishArtifacts&quot;, Compute(artifact, targets))
         ///        {
-        ///            Console.Out.WriteLine(string.Format(&quot;##teamcity[buildStatus status=&apos;FAILURE&apos; text=&apos;{0}&apos;]&quot;, Escape(message.ToString())));
+        ///        }
+        ///
+        ///        private static object Compute(string artifact, params string[] targets)
+        ///        {
+        ///            var artifactSpecification = new StringBuilder(artifact);
+        ///
+        ///           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string PublishArtifactsMessage {
+            get {
+                return ResourceManager.GetString("PublishArtifactsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.IO;
+        ///
+        ///namespace CSharpCompiler.Messages
+        ///{
+        ///    public abstract class TeamCityServiceMessage
+        ///    {
+        ///        protected TeamCityServiceMessage(string name)
+        ///        {
+        ///            Name = name;
+        ///        }
+        ///
+        ///        private string Name { get; set; }
+        ///
+        ///        public void Run(TextWriter outputWriter)
+        ///        {
+        ///            outputWriter.WriteLine(String.Format(&quot;##teamcity[{0}{1}]&quot;, Name, FormattedAndEscapedValue));
+        ///        }
+        ///
+        ///        protected abstract string FormattedAndEscape [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TeamCityServiceMessage {
+            get {
+                return ResourceManager.GetString("TeamCityServiceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.IO;
+        ///
+        ///namespace CSharpCompiler.Messages
+        ///{
+        ///    public static class TeamCityServiceMessagesExtensions
+        ///    {
+        ///        static TeamCityServiceMessagesExtensions()
+        ///        {
+        ///            OutputWriter = Console.Out;
+        ///        }
+        ///
+        ///        public static TextWriter OutputWriter { get; set; }
+        ///
+        ///        public static T Failure&lt;T&gt;(this T value, string format)
+        ///        {
+        ///            Run(new BuildFailureMessage(value, format));
         ///
         ///            return value;
         ///        }
         ///
-        ///        public static T Success&lt;T&gt;(this T value, object message)
-        ///        {
-        ///           [rest of string was truncated]&quot;;.
+        ///        private s [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string TeamCityExtensions {
+        internal static string TeamCityServiceMessagesExtensions {
             get {
-                return ResourceManager.GetString("TeamCityExtensions", resourceCulture);
+                return ResourceManager.GetString("TeamCityServiceMessagesExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Messages
+        ///{
+        ///    internal abstract class TeamCityServiceMessageSimple : TeamCityServiceMessage
+        ///    {
+        ///        private readonly object value;
+        ///
+        ///        protected TeamCityServiceMessageSimple(string name, object value) : base(name)
+        ///        {
+        ///            this.value = value;
+        ///        }
+        ///
+        ///        protected override string FormattedAndEscapedValue
+        ///        {
+        ///            get { return &quot; &apos;&quot; + Escape(value) + &quot;&apos;&quot;; }
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TeamCityServiceMessageSimple {
+            get {
+                return ResourceManager.GetString("TeamCityServiceMessageSimple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///
+        ///namespace CSharpCompiler.Messages
+        ///{
+        ///    public abstract class TeamCityServiceMessageWithAttributes : TeamCityServiceMessage
+        ///    {
+        ///        protected TeamCityServiceMessageWithAttributes(string name) : base(name)
+        ///        {
+        ///        }
+        ///
+        ///        protected override string FormattedAndEscapedValue
+        ///        {
+        ///            get
+        ///            {
+        ///                return Properties.Aggregate(new StringBuilder(),
+        ///                           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TeamCityServiceMessageWithAttributes {
+            get {
+                return ResourceManager.GetString("TeamCityServiceMessageWithAttributes", resourceCulture);
             }
         }
     }

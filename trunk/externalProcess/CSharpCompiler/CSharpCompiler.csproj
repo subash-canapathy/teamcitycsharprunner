@@ -43,6 +43,18 @@
     <Compile Include="Executor.cs" />
     <Compile Include="ExpressionCompiler.cs" />
     <Compile Include="ICompiler.cs" />
+    <Compile Include="Messages\BuildFailureMessage.cs" />
+    <Compile Include="Messages\BuildNumberMessage.cs" />
+    <Compile Include="Messages\BuildStatisticMessage.cs" />
+    <Compile Include="Messages\BuildStatusMessage.cs" />
+    <Compile Include="Messages\BuildSuccessMessage.cs" />
+    <Compile Include="Messages\DumpExtensions.cs" />
+    <Compile Include="Messages\ProgressMessage.cs" />
+    <Compile Include="Messages\PublishArtifactsMessage.cs" />
+    <Compile Include="Messages\TeamCityServiceMessagesExtensions.cs" />
+    <Compile Include="Messages\TeamCityServiceMessage.cs" />
+    <Compile Include="Messages\TeamCityServiceMessageSimple.cs" />
+    <Compile Include="Messages\TeamCityServiceMessageWithAttributes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,7 +64,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StatementCompiler.cs" />
-    <Compile Include="TeamCityExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

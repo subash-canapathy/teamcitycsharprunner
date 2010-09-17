@@ -1,11 +1,13 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System;
-using Microsoft.CSharp;
 using CSharpCompiler;
-using System.Reflection;
+using CSharpCompiler.Messages;
+using Microsoft.CSharp;
 
 namespace CsharpCompiler
 {
@@ -20,6 +22,52 @@ namespace CsharpCompiler
 {0}
     }}
 }}";
+
+        private readonly string[] defaulReferences = new[]
+                                                         {
+                                                             "System.dll", "Microsoft.CSharp.dll",
+                                                             "System.Core.dll",
+                                                             "System.Xml.dll", "System.Xml.Linq.dll"
+                                                         };
+
+        private readonly string[] defaultNamespaces = new[]
+                                                          {
+                                                              "System", "System.IO", "System.Text",
+                                                              "System.Text.RegularExpressions", "System.Diagnostics",
+                                                              "System.Threading", "System.Reflection",
+                                                              "System.Collections", "System.Collections.Generic",
+                                                              "System.Linq", "System.Linq.Expressions",
+                                                              "System.Xml", "System.Xml.Linq", "System.Xml.XPath",
+                                                              typeof (TeamCityServiceMessagesExtensions).Namespace
+                                                          };
+
+        protected Compiler()
+        {
+            AdditionalNamespaces = Enumerable.Empty<string>();
+            AdditionalReferences = Enumerable.Empty<string>();
+        }
+
+        private static IEnumerable<string> AdditionalCode
+        {
+            get
+            {
+                return Resources.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, false)
+                    .Cast<DictionaryEntry>().Select(d => d.Value.ToString());
+            }
+        }
+
+        public IEnumerable<string> AdditionalNamespaces { private get; set; }
+        public IEnumerable<string> AdditionalReferences { private get; set; }
+
+        private IEnumerable<string> Namespaces
+        {
+            get { return defaultNamespaces.Union(AdditionalNamespaces); }
+        }
+
+        private IEnumerable<string> References
+        {
+            get { return defaulReferences.Union(AdditionalReferences); }
+        }
 
         public abstract bool CanCompile(string expression);
 
@@ -36,94 +84,43 @@ namespace CsharpCompiler
 
         protected abstract void CreateProgram(string expression, StringBuilder program);
 
-        private StringBuilder AddUsingStatements(StringBuilder program)
+        private void AddUsingStatements(StringBuilder program)
         {
-            return program.Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";")))
-                            .AppendLine();
+            program.Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";")))
+                .AppendLine();
         }
 
         private CompilerResults Compile(StringBuilder program)
         {
-            var options = new CompilerParameters(References.ToArray()) { GenerateExecutable = true };
+            var options = new CompilerParameters(References.ToArray()) {GenerateExecutable = true};
 
             return new CSharpCodeProvider().CompileAssemblyFromSource(options, GetSources(program).ToArray());
         }
 
-        private IEnumerable<string> GetSources(StringBuilder program)
+        private static IEnumerable<string> GetSources(StringBuilder program)
         {
             yield return program.ToString();
 
-            foreach (var additionalCode in AdditionalCode)
+            foreach (string additionalCode in AdditionalCode)
                 yield return additionalCode;
         }
 
-        public IEnumerable<string> AdditionalCode 
-        { 
-            get 
-            {
-                yield return Resources.TeamCityExtensions;
-            } 
-        }
-
-        private readonly string[] defaultNamespaces = new[]
-                                                          {
-                                                              "System", "System.IO", "System.Text",
-                                                              "System.Text.RegularExpressions", "System.Diagnostics",
-                                                              "System.Threading", "System.Reflection",
-                                                              "System.Collections", "System.Collections.Generic",
-                                                              "System.Linq", "System.Linq.Expressions",
-                                                              "System.Xml", "System.Xml.Linq", "System.Xml.XPath", typeof(TeamCityExtensions).Namespace
-                                                          };
-
-        private readonly string[] defaulReferences = new[]
-                                                         {
-                                                             "System.dll", "Microsoft.CSharp.dll",
-                                                             "System.Core.dll",
-                                                             "System.Xml.dll", "System.Xml.Linq.dll"
-                                                         };
-
-        private IEnumerable<string> additionalNamespaces = Enumerable.Empty<string>();
-
-        public virtual IEnumerable<string> AdditionalNamespaces
-        {
-            private get { return additionalNamespaces; }
-            set { additionalNamespaces = value; }
-        }
-
-        private IEnumerable<string> additionalReferences = Enumerable.Empty<string>();
-
-        public virtual IEnumerable<string> AdditionalReferences
-        {
-            private get { return additionalReferences; }
-            set { additionalReferences = value; }
-        }
-
-        protected IEnumerable<string> Namespaces
-        {
-            get { return defaultNamespaces.Union(AdditionalNamespaces); }
-        }
-
-        protected IEnumerable<string> References
-        {
-            get { return defaulReferences.Union(AdditionalReferences); }
-        }
-
-        protected bool ContainsSemicolumn(string expression)
+        protected static bool ContainsSemicolumn(string expression)
         {
             return expression.Contains(";");
         }
 
-        protected bool ContainsClassDefinition(string expression)
+        protected static bool ContainsClassDefinition(string expression)
         {
             return expression.Contains("class ");
         }
 
-        protected bool ContainsMainMethod(string expression)
+        protected static bool ContainsMainMethod(string expression)
         {
-            var mains = new[] { "void main(", "int main(" };
-            var lowercaseExpression = expression.ToLowerInvariant();
+            var mains = new[] {"void main(", "int main("};
+            string lowercaseExpression = expression.ToLowerInvariant();
 
-            return mains.Any(m => lowercaseExpression.Contains(m));
+            return mains.Any(lowercaseExpression.Contains);
         }
     }
 }
