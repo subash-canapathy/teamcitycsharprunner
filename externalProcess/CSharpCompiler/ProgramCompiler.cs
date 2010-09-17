@@ -1,6 +1,4 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Text;
+﻿using System.Text;
 
 namespace CsharpCompiler
 {

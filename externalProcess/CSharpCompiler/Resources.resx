@@ -118,7 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TeamCityExtensions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TeamCityExtensions.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="BuildFailureMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\BuildFailureMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildNumberMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\BuildNumberMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildStatisticMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\BuildStatisticMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildStatusMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\BuildStatusMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildSuccessMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\BuildSuccessMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ProgressMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\ProgressMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="PublishArtifactsMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\PublishArtifactsMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TeamCityServiceMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\TeamCityServiceMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TeamCityServiceMessagesExtensions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\TeamCityServiceMessagesExtensions.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TeamCityServiceMessageSimple" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\TeamCityServiceMessageSimple.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TeamCityServiceMessageWithAttributes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Messages\TeamCityServiceMessageWithAttributes.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
