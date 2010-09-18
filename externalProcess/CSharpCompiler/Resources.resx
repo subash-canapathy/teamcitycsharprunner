@@ -163,4 +163,7 @@
   <data name="VisitableObject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\VisitableObject.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="DisposableAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\DisposableAction.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

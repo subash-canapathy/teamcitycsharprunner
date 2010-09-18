@@ -71,16 +71,18 @@ namespace CSharpCompiler {
         ///    public abstract class AbstractObjectVisitor : IObjectVisitor
         ///    {
         ///        private int currentNesting;
-        ///        private IDisposable Nest;
         ///
-        ///        public AbstractObjectVisitor()
+        ///        private IDisposable Nest
         ///        {
-        ///            Nest = new DisposableAction(() =&gt; ++currentNesting, () =&gt; --currentNesting);
+        ///            get { return new DisposableAction(() =&gt; ++currentNesting, () =&gt; --currentNesting); }
         ///        }
         ///
         ///        public void Visit(object value)
         ///        {
-        ///            VisitObject(value);        /// [rest of string was truncated]&quot;;.
+        ///            VisitObject(value);
+        ///        }
+        ///
+        ///        public int  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AbstractObjectVisitor {
             get {
@@ -182,6 +184,34 @@ namespace CSharpCompiler {
         internal static string BuildSuccessMessage {
             get {
                 return ResourceManager.GetString("BuildSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///
+        ///namespace CSharpCompiler.Runtime
+        ///{
+        ///    public class DisposableAction : IDisposable
+        ///    {
+        ///        private readonly Action onDispose;
+        ///
+        ///        public DisposableAction(Action onInitialize, Action onDispose)
+        ///        {
+        ///            this.onDispose = onDispose;
+        ///            onInitialize();
+        ///        }
+        ///
+        ///        public void Dispose()
+        ///        {
+        ///            onDispose();
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DisposableAction {
+            get {
+                return ResourceManager.GetString("DisposableAction", resourceCulture);
             }
         }
         
