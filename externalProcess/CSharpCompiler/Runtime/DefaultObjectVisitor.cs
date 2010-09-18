@@ -1,28 +1,39 @@
-﻿namespace CSharpCompiler.Runtime
+﻿using System;
+using System.Reflection;
+
+namespace CSharpCompiler.Runtime
 {
     public class DefaultObjectVisitor : AbstractObjectVisitor
     {
+        protected override void VisitTypeInEnumerableFooter()
+        {
+        }
+
+        protected override void VisitTypeInEnumerableMember(MemberInfo member)
+        {
+        }
+
         protected override void VisitPrimitiveType(object value)
         {
         }
 
-        protected override void VisitObjectFooter()
+        protected override void VisitTypeFooter()
         {
         }
 
-        protected override void VisitObjectSummary(string fullTypeName)
+        protected override void VisitTypeSummary(Type type)
         {
         }
 
-        protected override void VisitObjectHeader(string typeName)
+        protected override void VisitTypeHeader(Type type)
         {
         }
 
-        protected override void VisitMemberName(string name)
+        protected override void VisitTypeMemberName(string name)
         {
         }
 
-        protected override void VisitEnumerableHeader(string typeName, int count)
+        protected override void VisitEnumerableHeader(Type enumerableType, int count)
         {
         }
 

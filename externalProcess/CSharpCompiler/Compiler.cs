@@ -28,7 +28,8 @@ namespace CsharpCompiler
                                                          {
                                                              "System.dll", "Microsoft.CSharp.dll",
                                                              "System.Core.dll",
-                                                             "System.Xml.dll", "System.Xml.Linq.dll"
+                                                             "System.Xml.dll", "System.Xml.Linq.dll",
+                                                             "System.Web.dll"
                                                          };
 
         private readonly string[] defaultNamespaces = new[]
@@ -39,7 +40,9 @@ namespace CsharpCompiler
                                                               "System.Collections", "System.Collections.Generic",
                                                               "System.Linq", "System.Linq.Expressions",
                                                               "System.Xml", "System.Xml.Linq", "System.Xml.XPath",
-                                                              typeof (TeamCityServiceMessagesExtensions).Namespace
+                                                              "System.Web",
+                                                              typeof (TeamCityServiceMessagesExtensions).Namespace,
+                                                              typeof(DumpExtensions).Namespace
                                                           };
 
         protected Compiler()

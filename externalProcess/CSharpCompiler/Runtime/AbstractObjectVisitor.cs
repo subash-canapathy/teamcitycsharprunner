@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -14,41 +15,98 @@ namespace CSharpCompiler.Runtime
             get { return new DisposableAction(() => ++currentNesting, () => --currentNesting); }
         }
 
-        public void Visit(object value)
+        protected AbstractObjectVisitor()
+        {
+            MaximumDepth = 5;
+        }
+
+        public virtual void Visit(object value)
         {
             VisitObject(value);
         }
 
-        public int MaximumDepth { private get; set; }
-
         private void VisitObject(object value)
+        {
+            VisitObject(value, false);
+        }
+
+        private void VisitObject(object value, bool inEnumerable)
         {
             if (value is IEnumerable && !(value is string))
             {
                 VisitEnumerable(value as IEnumerable);
             }
-            else if (value.GetType().IsPrimitive || value is string || value is DateTime)
+            else if (IsPrimitive(value))
                 VisitPrimitiveType(value);
             else
             {
                 using (Nest)
-                    VisitStructuredObject(value);
+                    if (inEnumerable)
+                        VisitTypeInEnumerable(value);
+                    else
+                        VisitType(value);
             }
         }
 
+        private static bool IsPrimitive(object value)
+        {
+            return value.GetType().IsPrimitive || value is string || value is DateTime;
+        }
+
+        private void VisitTypeInEnumerable(object value)
+        {
+            Type type = value.GetType();
+            var holder = value;
+
+            var values = new ArrayList();
+
+            foreach (PropertyInfo property in GetProperties(type))
+                values.Add(property.GetValue(holder, null));
+
+            foreach (FieldInfo field in GetFields(type))
+                values.Add(field.GetValue(holder));
+
+            VisitTypeInEnumerableRow(values);
+
+            VisitTypeInEnumerableFooter();
+        }
+
+        protected abstract void VisitTypeInEnumerableFooter();
+
+        protected virtual void VisitTypeInEnumerableRow(IEnumerable values)
+        {
+            foreach (var value in values)
+                VisitTypeInEnumerableValue(value);
+        }
+
+        protected virtual void VisitTypeInEnumerableValue(object value)
+        {
+            VisitObject(value);
+        }
+
+        protected virtual void VisitTypeInEnumerableHeader(IEnumerable<MemberInfo> members)
+        {
+            foreach (var member in members)
+                VisitTypeInEnumerableMember(member);
+        }
+
+        protected abstract void VisitTypeInEnumerableMember(MemberInfo member);
+
+        public int MaximumDepth { get; set; }
+
         protected abstract void VisitPrimitiveType(object value);
 
-        private void VisitStructuredObject(object value)
+        protected virtual void VisitType(object value)
         {
             if (currentNesting > MaximumDepth)
                 return;
 
             Type type = value.GetType();
-            VisitObjectHeader(type.Name);
-            VisitObjectSummary(type.FullName);
+            VisitTypeHeader(type);
+            VisitTypeSummary(type);
 
-            PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic);
-            FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+            IEnumerable<PropertyInfo> properties = GetProperties(type);
+            IEnumerable<FieldInfo> fields = GetFields(type);
 
             foreach (PropertyInfo property in properties)
                 VisitProperty(property, value);
@@ -56,42 +114,79 @@ namespace CSharpCompiler.Runtime
             foreach (FieldInfo field in fields)
                 VisitField(field, value);
 
-            VisitObjectFooter();
+            VisitTypeFooter();
         }
 
-        protected abstract void VisitObjectFooter();
-
-        protected abstract void VisitObjectSummary(string fullTypeName);
-
-        protected abstract void VisitObjectHeader(string typeName);
-
-        private void VisitField(FieldInfo field, object value)
+        private static IEnumerable<FieldInfo> GetFields(Type type)
         {
-            VisitMemberName(field.Name);
-            VisitObject(field.GetValue(value));
+            return type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
-        protected abstract void VisitMemberName(string name);
+        private static IEnumerable<PropertyInfo> GetProperties(Type type)
+        {
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic);
+        }
+
+        protected abstract void VisitTypeFooter();
+
+        protected abstract void VisitTypeSummary(Type type);
+
+        protected abstract void VisitTypeHeader(Type type);
+
+        private void VisitField(FieldInfo field, object holder)
+        {
+            VisitTypeMember(field, field.GetValue(holder));
+        }
+
+        protected virtual void VisitTypeMember(MemberInfo member, object value)
+        {
+            VisitTypeMemberName(member.Name);
+            VisitTypeMemberValue(value);
+        }
+
+        protected virtual void VisitTypeMemberValue(object value)
+        {
+            VisitObject(value);
+        }
+
+        protected abstract void VisitTypeMemberName(string name);
 
         private void VisitProperty(PropertyInfo property, object value)
         {
-            VisitMemberName(property.Name);
-            VisitObject(property.GetValue(value, null));
+            VisitTypeMember(property, property.GetValue(value, null));
         }
 
-        private void VisitEnumerable(IEnumerable value)
+        protected virtual void VisitEnumerable(IEnumerable value)
         {
             object[] enumerable = value.Cast<object>().ToArray();
 
-            VisitEnumerableHeader(enumerable.GetType().Name, enumerable.Length);
+            VisitEnumerableHeader(enumerable.GetType(), enumerable.Length);
 
-            foreach (object o in enumerable)
-                VisitObject(o);
+            if(enumerable.Any() && !IsPrimitive(enumerable[0]))
+                VisitTypeInEnumerableHeader(GetMembers(enumerable[0].GetType()));
+
+            foreach (object entry in enumerable)
+                VisitEnumerableEntry(entry);
 
             VisitEnumerableFooter();
         }
 
-        protected abstract void VisitEnumerableHeader(string typeName, int count);
+        private static bool HasMembers(Type type)
+        {
+            return GetMembers(type).Any();
+        }
+
+        private static IEnumerable<MemberInfo> GetMembers(Type type)
+        {
+            return GetProperties(type).Concat<MemberInfo>(GetFields(type));
+        }
+
+        protected virtual void VisitEnumerableEntry(object entry)
+        {
+            VisitObject(entry, true);
+        }
+
+        protected abstract void VisitEnumerableHeader(Type enumerableType, int count);
 
         protected abstract void VisitEnumerableFooter();
     }

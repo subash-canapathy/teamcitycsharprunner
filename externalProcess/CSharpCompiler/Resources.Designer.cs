@@ -77,12 +77,12 @@ namespace CSharpCompiler {
         ///            get { return new DisposableAction(() =&gt; ++currentNesting, () =&gt; --currentNesting); }
         ///        }
         ///
-        ///        public void Visit(object value)
+        ///        protected AbstractObjectVisitor()
         ///        {
-        ///            VisitObject(value);
+        ///            MaximumDepth = 5;
         ///        }
         ///
-        ///        public int  [rest of string was truncated]&quot;;.
+        ///        public virt [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AbstractObjectVisitor {
             get {
@@ -192,6 +192,37 @@ namespace CSharpCompiler {
         ///
         ///namespace CSharpCompiler.Runtime
         ///{
+        ///    public class DefaultObjectVisitor : AbstractObjectVisitor
+        ///    {
+        ///        protected override void VisitPrimitiveType(object value)
+        ///        {
+        ///        }
+        ///
+        ///        protected override void VisitObjectFooter()
+        ///        {
+        ///        }
+        ///
+        ///        protected override void VisitObjectSummary(Type fullTypeName)
+        ///        {
+        ///        }
+        ///
+        ///        protected override void VisitObjectHeader(Type typeName)
+        ///        {
+        ///        }
+        ///
+        ///        protected override void Visi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DefaultObjectVisitor {
+            get {
+                return ResourceManager.GetString("DefaultObjectVisitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///
+        ///namespace CSharpCompiler.Runtime
+        ///{
         ///    public class DisposableAction : IDisposable
         ///    {
         ///        private readonly Action onDispose;
@@ -222,23 +253,51 @@ namespace CSharpCompiler {
         ///    {
         ///        public static IObjectVisitor Visitor;
         ///
+        ///        static DumpExtensions()
+        ///        {
+        ///            Visitor = new HtmlReportingVisitor();
+        ///        }
+        ///
         ///        public static T Dump&lt;T&gt;(this T value)
         ///        {
-        ///            return Dump(value, 5);
+        ///            return Dump(value, Visitor.MaximumDepth);
         ///        }
         ///
         ///        public static T Dump&lt;T&gt;(this T value, int maximumDepth)
         ///        {
         ///            Visitor.MaximumDepth = maximumDepth;
-        ///            new VisitableObject(value).AcceptVisitor(Visitor);
-        ///            return value;
-        ///        }
-        ///    }
-        ///}.
+        ///            new Vis [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DumpExtensions {
             get {
                 return ResourceManager.GetString("DumpExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.IO;
+        ///using System.Reflection;
+        ///using System.Web.UI;
+        ///
+        ///namespace CSharpCompiler.Runtime
+        ///{
+        ///    public class HtmlReportingVisitor : DefaultObjectVisitor
+        ///    {
+        ///        private readonly HtmlTextWriter writer = new HtmlTextWriter(new StringWriter());
+        ///
+        ///        public string Output
+        ///        {
+        ///            get { return ((StringWriter) writer.InnerWriter).GetStringBuilder().ToString(); }
+        ///        }
+        ///
+        ///        public override void Visit(object value)
+        ///        {
+        ///            writer.Re [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HtmlReportingVisitor {
+            get {
+                return ResourceManager.GetString("HtmlReportingVisitor", resourceCulture);
             }
         }
         
@@ -248,7 +307,7 @@ namespace CSharpCompiler {
         ///    public interface IObjectVisitor
         ///    {
         ///        void Visit(object value);
-        ///        int MaximumDepth { set; }
+        ///        int MaximumDepth { set; get; }
         ///    }
         ///}.
         /// </summary>

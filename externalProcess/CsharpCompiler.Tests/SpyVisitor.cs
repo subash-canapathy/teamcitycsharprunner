@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using CSharpCompiler.Runtime;
 
 namespace CSharpCompiler.Tests
@@ -13,6 +15,8 @@ namespace CSharpCompiler.Tests
         protected const string ObjectSummary = "ObjectSummary";
         internal const string MemberName = "MemberName";
         protected const string ObjectFooter = "ObjectFooter";
+        protected const string TypeInEnumerableHeader = "TypeInEnumerableHeader";
+        protected const string TypeInEnumerableFooter = "TypeInEnumerableFooter";
 
         public readonly IList Visits = new ArrayList();
         public int MaxNestingLevel;
@@ -28,7 +32,12 @@ namespace CSharpCompiler.Tests
             Visits.Add(value);
         }
 
-        protected override void VisitEnumerableHeader(string enumerableTypeName, int elements)
+        protected override void VisitTypeInEnumerableFooter()
+        {
+            Visit(TypeInEnumerableFooter);
+        }
+
+        protected override void VisitEnumerableHeader(Type enumerableEnumerableType, int elements)
         {
             Visit(EnumerableHeader);
         }
@@ -38,11 +47,16 @@ namespace CSharpCompiler.Tests
             Visit(EnumerableFooter);
         }
 
-        protected override void VisitObjectHeader(string objectName)
+        protected override void VisitTypeHeader(Type @object)
         {
             nestingLevel++;
             ComputeMaxNestingLevel();
             Visit(ObjectHeader);
+        }
+
+        protected override void VisitTypeInEnumerableHeader(IEnumerable<MemberInfo> members)
+        {
+            Visit(TypeInEnumerableHeader);
         }
 
         private void ComputeMaxNestingLevel()
@@ -50,17 +64,17 @@ namespace CSharpCompiler.Tests
             MaxNestingLevel = Math.Max(nestingLevel, MaxNestingLevel);
         }
 
-        protected override void VisitObjectSummary(string summary)
+        protected override void VisitTypeSummary(Type summary)
         {
             Visit(ObjectSummary);
         }
 
-        protected override void VisitMemberName(string name)
+        protected override void VisitTypeMemberName(string name)
         {
             Visit(MemberName);
         }
 
-        protected override void VisitObjectFooter()
+        protected override void VisitTypeFooter()
         {
             Visit(ObjectFooter);
             nestingLevel--;

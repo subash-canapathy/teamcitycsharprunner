@@ -136,8 +136,17 @@
   <data name="BuildSuccessMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\Messages\BuildSuccessMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="DefaultObjectVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\DefaultObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DisposableAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\DisposableAction.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="DumpExtensions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\DumpExtensions.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="HtmlReportingVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\HtmlReportingVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="IObjectVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\IObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -162,8 +171,5 @@
   </data>
   <data name="VisitableObject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\VisitableObject.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="DisposableAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Runtime\DisposableAction.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

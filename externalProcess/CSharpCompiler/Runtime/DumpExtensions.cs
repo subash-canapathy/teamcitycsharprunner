@@ -4,9 +4,14 @@ namespace CSharpCompiler.Runtime
     {
         public static IObjectVisitor Visitor;
 
+        static DumpExtensions()
+        {
+            Visitor = new HtmlReportingVisitor();
+        }
+
         public static T Dump<T>(this T value)
         {
-            return Dump(value, 5);
+            return Dump(value, Visitor.MaximumDepth);
         }
 
         public static T Dump<T>(this T value, int maximumDepth)
