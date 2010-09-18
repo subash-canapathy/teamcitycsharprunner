@@ -30,10 +30,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +50,7 @@
     <Compile Include="Runtime\DefaultObjectVisitor.cs" />
     <Compile Include="Runtime\DisposableAction.cs" />
     <Compile Include="Runtime\DumpExtensions.cs" />
+    <Compile Include="Runtime\HtmlReportingVisitor.cs" />
     <Compile Include="Runtime\IObjectVisitor.cs" />
     <Compile Include="Runtime\Messages\BuildFailureMessage.cs" />
     <Compile Include="Runtime\Messages\BuildNumberMessage.cs" />

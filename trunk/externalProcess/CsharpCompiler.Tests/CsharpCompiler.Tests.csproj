@@ -43,6 +43,7 @@
     <Compile Include="Compilation\Expression.cs" />
     <Compile Include="Dump.cs" />
     <Compile Include="Execution\OutputReporting.cs" />
+    <Compile Include="HtmlReportingVisitorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceMessages.cs" />
     <Compile Include="SpyVisitor.cs" />

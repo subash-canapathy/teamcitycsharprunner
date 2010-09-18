@@ -101,11 +101,10 @@ namespace CSharpCompiler.Tests
                             ObjectSummary,
                                 MemberName,
                                     EnumerableHeader,
-                                        ObjectHeader,
-                                        ObjectSummary,
-                                            MemberName, Primitive,
-                                        ObjectFooter,
-                                   EnumerableFooter,
+                                        TypeInEnumerableHeader,
+                                            Primitive,
+                                        TypeInEnumerableFooter,
+                                    EnumerableFooter,
                                 MemberName, Primitive,
                             ObjectFooter);
         }

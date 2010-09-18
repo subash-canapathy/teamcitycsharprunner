@@ -3,6 +3,6 @@
     public interface IObjectVisitor
     {
         void Visit(object value);
-        int MaximumDepth { set; }
+        int MaximumDepth { set; get; }
     }
 }
