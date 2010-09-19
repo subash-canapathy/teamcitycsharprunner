@@ -35,12 +35,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArtifactPublisherExecutorDecorator.cs" />
     <Compile Include="CannotCompileException.cs" />
     <Compile Include="AbstractCompiler.cs" />
     <Compile Include="CompositeCompiler.cs" />
     <Compile Include="Executor.cs" />
     <Compile Include="ExpressionCompiler.cs" />
     <Compile Include="ICompiler.cs" />
+    <Compile Include="IExecutor.cs" />
+    <Compile Include="Reports.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reports.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -81,11 +88,18 @@
     <Compile Include="StatementCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Reports.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\CSharpOutput.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

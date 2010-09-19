@@ -18,13 +18,6 @@ package csharpRunner.common;
 
 import org.jetbrains.annotations.NonNls;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Simone
- * Date: 11-set-2010
- * Time: 15.54.45
- * To change this template use File | Settings | File Templates.
- */
 public interface PluginConstants {
     @NonNls String RUN_TYPE = "csharpRunner";
     @NonNls String RUNNER_DISPLAY_NAME = "C#";

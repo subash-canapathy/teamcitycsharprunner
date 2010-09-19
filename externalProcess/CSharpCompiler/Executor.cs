@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace CsharpCompiler
 {
-    public class Executor
+    public class Executor : IExecutor
     {
         /// <exception cref="TargetInvocationException">When the supplied assembly's main method throws</exception>
         public void Execute(CompilerResults results)

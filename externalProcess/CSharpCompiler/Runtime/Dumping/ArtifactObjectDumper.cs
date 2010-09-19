@@ -5,10 +5,10 @@ namespace CSharpCompiler.Runtime.Dumping
 {
     public class ArtifactObjectDumper : IObjectDumper
     {
-        private readonly HtmlObjectVisitorFactory factory;
+        private readonly IFileOutputObjectVisitorFactory factory;
         private int currentSequence;
 
-        public ArtifactObjectDumper(HtmlObjectVisitorFactory factory)
+        public ArtifactObjectDumper(IFileOutputObjectVisitorFactory factory)
         {
             this.factory = factory;
         }
