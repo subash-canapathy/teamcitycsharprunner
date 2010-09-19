@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using CSharpCompiler.Runtime;
 using CSharpCompiler.Runtime.Messages;
 using NUnit.Framework;
 using System.Linq;
@@ -26,7 +25,7 @@ namespace CSharpCompiler.Tests
         {
             "ciao".Success();
 
-            AssertMessage("##teamcity[buildStatus status='SUCCESS' text='ciao']");
+            AssertMessage("buildStatus status='SUCCESS' text='ciao'");
         }
 
         [Test]
@@ -34,7 +33,7 @@ namespace CSharpCompiler.Tests
         {
             "ciao".Success("hello {0}");
 
-            AssertMessage("##teamcity[buildStatus status='SUCCESS' text='hello ciao']");
+            AssertMessage("buildStatus status='SUCCESS' text='hello ciao'");
         }
 
         [Test]
@@ -42,7 +41,7 @@ namespace CSharpCompiler.Tests
         {
             "ciao".Failure();
 
-            AssertMessage("##teamcity[buildStatus status='FAILURE' text='ciao']");
+            AssertMessage("buildStatus status='FAILURE' text='ciao'");
         }
 
         [Test]
@@ -50,7 +49,7 @@ namespace CSharpCompiler.Tests
         {
             "ciao".Failure("hello {0}");
 
-            AssertMessage("##teamcity[buildStatus status='FAILURE' text='hello ciao']");
+            AssertMessage("buildStatus status='FAILURE' text='hello ciao'");
         }
 
         [Test]
@@ -58,7 +57,7 @@ namespace CSharpCompiler.Tests
         {
             "*.*".Publish();
 
-            AssertMessage("##teamcity[publishArtifacts '*.*']");
+            AssertMessage("publishArtifacts '*.*'");
         }
 
         [Test]
@@ -66,7 +65,7 @@ namespace CSharpCompiler.Tests
         {
             "*.*".Publish("mydir");
 
-            AssertMessage("##teamcity[publishArtifacts '*.* => mydir']");
+            AssertMessage("publishArtifacts '*.* => mydir'");
         }
 
         [Test]
@@ -74,7 +73,7 @@ namespace CSharpCompiler.Tests
         {
             "*.*".Publish("mydir", "archive.zip");
 
-            AssertMessage("##teamcity[publishArtifacts '*.* => mydir, archive.zip']");
+            AssertMessage("publishArtifacts '*.* => mydir, archive.zip'");
         }
 
         [Test]
@@ -82,7 +81,7 @@ namespace CSharpCompiler.Tests
         {
             "wait".Progress();
 
-            AssertMessage("##teamcity[progressMessage 'wait']");
+            AssertMessage("progressMessage 'wait'");
         }
 
         [Test]
@@ -90,7 +89,7 @@ namespace CSharpCompiler.Tests
         {
             "1.1.0".BuildNumber();
 
-            AssertMessage("##teamcity[buildNumber '1.1.0']");
+            AssertMessage("buildNumber '1.1.0'");
         }
 
         [Test]
@@ -98,7 +97,7 @@ namespace CSharpCompiler.Tests
         {
             1.Statistic("myKey");
 
-            AssertMessage("##teamcity[buildStatisticValue key='myKey' value='1']");
+            AssertMessage("buildStatisticValue key='myKey' value='1'");
         }
 
         [Test]
@@ -108,9 +107,49 @@ namespace CSharpCompiler.Tests
             1.Statistic(BuildStatisticMessage.PredefinedStatisticsKeys.First());
         }
 
+        [Test]
+        public void LogMessage()
+        {
+            1.LogMessage();
+
+            AssertMessage("message text='1' status='NORMAL'");
+        }
+
+        [Test]
+        public void LogWarning()
+        {
+            1.LogWarning();
+
+            AssertMessage("message text='1' status='WARNING'");
+        }
+
+        [Test]
+        public void LogFailure()
+        {
+            1.LogFailure();
+
+            AssertMessage("message text='1' status='FAILURE'");
+        }
+
+        [Test]
+        public void LogError_no_details()
+        {
+            1.LogError();
+
+            AssertMessage("message text='1' status='ERROR'");
+        }
+        
+        [Test]
+        public void LogError_with_details()
+        {
+            1.LogError("some details");
+
+            AssertMessage("message text='1' status='ERROR' errorDetails='some details'");
+        }
+
         private void AssertMessage(string message)
         {
-            Assert.AreEqual(message + Environment.NewLine, Output);
+            Assert.AreEqual("##teamcity[" + message + "]" + Environment.NewLine, Output);
         }
     }
 }
