@@ -15,7 +15,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
         public void Dump(object value, int maximumDepth)
         {
-            var tempFileName = Path.GetTempPath();
+            var tempFileName = Path.GetTempFileName();
 
             using (var visitor = factory.Create(tempFileName, maximumDepth))
                 new VisitableObject(value).AcceptVisitor(visitor);
