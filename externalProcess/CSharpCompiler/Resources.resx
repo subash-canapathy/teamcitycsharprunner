@@ -119,7 +119,10 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AbstractObjectVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Runtime\AbstractObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Runtime\Dumping\AbstractObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ArtifactObjectDumper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Dumping\ArtifactObjectDumper.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="BuildFailureMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\Messages\BuildFailureMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -137,19 +140,31 @@
     <value>Runtime\Messages\BuildSuccessMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="DefaultObjectVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Runtime\DefaultObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Runtime\Dumping\DefaultObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="DisposableAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\DisposableAction.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="DumpExtensions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Runtime\DumpExtensions.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>Runtime\Dumping\DumpExtensions.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="HtmlReportingVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Runtime\HtmlReportingVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="HtmlObjectVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Dumping\HtmlObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="HtmlObjectVisitorFactory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Dumping\HtmlObjectVisitorFactory.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IFileOutputObjectVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Dumping\IFileOutputObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IFileOutputObjectVisitorFactory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Dumping\IFileOutputObjectVisitorFactory.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IObjectDumper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Dumping\IObjectDumper.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="IObjectVisitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Runtime\IObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Runtime\Dumping\IObjectVisitor.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ProgressMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\Messages\ProgressMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -170,6 +185,6 @@
     <value>Runtime\Messages\TeamCityServiceMessageWithAttributes.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="VisitableObject" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Runtime\VisitableObject.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Runtime\Dumping\VisitableObject.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

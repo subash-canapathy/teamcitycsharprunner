@@ -1,23 +1,23 @@
-namespace CSharpCompiler.Runtime
+﻿namespace CSharpCompiler.Runtime.Dumping
 {
     public static class DumpExtensions
     {
-        public static IObjectVisitor Visitor;
+        private static readonly IObjectDumper Dumper;
 
         static DumpExtensions()
         {
-            Visitor = new HtmlReportingVisitor();
+            Dumper = new ArtifactObjectDumper(new HtmlObjectVisitorFactory());
         }
 
         public static T Dump<T>(this T value)
         {
-            return Dump(value, Visitor.MaximumDepth);
+            return Dump(value, 5);
         }
 
         public static T Dump<T>(this T value, int maximumDepth)
         {
-            Visitor.MaximumDepth = maximumDepth;
-            new VisitableObject(value).AcceptVisitor(Visitor);
+            Dumper.Dump(value, maximumDepth);
+            
             return value;
         }
     }

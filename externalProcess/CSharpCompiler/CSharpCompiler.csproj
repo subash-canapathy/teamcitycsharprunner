@@ -46,12 +46,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Runtime\AbstractObjectVisitor.cs" />
-    <Compile Include="Runtime\DefaultObjectVisitor.cs" />
     <Compile Include="Runtime\DisposableAction.cs" />
-    <Compile Include="Runtime\DumpExtensions.cs" />
-    <Compile Include="Runtime\HtmlReportingVisitor.cs" />
-    <Compile Include="Runtime\IObjectVisitor.cs" />
+    <Compile Include="Runtime\Dumping\AbstractObjectVisitor.cs" />
+    <Compile Include="Runtime\Dumping\ArtifactObjectDumper.cs" />
+    <Compile Include="Runtime\Dumping\DefaultObjectVisitor.cs" />
+    <Compile Include="Runtime\Dumping\DumpExtensions.cs" />
+    <Compile Include="Runtime\Dumping\HtmlObjectVisitor.cs" />
+    <Compile Include="Runtime\Dumping\HtmlObjectVisitorFactory.cs" />
+    <Compile Include="Runtime\Dumping\IFileOutputObjectVisitor.cs" />
+    <Compile Include="Runtime\Dumping\IFileOutputObjectVisitorFactory.cs" />
+    <Compile Include="Runtime\Dumping\IObjectDumper.cs" />
+    <Compile Include="Runtime\Dumping\IObjectVisitor.cs" />
+    <Compile Include="Runtime\Dumping\VisitableObject.cs" />
     <Compile Include="Runtime\Messages\BuildFailureMessage.cs" />
     <Compile Include="Runtime\Messages\BuildNumberMessage.cs" />
     <Compile Include="Runtime\Messages\BuildStatisticMessage.cs" />
@@ -66,13 +72,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProgramCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runtime\VisitableObject.cs" />
     <Compile Include="StatementCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

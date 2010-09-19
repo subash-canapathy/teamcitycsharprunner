@@ -1,8 +1,7 @@
-﻿namespace CSharpCompiler.Runtime
+﻿namespace CSharpCompiler.Runtime.Dumping
 {
     public interface IObjectVisitor
     {
         void Visit(object value);
-        int MaximumDepth { set; get; }
     }
 }

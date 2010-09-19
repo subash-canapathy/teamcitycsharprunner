@@ -1,4 +1,4 @@
-﻿namespace CSharpCompiler.Runtime
+﻿namespace CSharpCompiler.Runtime.Dumping
 {
     public class VisitableObject
     {

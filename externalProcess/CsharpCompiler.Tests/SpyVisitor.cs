@@ -2,24 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using CSharpCompiler.Runtime;
 
 namespace CSharpCompiler.Tests
 {
-    public class SpyVisitor : DefaultObjectVisitor
+    public class SpyVisitor : SpyVisitorProperties
     {
-        protected const string Primitive = "Primitive";
-        protected const string EnumerableHeader = "EnumerableHeader";
-        protected const string EnumerableFooter = "EnumerableFooter";
-        protected const string ObjectHeader = "ObjectHeader";
-        protected const string ObjectSummary = "ObjectSummary";
-        internal const string MemberName = "MemberName";
-        protected const string ObjectFooter = "ObjectFooter";
-        protected const string TypeInEnumerableHeader = "TypeInEnumerableHeader";
-        protected const string TypeInEnumerableFooter = "TypeInEnumerableFooter";
-
         public readonly IList Visits = new ArrayList();
-        public int MaxNestingLevel;
+        public int MaximumReachedDepth;
         private int nestingLevel;
 
         protected override void VisitPrimitiveType(object value)
@@ -61,7 +50,7 @@ namespace CSharpCompiler.Tests
 
         private void ComputeMaxNestingLevel()
         {
-            MaxNestingLevel = Math.Max(nestingLevel, MaxNestingLevel);
+            MaximumReachedDepth = Math.Max(nestingLevel, MaximumReachedDepth);
         }
 
         protected override void VisitTypeSummary(Type summary)

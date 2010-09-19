@@ -31,12 +31,12 @@
     <exclude name="**/.hg/**"/>
   </patternset>
   <patternset id="library.patterns">
-    <include name="*.egg"/>
     <include name="*.zip"/>
-    <include name="*.jar"/>
-    <include name="*.swc"/>
-    <include name="*.ear"/>
     <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
   </patternset>
   <patternset id="compiler.resources">
     <include name="**/?*.properties"/>

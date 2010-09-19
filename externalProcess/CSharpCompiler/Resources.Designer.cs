@@ -63,10 +63,11 @@ namespace CSharpCompiler {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Collections;
+        ///using System.Collections.Generic;
         ///using System.Linq;
         ///using System.Reflection;
         ///
-        ///namespace CSharpCompiler.Runtime
+        ///namespace CSharpCompiler.Runtime.Dumping
         ///{
         ///    public abstract class AbstractObjectVisitor : IObjectVisitor
         ///    {
@@ -77,16 +78,40 @@ namespace CSharpCompiler {
         ///            get { return new DisposableAction(() =&gt; ++currentNesting, () =&gt; --currentNesting); }
         ///        }
         ///
-        ///        protected AbstractObjectVisitor()
+        ///        protected AbstractObjectVisitor(int maximumDepth)
         ///        {
-        ///            MaximumDepth = 5;
-        ///        }
-        ///
-        ///        public virt [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AbstractObjectVisitor {
             get {
                 return ResourceManager.GetString("AbstractObjectVisitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.IO;
+        ///using CSharpCompiler.Runtime.Messages;
+        ///
+        ///namespace CSharpCompiler.Runtime.Dumping
+        ///{
+        ///    public class ArtifactObjectDumper : IObjectDumper
+        ///    {
+        ///        private readonly HtmlObjectVisitorFactory factory;
+        ///
+        ///        public ArtifactObjectDumper(HtmlObjectVisitorFactory factory)
+        ///        {
+        ///            this.factory = factory;
+        ///        }
+        ///
+        ///        public void Dump(object value, int maximumDepth)
+        ///        {
+        ///            var tempFileName = Path.GetTempFileName();
+        ///
+        ///            using (var v [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ArtifactObjectDumper {
+            get {
+                return ResourceManager.GetString("ArtifactObjectDumper", resourceCulture);
             }
         }
         
@@ -189,28 +214,25 @@ namespace CSharpCompiler {
         
         /// <summary>
         ///   Looks up a localized string similar to using System;
+        ///using System.Reflection;
         ///
-        ///namespace CSharpCompiler.Runtime
+        ///namespace CSharpCompiler.Runtime.Dumping
         ///{
         ///    public class DefaultObjectVisitor : AbstractObjectVisitor
         ///    {
-        ///        protected override void VisitPrimitiveType(object value)
+        ///        public DefaultObjectVisitor(int maximumDepth) : base(maximumDepth)
         ///        {
         ///        }
         ///
-        ///        protected override void VisitObjectFooter()
+        ///        protected override void VisitTypeInEnumerableFooter()
         ///        {
         ///        }
         ///
-        ///        protected override void VisitObjectSummary(Type fullTypeName)
+        ///        protected override void VisitTypeInEnumerableMember(MemberInfo member)
         ///        {
         ///        }
         ///
-        ///        protected override void VisitObjectHeader(Type typeName)
-        ///        {
-        ///        }
-        ///
-        ///        protected override void Visi [rest of string was truncated]&quot;;.
+        ///        protected override void VisitPrimitiveType(object value [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultObjectVisitor {
             get {
@@ -247,26 +269,25 @@ namespace CSharpCompiler {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Dumping
         ///{
         ///    public static class DumpExtensions
         ///    {
-        ///        public static IObjectVisitor Visitor;
+        ///        private static readonly IObjectDumper Dumper;
         ///
         ///        static DumpExtensions()
         ///        {
-        ///            Visitor = new HtmlReportingVisitor();
+        ///            Dumper = new ArtifactObjectDumper(new HtmlObjectVisitorFactory());
         ///        }
         ///
         ///        public static T Dump&lt;T&gt;(this T value)
         ///        {
-        ///            return Dump(value, Visitor.MaximumDepth);
+        ///            return Dump(value, 5);
         ///        }
         ///
         ///        public static T Dump&lt;T&gt;(this T value, int maximumDepth)
         ///        {
-        ///            Visitor.MaximumDepth = maximumDepth;
-        ///            new Vis [rest of string was truncated]&quot;;.
+        ///            Dumper.Dump(value, maximumDepth [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DumpExtensions {
             get {
@@ -276,38 +297,103 @@ namespace CSharpCompiler {
         
         /// <summary>
         ///   Looks up a localized string similar to using System;
+        ///using System.Collections;
+        ///using System.Collections.Generic;
         ///using System.IO;
         ///using System.Reflection;
         ///using System.Web.UI;
         ///
-        ///namespace CSharpCompiler.Runtime
+        ///namespace CSharpCompiler.Runtime.Dumping
         ///{
-        ///    public class HtmlReportingVisitor : DefaultObjectVisitor
+        ///    public class HtmlObjectVisitor : DefaultObjectVisitor, IFileOutputObjectVisitor
         ///    {
-        ///        private readonly HtmlTextWriter writer = new HtmlTextWriter(new StringWriter());
+        ///        private readonly HtmlTextWriter writer;
         ///
-        ///        public string Output
+        ///        public HtmlObjectVisitor(TextWriter inner, int maximumDepth) : base(maximumDepth)
         ///        {
-        ///            get { return ((StringWriter) writer.InnerWriter).GetStringBuilder().ToString(); }
+        ///            writer = new HtmlTextWriter(inner);
         ///        }
         ///
-        ///        public override void Visit(object value)
-        ///        {
-        ///            writer.Re [rest of string was truncated]&quot;;.
+        ///        public  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string HtmlReportingVisitor {
+        internal static string HtmlObjectVisitor {
             get {
-                return ResourceManager.GetString("HtmlReportingVisitor", resourceCulture);
+                return ResourceManager.GetString("HtmlObjectVisitor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime
+        ///   Looks up a localized string similar to using System.IO;
+        ///
+        ///namespace CSharpCompiler.Runtime.Dumping
+        ///{
+        ///    public class HtmlObjectVisitorFactory : IFileOutputObjectVisitorFactory
+        ///    {
+        ///        public IFileOutputObjectVisitor Create(string outputPath, int maximumDepth)
+        ///        {
+        ///            return new HtmlObjectVisitor(new StreamWriter(outputPath), maximumDepth);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string HtmlObjectVisitorFactory {
+            get {
+                return ResourceManager.GetString("HtmlObjectVisitorFactory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///
+        ///namespace CSharpCompiler.Runtime.Dumping
+        ///{
+        ///    public interface IFileOutputObjectVisitor : IObjectVisitor, IDisposable
+        ///    {
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IFileOutputObjectVisitor {
+            get {
+                return ResourceManager.GetString("IFileOutputObjectVisitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Dumping
+        ///{
+        ///    public interface IFileOutputObjectVisitorFactory
+        ///    {
+        ///        IFileOutputObjectVisitor Create(string outputPath, int maximumDepth);
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IFileOutputObjectVisitorFactory {
+            get {
+                return ResourceManager.GetString("IFileOutputObjectVisitorFactory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Dumping
+        ///{
+        ///    public interface IObjectDumper
+        ///    {
+        ///        void Dump(object value, int maximumDepth);
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IObjectDumper {
+            get {
+                return ResourceManager.GetString("IObjectDumper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Dumping
         ///{
         ///    public interface IObjectVisitor
         ///    {
         ///        void Visit(object value);
-        ///        int MaximumDepth { set; get; }
         ///    }
         ///}.
         /// </summary>
@@ -469,7 +555,7 @@ namespace CSharpCompiler {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Dumping
         ///{
         ///    public class VisitableObject
         ///    {
