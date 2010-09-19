@@ -136,6 +136,127 @@ namespace CSharpCompiler {
         /// <summary>
         ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Messages
         ///{
+        ///    public class BuildLogErrorMessage : BuildLogMessageBase
+        ///    {
+        ///        public BuildLogErrorMessage(object message) : base(message, &quot;ERROR&quot;)
+        ///        {
+        ///            
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string BuildLogErrorMessage {
+            get {
+                return ResourceManager.GetString("BuildLogErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Collections.Generic;
+        ///
+        ///namespace CSharpCompiler.Runtime.Messages
+        ///{
+        ///    public class BuildLogErrorMessageWithDetails : BuildLogErrorMessage
+        ///    {
+        ///        private readonly object errorDetails;
+        ///
+        ///        public BuildLogErrorMessageWithDetails(object message, object errorDetails) : base(message)
+        ///        {
+        ///            this.errorDetails = errorDetails;
+        ///        }
+        ///
+        ///        protected override IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; Properties
+        ///        {
+        ///            get
+        ///            {
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BuildLogErrorMessageWithDetails {
+            get {
+                return ResourceManager.GetString("BuildLogErrorMessageWithDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Messages
+        ///{
+        ///    public class BuildLogFailureMessage : BuildLogMessageBase
+        ///    {
+        ///        public BuildLogFailureMessage(object message) : base(message, &quot;FAILURE&quot;)
+        ///        {
+        ///            
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string BuildLogFailureMessage {
+            get {
+                return ResourceManager.GetString("BuildLogFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Collections.Generic;
+        ///
+        ///namespace CSharpCompiler.Runtime.Messages
+        ///{
+        ///    public class BuildLogMessageBase : TeamCityServiceMessageWithAttributes
+        ///    {
+        ///        private readonly object message;
+        ///        private readonly string status;
+        ///
+        ///        protected BuildLogMessageBase(object message, string status) : base(&quot;message&quot;)
+        ///        {
+        ///            this.message = message;
+        ///            this.status = status;
+        ///        }
+        ///
+        ///        protected override IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; Propert [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BuildLogMessageBase {
+            get {
+                return ResourceManager.GetString("BuildLogMessageBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Messages
+        ///{
+        ///    public class BuildLogNormalMessage : BuildLogMessageBase
+        ///    {
+        ///        public BuildLogNormalMessage(object message) : base(message, &quot;NORMAL&quot;)
+        ///        {
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string BuildLogNormalMessage {
+            get {
+                return ResourceManager.GetString("BuildLogNormalMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Messages
+        ///{
+        ///    public class BuildLogWarningMessage : BuildLogMessageBase
+        ///    {
+        ///        public BuildLogWarningMessage(object message) : base(message, &quot;WARNING&quot;)
+        ///        {
+        ///            
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string BuildLogWarningMessage {
+            get {
+                return ResourceManager.GetString("BuildLogWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace CSharpCompiler.Runtime.Messages
+        ///{
         ///    internal class BuildNumberMessage : TeamCityServiceMessageSimple
         ///    {
         ///        public BuildNumberMessage(object buildNumber) : base(&quot;buildNumber&quot;, buildNumber)
@@ -172,8 +293,7 @@ namespace CSharpCompiler {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
+        ///   Looks up a localized string similar to using System.Collections.Generic;
         ///
         ///namespace CSharpCompiler.Runtime.Messages
         ///{
@@ -187,7 +307,8 @@ namespace CSharpCompiler {
         ///        {
         ///            this.status = status;
         ///            this.value = value;
-        ///            this.format  [rest of string was truncated]&quot;;.
+        ///            this.format = format;
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string BuildStatusMessage {
             get {
@@ -218,9 +339,9 @@ namespace CSharpCompiler {
         ///
         ///namespace CSharpCompiler.Runtime.Dumping
         ///{
-        ///    public class DefaultObjectVisitor : AbstractObjectVisitor
+        ///    public abstract class DefaultObjectVisitor : AbstractObjectVisitor
         ///    {
-        ///        public DefaultObjectVisitor(int maximumDepth) : base(maximumDepth)
+        ///        protected DefaultObjectVisitor(int maximumDepth) : base(maximumDepth)
         ///        {
         ///        }
         ///
@@ -232,7 +353,7 @@ namespace CSharpCompiler {
         ///        {
         ///        }
         ///
-        ///        protected override void VisitPrimitiveType(object value [rest of string was truncated]&quot;;.
+        ///        protected override void VisitPrimitiveType( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultObjectVisitor {
             get {
@@ -488,14 +609,14 @@ namespace CSharpCompiler {
         ///
         ///        public static TextWriter OutputWriter { get; set; }
         ///
-        ///        public static T Failure&lt;T&gt;(this T value, string format)
+        ///        public static T LogMessage&lt;T&gt;(this T message)
         ///        {
-        ///            Run(new BuildFailureMessage(value, format));
+        ///            Run(new BuildLogNormalMessage(message));
         ///
-        ///            return value;
+        ///            return message;
         ///        }
         ///
-        ///        p [rest of string was truncated]&quot;;.
+        ///        public static [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TeamCityServiceMessagesExtensions {
             get {
@@ -517,7 +638,7 @@ namespace CSharpCompiler {
         ///
         ///        protected override string FormattedAndEscapedValue
         ///        {
-        ///            get { return &quot; &apos;&quot; + Escape(value) + &quot;&apos;&quot;; }
+        ///            get { return string.Format(&quot; &apos;{0}&apos;&quot;, Escape(value)); }
         ///        }
         ///    }
         ///}.

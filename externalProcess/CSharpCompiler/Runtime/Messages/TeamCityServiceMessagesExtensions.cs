@@ -12,6 +12,41 @@ namespace CSharpCompiler.Runtime.Messages
 
         public static TextWriter OutputWriter { get; set; }
 
+        public static T LogMessage<T>(this T message)
+        {
+            Run(new BuildLogNormalMessage(message));
+
+            return message;
+        }
+
+        public static T LogWarning<T>(this T message)
+        {
+            Run(new BuildLogWarningMessage(message));
+
+            return message;
+        }
+
+        public static T LogFailure<T>(this T message)
+        {
+            Run(new BuildLogFailureMessage(message));
+
+            return message;
+        }
+
+        public static T LogError<T>(this T message)
+        {
+            Run(new BuildLogErrorMessage(message));
+
+            return message;
+        }
+
+        public static T LogError<T>(this T message, string errorDetails)
+        {
+            Run(new BuildLogErrorMessageWithDetails(message, errorDetails));
+
+            return message;
+        }
+
         public static T Failure<T>(this T value, string format)
         {
             Run(new BuildFailureMessage(value, format));

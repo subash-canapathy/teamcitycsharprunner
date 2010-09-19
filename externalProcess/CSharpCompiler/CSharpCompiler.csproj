@@ -59,6 +59,12 @@
     <Compile Include="Runtime\Dumping\IObjectVisitor.cs" />
     <Compile Include="Runtime\Dumping\VisitableObject.cs" />
     <Compile Include="Runtime\Messages\BuildFailureMessage.cs" />
+    <Compile Include="Runtime\Messages\BuildLogErrorMessage.cs" />
+    <Compile Include="Runtime\Messages\BuildLogErrorMessageWithDetails.cs" />
+    <Compile Include="Runtime\Messages\BuildLogFailureMessage.cs" />
+    <Compile Include="Runtime\Messages\BuildLogMessageBase.cs" />
+    <Compile Include="Runtime\Messages\BuildLogNormalMessage.cs" />
+    <Compile Include="Runtime\Messages\BuildLogWarningMessage.cs" />
     <Compile Include="Runtime\Messages\BuildNumberMessage.cs" />
     <Compile Include="Runtime\Messages\BuildStatisticMessage.cs" />
     <Compile Include="Runtime\Messages\BuildStatusMessage.cs" />

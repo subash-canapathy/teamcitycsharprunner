@@ -127,6 +127,24 @@
   <data name="BuildFailureMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\Messages\BuildFailureMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="BuildLogErrorMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Messages\BuildLogErrorMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildLogErrorMessageWithDetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Messages\BuildLogErrorMessageWithDetails.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildLogFailureMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Messages\BuildLogFailureMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildLogMessageBase" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Messages\BuildLogMessageBase.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildLogNormalMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Messages\BuildLogNormalMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BuildLogWarningMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Runtime\Messages\BuildLogWarningMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="BuildNumberMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Runtime\Messages\BuildNumberMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
