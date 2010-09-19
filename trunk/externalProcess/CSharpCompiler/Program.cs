@@ -45,7 +45,7 @@ namespace CsharpCompiler
                 return results.NativeCompilerReturnValue;
             }
 
-            var executor = new Executor();
+            var executor = new ArtifactPublisherExecutorDecorator(new Executor());
 
             try
             {

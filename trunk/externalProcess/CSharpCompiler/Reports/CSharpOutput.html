@@ -1,0 +1,30 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<!--<script src="jquery-1.4.2.min.js"></script>-->
+		<script type="text/javascript">
+		    jQuery(function () {
+		        run(1);
+		    });
+
+		    function run(progr) {
+		        jQuery.ajax({ url: "end", error: function () { tryLoad(progr); } });
+		    }
+
+		    function tryLoad(progr) {
+		        jQuery('<div>').attr('id', progr).load(progr + ".html", function (response, status, xhr) {
+		            if (status == 'success') {
+		                jQuery(this).appendTo('body');
+		                progr++;
+		            }
+
+		            // ugly, but IE doesn't support anything else
+		            setTimeout("run(" + progr + ")", 2000);
+		        });
+		    }
+	</script>
+	</head>
+	
+	<body>
+	</body>
+</html>

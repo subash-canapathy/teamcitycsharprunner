@@ -28,22 +28,9 @@ import org.jetbrains.annotations.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Simone
- * Date: 11-set-2010
- * Time: 18.38.27
- * To change this template use File | Settings | File Templates.
- */
 public class CSharpReportTab extends ViewLogTab {
     private static final String TAB_STARTPAGE = PluginConstants.OUTPUT_FILE_NAME;
 
-    /**
-     * Creates and registers tab for Build Results pages
-     *
-     * @param pagePlaces used to register the tab
-     * @param server     server object
-     */
     public CSharpReportTab(PagePlaces pagePlaces, SBuildServer server) {
         super("C#", "csharpReportTab", pagePlaces, server);
         setIncludeUrl("/artifactsViewer.jsp");

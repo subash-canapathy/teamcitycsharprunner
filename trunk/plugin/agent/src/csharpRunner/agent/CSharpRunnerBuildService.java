@@ -35,13 +35,6 @@ import java.util.Map;
 
 import sun.misc.BASE64Encoder;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Simone
- * Date: 11-set-2010
- * Time: 16.14.33
- * To change this template use File | Settings | File Templates.
- */
 public class CSharpRunnerBuildService extends CommandLineBuildService {
     private final ArtifactsWatcher artifactsWatcher;
 
@@ -51,26 +44,17 @@ public class CSharpRunnerBuildService extends CommandLineBuildService {
 
     @NotNull
     @Override
-    public List<ProcessListener> getListeners() {
-        ArrayList<ProcessListener> listenerArrayList = new ArrayList<ProcessListener>(super.getListeners());
-        listenerArrayList.add(new WriteToFileProcessListener(getBuild(), artifactsWatcher));
-        
-        return listenerArrayList;
-    }
-
-    @NotNull
-    @Override
     public ProgramCommandLine makeProgramCommandLine() throws RunBuildException {
         AgentRunningBuild build = getBuild();
 
-        List<String> args = CreateArgs();
+        List<String> args = createArgs();
 
         return new SimpleProgramCommandLine(build,
                 build.getAgentConfiguration().getAgentPluginsDirectory() +  "\\" + Util.NAME + "\\bin\\" + PluginConstants.EXTERNAL_RUNNER_NAME,
                 args);
     }
 
-    private List<String> CreateArgs() {
+    private List<String> createArgs() {
         Map<String,String> parameters = getBuild().getRunnerParameters();
         List<String> result = new ArrayList<String>();
 
