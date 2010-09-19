@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CsharpCompiler
 {
-    internal class StatementCompiler : Compiler
+    internal class StatementCompiler : AbstractCompiler
     {
         public override bool CanCompile(string expression)
         {

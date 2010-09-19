@@ -3,9 +3,9 @@ using System.Reflection;
 
 namespace CSharpCompiler.Runtime.Dumping
 {
-    public class DefaultObjectVisitor : AbstractObjectVisitor
+    public abstract class DefaultObjectVisitor : AbstractObjectVisitor
     {
-        public DefaultObjectVisitor(int maximumDepth) : base(maximumDepth)
+        protected DefaultObjectVisitor(int maximumDepth) : base(maximumDepth)
         {
         }
 

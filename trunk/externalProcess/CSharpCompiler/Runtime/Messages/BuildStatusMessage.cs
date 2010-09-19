@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CSharpCompiler.Runtime.Messages
 {
@@ -21,7 +20,7 @@ namespace CSharpCompiler.Runtime.Messages
             get
             {
                 yield return new KeyValuePair<string, object>("status", status);   
-                yield return new KeyValuePair<string, object>("text", String.Format(format, value));   
+                yield return new KeyValuePair<string, object>("text", string.Format(format, value));   
             }
         }
     }

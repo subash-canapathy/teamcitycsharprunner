@@ -1,12 +1,8 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Linq;
-using System.Text;
-using Microsoft.CSharp;
+﻿using System.Text;
 
 namespace CsharpCompiler
 {
-    internal class ExpressionCompiler : Compiler
+    internal class ExpressionCompiler : AbstractCompiler
     {
         public override bool CanCompile(string expression)
         {

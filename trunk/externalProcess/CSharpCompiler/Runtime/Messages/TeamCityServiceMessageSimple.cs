@@ -11,7 +11,7 @@
 
         protected override string FormattedAndEscapedValue
         {
-            get { return " '" + Escape(value) + "'"; }
+            get { return string.Format(" '{0}'", Escape(value)); }
         }
     }
 }

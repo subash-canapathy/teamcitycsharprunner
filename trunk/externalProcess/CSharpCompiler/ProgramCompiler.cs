@@ -2,7 +2,7 @@
 
 namespace CsharpCompiler
 {
-    internal class ProgramCompiler : Compiler
+    internal class ProgramCompiler : AbstractCompiler
     {
         public override bool CanCompile(string expression)
         {

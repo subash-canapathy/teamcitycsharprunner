@@ -12,7 +12,7 @@ using Microsoft.CSharp;
 
 namespace CsharpCompiler
 {
-    public abstract class Compiler : ICompiler
+    public abstract class AbstractCompiler : ICompiler
     {
         protected const string MainTemplate =
             @"class Program 
@@ -45,7 +45,7 @@ namespace CsharpCompiler
                                                               typeof(DumpExtensions).Namespace
                                                           };
 
-        protected Compiler()
+        protected AbstractCompiler()
         {
             AdditionalNamespaces = Enumerable.Empty<string>();
             AdditionalReferences = Enumerable.Empty<string>();
@@ -122,7 +122,7 @@ namespace CsharpCompiler
         protected static bool ContainsMainMethod(string expression)
         {
             var mains = new[] {"void main(", "int main("};
-            string lowercaseExpression = expression.ToLowerInvariant();
+            var lowercaseExpression = expression.ToLowerInvariant();
 
             return mains.Any(lowercaseExpression.Contains);
         }

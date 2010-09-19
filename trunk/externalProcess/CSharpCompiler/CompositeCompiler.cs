@@ -7,12 +7,12 @@ namespace CsharpCompiler
 {
     public class CompositeCompiler : ICompiler
     {
-        private readonly IEnumerable<Compiler> innerCompilers = new Compiler[]
-                                                                    {
-                                                                        new ExpressionCompiler(),
-                                                                        new StatementCompiler(),
-                                                                        new ProgramCompiler()
-                                                                    };
+        private readonly IEnumerable<ICompiler> innerCompilers = new ICompiler[]
+                                                                     {
+                                                                         new ExpressionCompiler(),
+                                                                         new StatementCompiler(),
+                                                                         new ProgramCompiler()
+                                                                     };
 
         public bool CanCompile(string expression)
         {
