@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Reflection;
 
-namespace CSharpCompiler.Runtime
+namespace CSharpCompiler.Runtime.Dumping
 {
     public class DefaultObjectVisitor : AbstractObjectVisitor
     {
+        public DefaultObjectVisitor(int maximumDepth) : base(maximumDepth)
+        {
+        }
+
         protected override void VisitTypeInEnumerableFooter()
         {
         }

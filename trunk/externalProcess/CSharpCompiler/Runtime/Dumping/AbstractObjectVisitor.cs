@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace CSharpCompiler.Runtime
+namespace CSharpCompiler.Runtime.Dumping
 {
     public abstract class AbstractObjectVisitor : IObjectVisitor
     {
@@ -15,9 +15,9 @@ namespace CSharpCompiler.Runtime
             get { return new DisposableAction(() => ++currentNesting, () => --currentNesting); }
         }
 
-        protected AbstractObjectVisitor()
+        protected AbstractObjectVisitor(int maximumDepth)
         {
-            MaximumDepth = 5;
+            MaximumDepth = maximumDepth;
         }
 
         public virtual void Visit(object value)

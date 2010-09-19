@@ -1,19 +1,19 @@
 using System;
 using CSharpCompiler.Runtime;
+using CSharpCompiler.Runtime.Dumping;
 using NUnit.Framework;
 
 namespace CSharpCompiler.Tests
 {
     [TestFixture]
-    public class Dump : SpyVisitor
+    public class ObjectVisitorTest : SpyVisitorProperties
     {
-        private SpyVisitor visitor;
+        private SpyVisitor sut;
 
         [SetUp]
         public void Setup()
         {
-            visitor = new SpyVisitor();
-            DumpExtensions.Visitor = visitor;
+            sut = new SpyVisitor();
         }
 
         [TestCase(1)]
@@ -21,15 +21,20 @@ namespace CSharpCompiler.Tests
         [TestCase("ciao")]
         public void Simple_types(object value)
         {
-            value.Dump();
+            DoVisit(value);
 
             AssertVisited(Primitive);
+        }
+
+        private void DoVisit(object value)
+        {
+            new VisitableObject(value).AcceptVisitor(sut);
         }
 
         [Test]
         public void DateTime_is_simple()
         {
-            DateTime.Now.Dump();
+            DoVisit(DateTime.Now);
 
             AssertVisited(Primitive);
         }
@@ -38,7 +43,7 @@ namespace CSharpCompiler.Tests
         public void SimpleEnumerable()
         {
             var oneTwoThree = new[] { 1, 2, 3 };
-            oneTwoThree.Dump();
+            DoVisit(oneTwoThree);
 
             AssertVisited(EnumerableHeader, Primitive, Primitive, Primitive, EnumerableFooter);
         }
@@ -47,7 +52,8 @@ namespace CSharpCompiler.Tests
         public void Plain_object()
         {
             var obj = new {Prop1 = "ciao", Prop2 = "hello"};
-            obj.Dump();
+            DoVisit(obj);
+
 
             AssertVisited(ObjectHeader, 
                           ObjectSummary, 
@@ -69,7 +75,7 @@ namespace CSharpCompiler.Tests
                               Prop2 = 3
                           };
 
-            obj.Dump();
+            DoVisit(obj);
 
             AssertVisited(ObjectHeader,
                           ObjectSummary,
@@ -95,7 +101,7 @@ namespace CSharpCompiler.Tests
                               Prop2 = 1
                           };
 
-            obj.Dump();
+            DoVisit(obj);
 
             AssertVisited(  ObjectHeader,
                             ObjectSummary,
@@ -117,9 +123,10 @@ namespace CSharpCompiler.Tests
 
             var obj = create(create(create(create(create(create(create(ciao())))))))();
 
-            obj.Dump();
+            sut.MaximumDepth = 5;
+            DoVisit(obj);
 
-            Assert.AreEqual(5, visitor.MaxNestingLevel);
+            Assert.AreEqual(5, sut.MaximumReachedDepth);
         }
 
         [Test]
@@ -130,15 +137,15 @@ namespace CSharpCompiler.Tests
 
             var obj = create(create(create(create(create(create(create(ciao())))))))();
 
-            obj.Dump(2);
+            sut.MaximumDepth = 2;
+            DoVisit(obj);
 
-            Assert.AreEqual(2, visitor.MaxNestingLevel);
+            Assert.AreEqual(2, sut.MaximumReachedDepth);
         }
-
 
         private void AssertVisited(params string[] expectedVisited)
         {
-            CollectionAssert.AreEqual(expectedVisited, visitor.Visits);
+            CollectionAssert.AreEqual(expectedVisited, sut.Visits);
         }
     }
 }

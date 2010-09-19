@@ -5,15 +5,15 @@ using System.IO;
 using System.Reflection;
 using System.Web.UI;
 
-namespace CSharpCompiler.Runtime
+namespace CSharpCompiler.Runtime.Dumping
 {
-    public class HtmlReportingVisitor : DefaultObjectVisitor
+    public class HtmlObjectVisitor : DefaultObjectVisitor, IFileOutputObjectVisitor
     {
-        private readonly HtmlTextWriter writer = new HtmlTextWriter(new StringWriter());
+        private readonly HtmlTextWriter writer;
 
-        public string Output
+        public HtmlObjectVisitor(TextWriter inner, int maximumDepth) : base(maximumDepth)
         {
-            get { return ((StringWriter) writer.InnerWriter).GetStringBuilder().ToString(); }
+            writer = new HtmlTextWriter(inner);
         }
 
         public override void Visit(object value)
@@ -96,9 +96,14 @@ namespace CSharpCompiler.Runtime
             writer.Write(enumerableType);
             writer.Write(" (");
             writer.Write(count);
-            writer.Write(" items)");
+            writer.Write(" item" + AddPluralSuffix(count) + ")");
             writer.RenderEndTag();
             writer.RenderEndTag();
+        }
+
+        private static string AddPluralSuffix(int count)
+        {
+            return count == 1 ? "" : "s";
         }
 
         protected override void VisitEnumerableEntry(object entry)
@@ -140,6 +145,12 @@ namespace CSharpCompiler.Runtime
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             VisitPrimitiveType(member.Name);
             writer.RenderEndTag();
+        }
+
+        public void Dispose()
+        {
+            writer.Flush();
+            writer.Dispose();
         }
     }
 }

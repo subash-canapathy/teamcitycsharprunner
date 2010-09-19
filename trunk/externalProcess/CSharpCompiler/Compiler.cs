@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using CSharpCompiler;
-using CSharpCompiler.Runtime;
+using CSharpCompiler.Runtime.Dumping;
 using CSharpCompiler.Runtime.Messages;
 using Microsoft.CSharp;
 

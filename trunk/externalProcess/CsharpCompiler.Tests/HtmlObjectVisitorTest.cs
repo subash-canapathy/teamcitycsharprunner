@@ -1,11 +1,13 @@
 using System;
+using System.IO;
 using CSharpCompiler.Runtime;
+using CSharpCompiler.Runtime.Dumping;
 using NUnit.Framework;
 
 namespace CSharpCompiler.Tests
 {
     [TestFixture]
-    public class HtmlReportingVisitorTest
+    public class HtmlObjectVisitorTest
     {
         [Test]
         public void Object_simple()
@@ -57,10 +59,11 @@ namespace CSharpCompiler.Tests
 
         private static void Render(object obj)
         {
-            var htmlReportingVisitor = new HtmlReportingVisitor();
+            var stringWriter = new StringWriter();
+            var htmlReportingVisitor = new HtmlObjectVisitor(stringWriter, 5);
             htmlReportingVisitor.Visit(obj);
 
-            Console.WriteLine(htmlReportingVisitor.Output);
+            Console.WriteLine(stringWriter.ToString());
         }
     }
 }
