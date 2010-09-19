@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using CSharpCompiler.Runtime;
 using CSharpCompiler.Runtime.Dumping;
 using NUnit.Framework;
 

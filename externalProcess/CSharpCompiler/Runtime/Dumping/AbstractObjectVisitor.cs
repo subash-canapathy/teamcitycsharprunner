@@ -171,11 +171,6 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitEnumerableFooter();
         }
 
-        private static bool HasMembers(Type type)
-        {
-            return GetMembers(type).Any();
-        }
-
         private static IEnumerable<MemberInfo> GetMembers(Type type)
         {
             return GetProperties(type).Concat<MemberInfo>(GetFields(type));
