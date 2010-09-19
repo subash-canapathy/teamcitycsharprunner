@@ -6,6 +6,7 @@ namespace CSharpCompiler.Runtime.Dumping
     public class ArtifactObjectDumper : IObjectDumper
     {
         private readonly HtmlObjectVisitorFactory factory;
+        private int currentSequence;
 
         public ArtifactObjectDumper(HtmlObjectVisitorFactory factory)
         {
@@ -14,12 +15,12 @@ namespace CSharpCompiler.Runtime.Dumping
 
         public void Dump(object value, int maximumDepth)
         {
-            var tempFileName = Path.GetTempFileName();
+            var tempFileName = Path.GetTempPath();
 
             using (var visitor = factory.Create(tempFileName, maximumDepth))
                 new VisitableObject(value).AcceptVisitor(visitor);
 
-            tempFileName.Publish();
+            tempFileName.Publish(currentSequence++.ToString());
         }
     }
 }
