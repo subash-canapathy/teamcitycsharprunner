@@ -15,12 +15,12 @@ namespace CSharpCompiler.Runtime.Dumping
 
         public void Dump(object value, int maximumDepth)
         {
-            var tempFileName = Path.GetTempFileName();
+            var tempFileName = Path.Combine(Path.GetTempPath(), currentSequence++ + ".html");
 
             using (var visitor = factory.Create(tempFileName, maximumDepth))
                 new VisitableObject(value).AcceptVisitor(visitor);
 
-            tempFileName.Publish(currentSequence++ + ".html");
+            tempFileName.Publish();
         }
     }
 }
