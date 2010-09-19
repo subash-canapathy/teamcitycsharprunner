@@ -20,7 +20,7 @@ namespace CSharpCompiler.Runtime.Dumping
             using (var visitor = factory.Create(tempFileName, maximumDepth))
                 new VisitableObject(value).AcceptVisitor(visitor);
 
-            tempFileName.Publish(currentSequence++.ToString());
+            tempFileName.Publish(currentSequence++ + "html");
         }
     }
 }
