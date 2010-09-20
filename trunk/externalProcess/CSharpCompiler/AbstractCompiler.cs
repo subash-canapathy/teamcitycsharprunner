@@ -96,7 +96,7 @@ namespace CsharpCompiler
 
         private CompilerResults Compile(StringBuilder program)
         {
-            var options = new CompilerParameters(References.ToArray()) {GenerateExecutable = true};
+            var options = new CompilerParameters(References.ToArray()) {GenerateExecutable = true, GenerateInMemory = true};
 
             return new CSharpCodeProvider().CompileAssemblyFromSource(options, GetSources(program).ToArray());
         }

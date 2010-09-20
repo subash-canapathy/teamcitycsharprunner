@@ -11,7 +11,9 @@ namespace CsharpCompiler
 
         protected override void CreateProgram(string expression, StringBuilder program)
         {
-            program.AppendFormat(MainTemplate, expression + ";");
+            program.AppendFormat(MainTemplate, expression + ".Dump();");
         }
+
+
     }
 }
