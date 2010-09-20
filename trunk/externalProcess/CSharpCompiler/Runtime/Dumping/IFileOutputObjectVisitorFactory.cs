@@ -2,6 +2,6 @@
 {
     public interface IFileOutputObjectVisitorFactory
     {
-        IFileOutputObjectVisitor Create(string outputPath, int maximumDepth);
+        IFileOutputObjectVisitor Create(string outputFilePath, int maximumDepth);
     }
 }

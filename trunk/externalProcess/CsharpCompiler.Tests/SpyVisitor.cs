@@ -26,7 +26,7 @@ namespace CSharpCompiler.Tests
             Visit(TypeInEnumerableFooter);
         }
 
-        protected override void VisitEnumerableHeader(Type enumerableEnumerableType, int elements)
+        protected override void VisitEnumerableHeader(Type enumerableEnumerableType, int elements, int numberOfMembers)
         {
             Visit(EnumerableHeader);
         }
@@ -43,7 +43,7 @@ namespace CSharpCompiler.Tests
             Visit(ObjectHeader);
         }
 
-        protected override void VisitTypeInEnumerableHeader(IEnumerable<MemberInfo> members)
+        protected override void VisitTypeInEnumerableMembers(IEnumerable<MemberInfo> members)
         {
             Visit(TypeInEnumerableHeader);
         }
