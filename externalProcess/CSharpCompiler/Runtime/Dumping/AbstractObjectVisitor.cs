@@ -55,25 +55,25 @@ namespace CSharpCompiler.Runtime.Dumping
 
         private void VisitTypeInEnumerable(object value)
         {
-            Type type = value.GetType();
+            var type = value.GetType();
             var holder = value;
 
             var values = new ArrayList();
 
-            foreach (PropertyInfo property in GetProperties(type))
+            foreach (var property in GetProperties(type))
                 values.Add(property.GetValue(holder, null));
 
-            foreach (FieldInfo field in GetFields(type))
+            foreach (var field in GetFields(type))
                 values.Add(field.GetValue(holder));
 
-            VisitTypeInEnumerableRow(values);
+            VisitTypeInEnumerableElement(values);
 
             VisitTypeInEnumerableFooter();
         }
 
         protected abstract void VisitTypeInEnumerableFooter();
 
-        protected virtual void VisitTypeInEnumerableRow(IEnumerable values)
+        protected virtual void VisitTypeInEnumerableElement(IEnumerable values)
         {
             foreach (var value in values)
                 VisitTypeInEnumerableValue(value);
@@ -84,7 +84,7 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitObject(value);
         }
 
-        protected virtual void VisitTypeInEnumerableHeader(IEnumerable<MemberInfo> members)
+        protected virtual void VisitTypeInEnumerableMembers(IEnumerable<MemberInfo> members)
         {
             foreach (var member in members)
                 VisitTypeInEnumerableMember(member);
@@ -101,17 +101,15 @@ namespace CSharpCompiler.Runtime.Dumping
             if (currentNesting > MaximumDepth)
                 return;
 
-            Type type = value.GetType();
+            var type = value.GetType();
+
             VisitTypeHeader(type);
             VisitTypeSummary(type);
 
-            IEnumerable<PropertyInfo> properties = GetProperties(type);
-            IEnumerable<FieldInfo> fields = GetFields(type);
-
-            foreach (PropertyInfo property in properties)
+            foreach (var property in GetProperties(type))
                 VisitProperty(property, value);
 
-            foreach (FieldInfo field in fields)
+            foreach (var field in GetFields(type))
                 VisitField(field, value);
 
             VisitTypeFooter();
@@ -158,15 +156,17 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected virtual void VisitEnumerable(IEnumerable value)
         {
-            object[] enumerable = value.Cast<object>().ToArray();
+            var enumerable = value.Cast<object>().ToArray();
 
-            VisitEnumerableHeader(enumerable.GetType(), enumerable.Length);
+            var numberOfMembers = IsPrimitive(enumerable[0]) ? 1 : GetMembers(enumerable[0].GetType()).Count();
+
+            VisitEnumerableHeader(enumerable.GetType(), enumerable.Length, numberOfMembers);
 
             if(enumerable.Any() && !IsPrimitive(enumerable[0]))
-                VisitTypeInEnumerableHeader(GetMembers(enumerable[0].GetType()));
+                VisitTypeInEnumerableMembers(GetMembers(enumerable[0].GetType()));
 
             foreach (object entry in enumerable)
-                VisitEnumerableEntry(entry);
+                VisitEnumerableElement(entry);
 
             VisitEnumerableFooter();
         }
@@ -176,12 +176,12 @@ namespace CSharpCompiler.Runtime.Dumping
             return GetProperties(type).Concat<MemberInfo>(GetFields(type));
         }
 
-        protected virtual void VisitEnumerableEntry(object entry)
+        protected virtual void VisitEnumerableElement(object element)
         {
-            VisitObject(entry, true);
+            VisitObject(element, true);
         }
 
-        protected abstract void VisitEnumerableHeader(Type enumerableType, int count);
+        protected abstract void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers);
 
         protected abstract void VisitEnumerableFooter();
     }

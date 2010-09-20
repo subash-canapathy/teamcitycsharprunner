@@ -30,10 +30,6 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeFooter()
-        {
-        }
-
         protected override void VisitType(object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Table);
@@ -41,12 +37,34 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
+        protected override void VisitEnumerable(IEnumerable value)
+        {
+            writer.RenderBeginTag(HtmlTextWriterTag.Table);
+            base.VisitEnumerable(value);
+            writer.RenderEndTag();
+        }
+
         protected override void VisitTypeHeader(Type type)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(type);
+            writer.RenderEndTag();
+            writer.RenderEndTag();
+        }
+
+        protected override void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers)
+        {
+            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
+            writer.AddAttribute(HtmlTextWriterAttribute.Colspan, numberOfMembers.ToString());
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+            writer.Write(enumerableType);
+            writer.Write(" (");
+            writer.Write(count);
+            writer.Write(" item" + AddPluralSuffix(count) + ")");
             writer.RenderEndTag();
             writer.RenderEndTag();
         }
@@ -55,6 +73,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "summary");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(type);
             writer.RenderEndTag();
@@ -77,27 +96,9 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected override void VisitTypeMemberName(string name)
         {
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "member");
+            writer.RenderBeginTag(HtmlTextWriterTag.Th);
             writer.Write(name);
-            writer.RenderEndTag();
-        }
-
-        protected override void VisitEnumerable(IEnumerable value)
-        {
-            writer.RenderBeginTag(HtmlTextWriterTag.Table);
-            base.VisitEnumerable(value);
-            writer.RenderEndTag();
-        }
-
-        protected override void VisitEnumerableHeader(Type enumerableType, int count)
-        {
-            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            writer.Write(enumerableType);
-            writer.Write(" (");
-            writer.Write(count);
-            writer.Write(" item" + AddPluralSuffix(count) + ")");
-            writer.RenderEndTag();
             writer.RenderEndTag();
         }
 
@@ -106,44 +107,26 @@ namespace CSharpCompiler.Runtime.Dumping
             return count == 1 ? "" : "s";
         }
 
-        protected override void VisitEnumerableEntry(object entry)
+        protected override void VisitEnumerableElement(object element)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            base.VisitEnumerableEntry(entry);
+            base.VisitEnumerableElement(element);
             writer.RenderEndTag();
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeInEnumerableRow(IEnumerable values)
+        protected override void VisitTypeInEnumerableMembers(IEnumerable<MemberInfo> members)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            base.VisitTypeInEnumerableRow(values);
-            writer.RenderEndTag();
-        }
-
-        protected override void VisitTypeInEnumerableValue(object value)
-        {
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            base.VisitTypeInEnumerableValue(value);
-            writer.RenderEndTag();
-        }
-
-        protected override void VisitEnumerableFooter()
-        {
-        }
-
-        protected override void VisitTypeInEnumerableHeader(IEnumerable<MemberInfo> members)
-        {
-            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            base.VisitTypeInEnumerableHeader(members);
+            base.VisitTypeInEnumerableMembers(members);
             writer.RenderEndTag();
         }
 
         protected override void VisitTypeInEnumerableMember(MemberInfo member)
         {
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            VisitPrimitiveType(member.Name);
+            writer.RenderBeginTag(HtmlTextWriterTag.Th);
+            writer.Write(member.Name);
             writer.RenderEndTag();
         }
 

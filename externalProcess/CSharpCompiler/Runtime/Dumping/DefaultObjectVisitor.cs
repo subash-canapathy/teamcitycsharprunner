@@ -37,7 +37,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitEnumerableHeader(Type enumerableType, int count)
+        protected override void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers)
         {
         }
 

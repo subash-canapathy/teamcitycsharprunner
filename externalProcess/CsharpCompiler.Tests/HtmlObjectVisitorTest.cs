@@ -9,6 +9,12 @@ namespace CSharpCompiler.Tests
     public class HtmlObjectVisitorTest
     {
         [Test]
+        public void Primitive()
+        {
+            Render(1);
+        }
+
+        [Test]
         public void Object_simple()
         {
             Render(new
@@ -42,14 +48,21 @@ namespace CSharpCompiler.Tests
         }
 
         [Test]
+        public void Object_nested()
+        {
+            Render(new
+                       {
+                           Prop1 = new {Prop11 = 1, Prop12 = 2},
+                           Prop2 = new {Prop21 = "ciao", Prop22 = "hello", Prop23 = DateTime.Now}
+                       });
+        }
+
+        [Test]
         public void Object_complex()
         {
             var obj = new
                           {
-                              Prop1 = new[]
-                                          {
-                                              new {Prop1 = "ciao"}
-                                          },
+                              Prop1 = new[] { new { Prop11 = "ciao"} },
                               Prop2 = 1
                           };
 
