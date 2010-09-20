@@ -107,6 +107,13 @@ namespace CSharpCompiler.Runtime.Dumping
             return count == 1 ? "" : "s";
         }
 
+        protected override void VisitPrimitiveTypeInEnumerable(object value)
+        {
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+            base.VisitPrimitiveTypeInEnumerable(value);
+            writer.RenderEndTag();
+        }
+
         protected override void VisitEnumerableElement(object element)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);

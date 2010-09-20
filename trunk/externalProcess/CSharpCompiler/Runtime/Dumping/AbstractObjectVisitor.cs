@@ -27,11 +27,6 @@ namespace CSharpCompiler.Runtime.Dumping
 
         private void VisitObject(object value)
         {
-            VisitObject(value, false);
-        }
-
-        private void VisitObject(object value, bool inEnumerable)
-        {
             if (value is IEnumerable && !(value is string))
             {
                 VisitEnumerable(value as IEnumerable);
@@ -41,11 +36,27 @@ namespace CSharpCompiler.Runtime.Dumping
             else
             {
                 using (Nest)
-                    if (inEnumerable)
-                        VisitTypeInEnumerable(value);
-                    else
-                        VisitType(value);
+                    VisitType(value);
             }
+        }
+
+        private void VisitObjectInEnumerable(object value)
+        {
+            if (value is IEnumerable && !(value is string))
+            {
+                VisitEnumerable(value as IEnumerable);
+            }
+            else if (IsPrimitive(value))
+                VisitPrimitiveTypeInEnumerable(value);
+            else
+            {
+                VisitTypeInEnumerable(value);
+            }
+        }
+
+        protected virtual void VisitPrimitiveTypeInEnumerable(object value)
+        {
+            VisitPrimitiveType(value);
         }
 
         private static bool IsPrimitive(object value)
@@ -67,11 +78,7 @@ namespace CSharpCompiler.Runtime.Dumping
                 values.Add(field.GetValue(holder));
 
             VisitTypeInEnumerableElement(values);
-
-            VisitTypeInEnumerableFooter();
         }
-
-        protected abstract void VisitTypeInEnumerableFooter();
 
         protected virtual void VisitTypeInEnumerableElement(IEnumerable elementValues)
         {
@@ -165,8 +172,8 @@ namespace CSharpCompiler.Runtime.Dumping
             if(enumerable.Any() && !IsPrimitive(enumerable[0]))
                 VisitTypeInEnumerableMembers(GetMembers(enumerable[0].GetType()));
 
-            foreach (object entry in enumerable)
-                VisitEnumerableElement(entry);
+            foreach (object element in enumerable)
+                VisitEnumerableElement(element);
 
             VisitEnumerableFooter();
         }
@@ -178,7 +185,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected virtual void VisitEnumerableElement(object element)
         {
-            VisitObject(element, true);
+            VisitObjectInEnumerable(element);
         }
 
         protected abstract void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers);

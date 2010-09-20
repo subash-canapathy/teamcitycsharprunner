@@ -21,11 +21,6 @@ namespace CSharpCompiler.Tests
             Visits.Add(value);
         }
 
-        protected override void VisitTypeInEnumerableFooter()
-        {
-            Visit(TypeInEnumerableFooter);
-        }
-
         protected override void VisitEnumerableHeader(Type enumerableEnumerableType, int elements, int numberOfMembers)
         {
             Visit(EnumerableHeader);

@@ -1,5 +1,4 @@
 using System;
-using CSharpCompiler.Runtime;
 using CSharpCompiler.Runtime.Dumping;
 using NUnit.Framework;
 
@@ -107,9 +106,8 @@ namespace CSharpCompiler.Tests
                             ObjectSummary,
                                 MemberName,
                                     EnumerableHeader,
-                                        TypeInEnumerableHeader,
+                                            TypeInEnumerableHeader,
                                             Primitive,
-                                        TypeInEnumerableFooter,
                                     EnumerableFooter,
                                 MemberName, Primitive,
                             ObjectFooter);

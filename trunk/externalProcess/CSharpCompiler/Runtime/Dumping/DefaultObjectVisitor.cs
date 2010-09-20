@@ -9,10 +9,6 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitTypeInEnumerableFooter()
-        {
-        }
-
         protected override void VisitTypeInEnumerableMember(MemberInfo member)
         {
         }
