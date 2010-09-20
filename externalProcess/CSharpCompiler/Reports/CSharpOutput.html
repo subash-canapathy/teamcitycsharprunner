@@ -166,19 +166,21 @@ e&&e.document?e.document.compatMode==="CSS1Compat"&&e.document.documentElement["
 		        jQuery('<div>').attr('id', progr).load(progr + ".html", function (response, status, xhr) {
 		            if (status == 'success') {
 		                jQuery(this).appendTo('body');
-		                progr++;
-
-		                // ugly, but IE doesn't support anything else
-		                setTimeout("tryLoad(" + progr + ")", 2000);
+		                tryLoad(++progr);
 		            }
 		            else {
-		                jQuery.ajax({ url: "end", error: function () { tryLoad(progr); } });
+		                jQuery.ajax({
+		                    url: "end", 
+                            error: function () {
+		                        // ugly, but IE doesn't support anything else
+		                        setTimeout("tryLoad(" + progr + ")", 2000);
+		                    }
+		                });
 		            }
 		        });
 		    }
 	</script>
 	</head>
-	
 	<body>
 	</body>
 </html>
