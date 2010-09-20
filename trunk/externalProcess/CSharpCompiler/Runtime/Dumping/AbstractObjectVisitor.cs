@@ -73,13 +73,13 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected abstract void VisitTypeInEnumerableFooter();
 
-        protected virtual void VisitTypeInEnumerableElement(IEnumerable values)
+        protected virtual void VisitTypeInEnumerableElement(IEnumerable elementValues)
         {
-            foreach (var value in values)
-                VisitTypeInEnumerableValue(value);
+            foreach (var value in elementValues)
+                VisitTypeInEnumerableElementValue(value);
         }
 
-        protected virtual void VisitTypeInEnumerableValue(object value)
+        protected virtual void VisitTypeInEnumerableElementValue(object value)
         {
             VisitObject(value);
         }
