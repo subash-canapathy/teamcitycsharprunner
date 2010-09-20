@@ -110,9 +110,14 @@ namespace CSharpCompiler.Runtime.Dumping
         protected override void VisitEnumerableElement(object element)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
             base.VisitEnumerableElement(element);
             writer.RenderEndTag();
+        }
+
+        protected override void VisitTypeInEnumerableElementValue(object value)
+        {
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+            base.VisitTypeInEnumerableElementValue(value);
             writer.RenderEndTag();
         }
 
