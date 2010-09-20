@@ -8,7 +8,7 @@ namespace CsharpCompiler.Tests.Execution
         [Test]
         public void Test()
         {
-            var results = new CompositeCompiler().Compile("Console.WriteLine(\"hello\")");
+            var results = new CompositeCompiler().Compile("Console.WriteLine(\"hello\");");
 
             new Executor().Execute(results);
         }

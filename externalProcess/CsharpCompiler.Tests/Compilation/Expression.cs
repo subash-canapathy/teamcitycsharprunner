@@ -16,13 +16,13 @@ namespace CsharpCompiler.Tests.Compilation
         [Test]
         public void Does_it_throw()
         {
-            compiler.Compile("System.Console.WriteLine(\"hello\")");
+            compiler.Compile("\"hello\"");
         }
 
         [Test]
         public void Does_it_compile_successfully()
         {
-            var results = compiler.Compile("System.Console.WriteLine(\"hello\")");
+            var results = compiler.Compile("\"hello\"");
             
             Assert.IsEmpty(results.Errors);
         }
@@ -30,7 +30,7 @@ namespace CsharpCompiler.Tests.Compilation
         [Test]
         public void With_non_qualified_name()
         {
-            var results = compiler.Compile("Console.WriteLine(\"hello\")");
+            var results = compiler.Compile("String.IsNullOrEmpty(\"hello\")");
 
             Assert.IsEmpty(results.Errors);
         }
@@ -38,7 +38,7 @@ namespace CsharpCompiler.Tests.Compilation
         [Test]
         public void Should_generate_assembly_with_entrypoint()
         {
-            var results = compiler.Compile("Console.WriteLine(\"hello\")");
+            var results = compiler.Compile("\"hello\"");
 
             Assert.IsNotNull(results.CompiledAssembly.EntryPoint);
         }
@@ -46,7 +46,7 @@ namespace CsharpCompiler.Tests.Compilation
         [Test]
         public void When_does_not_compile_should_return_error_line()
         {
-            var results = compiler.Compile("Console.WRITELine(\"hello\")");
+            var results = compiler.Compile("String.IsNULLOrEmpty(\"hello\")");
 
             Assert.AreEqual(1, results.Errors[0].Line);
         }
@@ -54,10 +54,10 @@ namespace CsharpCompiler.Tests.Compilation
         [Test]
         public void When_does_not_compile_should_return_error_colum()
         {
-            const string expression = "Console.WRITELine(\"hello\")";
+            const string expression = "string.ISNullOrempty(\"hello\")";
             var results = compiler.Compile(expression);
 
-            Assert.AreEqual(expression.IndexOf("RITE"), results.Errors[0].Column);
+            Assert.AreEqual(expression.IndexOf("SNull"), results.Errors[0].Column);
         }
 
         [Test]
@@ -72,6 +72,14 @@ namespace CsharpCompiler.Tests.Compilation
         public void Should_call_utility_methods_as_statics()
         {
             var results = compiler.Compile("TeamCityServiceMessagesExtensions.Success<string>(\"hello\")");
+
+            Assert.IsEmpty(results.Errors);
+        }
+
+        [Test]
+        public void Should_try_to_add_Dump()
+        {
+            var results = compiler.Compile("\"hello\"");
 
             Assert.IsEmpty(results.Errors);
         }
