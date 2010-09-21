@@ -45,34 +45,52 @@ namespace CSharpCompiler.Runtime.Dumping
             return value.GetType().IsPrimitive || value is string || value is DateTime;
         }
 
-        private void VisitTypeInEnumerable(object value)
-        {
-            var type = value.GetType();
-            var holder = value;
-
-            var values = new ArrayList();
-
-            foreach (var property in GetProperties(type))
-                values.Add(property.GetValue(holder, null));
-
-            foreach (var field in GetFields(type))
-                values.Add(field.GetValue(holder));
-
-            VisitTypeInEnumerableElement(values);
-        }
-
-        protected virtual void VisitEnumerableElement(object element)
+        protected virtual void VisitEnumerableElement(object element, IEnumerable<MemberInfo> members)
         {
             if (element is IEnumerable && !(element is string))
             {
                 VisitEnumerable(element as IEnumerable);
             }
             else if (IsPrimitive(element))
-                VisitTypeMemberValue(element);
+                VisitPrimitiveTypeInEnumerable(element, members);
             else
             {
-                VisitTypeInEnumerable(element);
+                VisitTypeInEnumerable(element, members);
             }
+        }
+
+        protected virtual void VisitPrimitiveTypeInEnumerable(object element, IEnumerable<MemberInfo> members)
+        {
+            VisitPrimitiveType(element);
+        }
+
+        private void VisitTypeInEnumerable(object value, IEnumerable<MemberInfo> members)
+        {
+            var type = value.GetType();
+            var holder = value;
+
+            var values = new ArrayList();
+
+            foreach (var memberInfo in members)
+            {
+                if(memberInfo.DeclaringType == type)
+                {
+                    values.Add(GetMemberValue(memberInfo, holder));
+                }
+                else
+                {
+                    values.Add("");
+                }
+            }
+
+            VisitTypeInEnumerableElement(values);
+        }
+
+        private static object GetMemberValue(MemberInfo memberInfo, object holder)
+        {
+            if (memberInfo is PropertyInfo)
+                return ((PropertyInfo) memberInfo).GetValue(holder, null);
+            return ((FieldInfo)memberInfo).GetValue(holder);
         }
 
         protected virtual void VisitTypeInEnumerableElement(IEnumerable elementValues)
@@ -163,7 +181,7 @@ namespace CSharpCompiler.Runtime.Dumping
                 VisitTypeInEnumerableMembers(members);
 
             foreach (var element in value)
-                VisitEnumerableElement(element);
+                VisitEnumerableElement(element, members);
 
             VisitEnumerableFooter();
         }
