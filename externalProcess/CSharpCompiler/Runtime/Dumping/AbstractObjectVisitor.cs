@@ -49,22 +49,22 @@ namespace CSharpCompiler.Runtime.Dumping
         {
             if (element is IEnumerable && !(element is string))
             {
-                VisitEnumerableInEnumerable(element as IEnumerable, members);
+                VisitEnumerableInEnumerable(element as IEnumerable, members.Count());
             }
             else if (IsPrimitive(element))
-                VisitPrimitiveTypeInEnumerable(element, members);
+                VisitPrimitiveTypeInEnumerable(element, members.Count());
             else
             {
                 VisitTypeInEnumerable(element, members);
             }
         }
 
-        protected virtual void VisitEnumerableInEnumerable(IEnumerable enumerable, IEnumerable<MemberInfo> members)
+        protected virtual void VisitEnumerableInEnumerable(IEnumerable enumerable, int numberOfMembers)
         {
             VisitEnumerable(enumerable);
         }
 
-        protected virtual void VisitPrimitiveTypeInEnumerable(object element, IEnumerable<MemberInfo> members)
+        protected virtual void VisitPrimitiveTypeInEnumerable(object element, int numberOfMembers)
         {
             VisitPrimitiveType(element);
         }

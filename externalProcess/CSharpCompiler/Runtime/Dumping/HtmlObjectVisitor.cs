@@ -65,7 +65,10 @@ namespace CSharpCompiler.Runtime.Dumping
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
-            writer.AddAttribute(HtmlTextWriterAttribute.Colspan, numberOfMembers.ToString());
+            
+            if(numberOfMembers > 1)
+                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, numberOfMembers.ToString());
+            
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(FormatTypeNameForHeader(enumerableType));
             writer.Write(" (");
@@ -113,23 +116,23 @@ namespace CSharpCompiler.Runtime.Dumping
             return count == 1 ? "" : "s";
         }
 
-        protected override void VisitPrimitiveTypeInEnumerable(object element, IEnumerable<MemberInfo> members)
+        protected override void VisitPrimitiveTypeInEnumerable(object element, int numberOfMembers)
         {
-            if(members.Any())
-                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, members.Count().ToString());
+            if(numberOfMembers > 1)
+                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, numberOfMembers.ToString());
 
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            base.VisitPrimitiveTypeInEnumerable(element, members);
+            base.VisitPrimitiveTypeInEnumerable(element, numberOfMembers);
             writer.RenderEndTag();
         }
 
-        protected override void VisitEnumerableInEnumerable(IEnumerable enumerable, IEnumerable<MemberInfo> members)
+        protected override void VisitEnumerableInEnumerable(IEnumerable enumerable, int numberOfMembers)
         {
-            if(members.Any())
-                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, members.Count().ToString());
+            if(numberOfMembers > 1)
+                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, numberOfMembers.ToString());
 
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            base.VisitEnumerableInEnumerable(enumerable, members);
+            base.VisitEnumerableInEnumerable(enumerable, numberOfMembers);
             writer.RenderEndTag();
         }
 
