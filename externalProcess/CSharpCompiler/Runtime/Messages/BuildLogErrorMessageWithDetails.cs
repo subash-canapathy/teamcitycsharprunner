@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace CSharpCompiler.Runtime.Messages
 {
@@ -15,12 +16,7 @@ namespace CSharpCompiler.Runtime.Messages
         {
             get
             {
-                foreach (var property in base.Properties)
-                {
-                    yield return property;
-                }
-
-                yield return new KeyValuePair<string, object>("errorDetails", errorDetails);
+				return base.Properties.Concat(new[]{ new KeyValuePair<string, object>("errorDetails", errorDetails) });
             }
         }
     }
