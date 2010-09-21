@@ -22,18 +22,16 @@ import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.agent.AgentRunningBuild;
 import jetbrains.buildServer.agent.artifacts.ArtifactsWatcher;
 import jetbrains.buildServer.agent.runner.CommandLineBuildService;
-import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import sun.misc.BASE64Encoder;
 
-import java.nio.charset.Charset;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import sun.misc.BASE64Encoder;
 
 public class CSharpRunnerBuildService extends CommandLineBuildService {
     private final ArtifactsWatcher artifactsWatcher;
@@ -60,14 +58,19 @@ public class CSharpRunnerBuildService extends CommandLineBuildService {
 
         BASE64Encoder encoder = new BASE64Encoder();
 
-        String program = encoder.encode(parameters.get(PluginConstants.PROPERTY_SCRIPT_CONTENT).getBytes(Charset.forName("UTF8")));
+        String program = null;
+        try {
+            program = encoder.encode(parameters.get(PluginConstants.PROPERTY_SCRIPT_CONTENT).getBytes("UTF8"));
+        } catch (UnsupportedEncodingException e) {
+            // are you sure you don't know UTF8?
+        }
 
         result.add(program);
 
         String namespaces = parameters.get(PluginConstants.PROPERTY_SCRIPT_NAMESPACES);
-        result.add(namespaces == null || namespaces.isEmpty() ? ";" : StringUtil.convertLineSeparators(namespaces, ";"));
+        result.add(namespaces == null || StringUtil.isEmpty(namespaces) ? ";" : StringUtil.convertLineSeparators(namespaces, ";"));
         String references = parameters.get(PluginConstants.PROPERTY_SCRIPT_REFERENCES);
-        result.add(references == null || references.isEmpty() ? ";" : StringUtil.convertLineSeparators(references, ";"));
+        result.add(references == null || StringUtil.isEmpty(references) ? ";" : StringUtil.convertLineSeparators(references, ";"));
 
         return result;
     }
