@@ -1,5 +1,6 @@
 package csharpRunner.server;
 
+import com.intellij.openapi.util.text.StringUtil;
 import csharpRunner.common.PluginConstants;
 import jetbrains.buildServer.serverSide.InvalidProperty;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
@@ -51,7 +52,7 @@ public class CSharpRunnerRunType extends RunType {
 
             private boolean noScriptContent(Map<String, String> properties) {
                 return !properties.containsKey(PluginConstants.PROPERTY_SCRIPT_CONTENT) ||
-                    properties.get(PluginConstants.PROPERTY_SCRIPT_CONTENT).isEmpty();
+                    StringUtil.isEmpty(properties.get(PluginConstants.PROPERTY_SCRIPT_CONTENT));
             }
         };
     }
