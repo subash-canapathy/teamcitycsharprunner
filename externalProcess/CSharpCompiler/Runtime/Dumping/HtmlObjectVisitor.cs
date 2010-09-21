@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Web.UI;
-using System.Linq;
 
 namespace CSharpCompiler.Runtime.Dumping
 {

@@ -8,7 +8,7 @@ namespace CSharpCompiler.Runtime.Messages
         private readonly object key;
         private readonly int value;
 
-        public static readonly ISet<string> PredefinedStatisticsKeys = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly ICollection<string> PredefinedStatisticsKeys = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
                                                                            {
                                                                                "ArtifactsSize",
                                                                                "BuildArtifactsPublishingTime",

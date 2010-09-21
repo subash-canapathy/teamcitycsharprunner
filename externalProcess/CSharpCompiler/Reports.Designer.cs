@@ -61,22 +61,20 @@ namespace CSharpCompiler {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
-        ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;!--&lt;script src=&quot;jquery-1.4.2.min.js&quot;&gt;&lt;/script&gt;--&gt;
-        ///		&lt;script type=&quot;text/javascript&quot;&gt;
-        ///		    jQuery(function () {
-        ///		        run(1);
-        ///		    });
-        ///
-        ///		    function run(progr) {
-        ///		        jQuery.ajax({ url: &quot;end&quot;, error: function () { tryLoad(progr); } });
-        ///		    }
-        ///
-        ///		    function tryLoad(progr) {
-        ///		        jQuery(&apos;&lt;div&gt;&apos;).attr(&apos;id&apos;, progr).load(progr + &quot;.html&quot;, function (response, status, xhr) {
-        ///		            if (status == [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;script type=&quot;text/javascript&quot;&gt;
+        ///        /*!
+        ///        * jQuery JavaScript Library v1.4.2
+        ///        * http://jquery.com/
+        ///        *
+        ///        * Copyright 2010, John Resig
+        ///        * Dual licensed under the MIT or GPL Version 2 licenses.
+        ///        * http://jquery.org/license
+        ///        *
+        ///        * Includes Sizzle.js
+        ///        * http://sizzlejs.com/        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CSharpOutput {
             get {
