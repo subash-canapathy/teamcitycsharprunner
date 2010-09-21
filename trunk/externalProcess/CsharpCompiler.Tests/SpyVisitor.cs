@@ -53,7 +53,7 @@ namespace CSharpCompiler.Tests
             Visit(ObjectSummary);
         }
 
-        protected override void VisitTypeMemberName(string name)
+        protected override void VisitTypeMemberName(MemberInfo member)
         {
             Visit(MemberName);
         }

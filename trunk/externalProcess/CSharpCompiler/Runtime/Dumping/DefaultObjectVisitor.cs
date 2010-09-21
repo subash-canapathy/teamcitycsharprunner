@@ -29,7 +29,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitTypeMemberName(string name)
+        protected override void VisitTypeMemberName(MemberInfo member)
         {
         }
 

@@ -40,25 +40,6 @@ namespace CSharpCompiler.Runtime.Dumping
             }
         }
 
-        private void VisitObjectInEnumerable(object value)
-        {
-            if (value is IEnumerable && !(value is string))
-            {
-                VisitEnumerable(value as IEnumerable);
-            }
-            else if (IsPrimitive(value))
-                VisitPrimitiveTypeInEnumerable(value);
-            else
-            {
-                VisitTypeInEnumerable(value);
-            }
-        }
-
-        protected virtual void VisitPrimitiveTypeInEnumerable(object value)
-        {
-            VisitPrimitiveType(value);
-        }
-
         private static bool IsPrimitive(object value)
         {
             return value.GetType().IsPrimitive || value is string || value is DateTime;
@@ -80,15 +61,24 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitTypeInEnumerableElement(values);
         }
 
+        protected virtual void VisitEnumerableElement(object element)
+        {
+            if (element is IEnumerable && !(element is string))
+            {
+                VisitEnumerable(element as IEnumerable);
+            }
+            else if (IsPrimitive(element))
+                VisitTypeMemberValue(element);
+            else
+            {
+                VisitTypeInEnumerable(element);
+            }
+        }
+
         protected virtual void VisitTypeInEnumerableElement(IEnumerable elementValues)
         {
             foreach (var value in elementValues)
-                VisitTypeInEnumerableElementValue(value);
-        }
-
-        protected virtual void VisitTypeInEnumerableElementValue(object value)
-        {
-            VisitObject(value);
+                VisitTypeMemberValue(value);
         }
 
         protected virtual void VisitTypeInEnumerableMembers(IEnumerable<MemberInfo> members)
@@ -145,7 +135,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected virtual void VisitTypeMember(MemberInfo member, object value)
         {
-            VisitTypeMemberName(member.Name);
+            VisitTypeMemberName(member);
             VisitTypeMemberValue(value);
         }
 
@@ -154,7 +144,7 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitObject(value);
         }
 
-        protected abstract void VisitTypeMemberName(string name);
+        protected abstract void VisitTypeMemberName(MemberInfo member);
 
         private void VisitProperty(PropertyInfo property, object value)
         {
@@ -163,29 +153,38 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected virtual void VisitEnumerable(IEnumerable value)
         {
-            var enumerable = value.Cast<object>().ToArray();
+            var members = GetMembersFromEnumerableElements(value);
 
-            var numberOfMembers = IsPrimitive(enumerable[0]) ? 1 : GetMembers(enumerable[0].GetType()).Count();
+            var numberOfMembers = members.Count() == 0 ? 1 : members.Count();
 
-            VisitEnumerableHeader(enumerable.GetType(), enumerable.Length, numberOfMembers);
+            VisitEnumerableHeader(value.GetType(), value.Cast<object>().Count(), numberOfMembers);
 
-            if(enumerable.Any() && !IsPrimitive(enumerable[0]))
-                VisitTypeInEnumerableMembers(GetMembers(enumerable[0].GetType()));
+            if(members.Any())
+                VisitTypeInEnumerableMembers(members);
 
-            foreach (object element in enumerable)
+            foreach (var element in value)
                 VisitEnumerableElement(element);
 
             VisitEnumerableFooter();
         }
 
+        private static IEnumerable<MemberInfo> GetMembersFromEnumerableElements(IEnumerable enumerable)
+        {
+            var members = new HashSet<MemberInfo>();
+
+            foreach (var o in enumerable)
+            {
+                if(!IsPrimitive(o))
+                    foreach (var member in GetMembers(o.GetType()))
+                        members.Add(member);
+            }
+
+            return members;
+        }
+
         private static IEnumerable<MemberInfo> GetMembers(Type type)
         {
             return GetProperties(type).Concat<MemberInfo>(GetFields(type));
-        }
-
-        protected virtual void VisitEnumerableElement(object element)
-        {
-            VisitObjectInEnumerable(element);
         }
 
         protected abstract void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers);
