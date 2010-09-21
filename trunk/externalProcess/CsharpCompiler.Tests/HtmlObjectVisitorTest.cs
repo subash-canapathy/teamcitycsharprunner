@@ -75,6 +75,7 @@ namespace CSharpCompiler.Tests
             Render(new object[]
                        {
                            1, "ciao", new {Prop1 = "a", Prop2 = 234}, "pollo", new {Prop2 = new[] {1, 2, 3}},
+                           new[]{1,2,3},
                            new {Prop3 = DateTime.Now}
                        });
         }

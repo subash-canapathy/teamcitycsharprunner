@@ -49,7 +49,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
             if (element is IEnumerable && !(element is string))
             {
-                VisitEnumerable(element as IEnumerable);
+                VisitEnumerableInEnumerable(element as IEnumerable, members);
             }
             else if (IsPrimitive(element))
                 VisitPrimitiveTypeInEnumerable(element, members);
@@ -57,6 +57,11 @@ namespace CSharpCompiler.Runtime.Dumping
             {
                 VisitTypeInEnumerable(element, members);
             }
+        }
+
+        protected virtual void VisitEnumerableInEnumerable(IEnumerable enumerable, IEnumerable<MemberInfo> members)
+        {
+            VisitEnumerable(enumerable);
         }
 
         protected virtual void VisitPrimitiveTypeInEnumerable(object element, IEnumerable<MemberInfo> members)
