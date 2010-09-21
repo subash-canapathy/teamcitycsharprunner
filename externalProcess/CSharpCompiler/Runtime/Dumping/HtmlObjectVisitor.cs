@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Web.UI;
+using System.Linq;
 
 namespace CSharpCompiler.Runtime.Dumping
 {
@@ -112,10 +113,18 @@ namespace CSharpCompiler.Runtime.Dumping
             return count == 1 ? "" : "s";
         }
 
-        protected override void VisitEnumerableElement(object element)
+        protected override void VisitPrimitiveTypeInEnumerable(object element, IEnumerable<MemberInfo> members)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Colspan, members.Count().ToString());
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+            base.VisitPrimitiveTypeInEnumerable(element, members);
+            writer.RenderEndTag();
+        }
+
+        protected override void VisitEnumerableElement(object element, IEnumerable<MemberInfo> members)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            base.VisitEnumerableElement(element);
+            base.VisitEnumerableElement(element, members);
             writer.RenderEndTag();
         }
 
