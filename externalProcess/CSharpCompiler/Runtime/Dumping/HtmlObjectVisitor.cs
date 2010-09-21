@@ -115,9 +115,21 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected override void VisitPrimitiveTypeInEnumerable(object element, IEnumerable<MemberInfo> members)
         {
-            writer.AddAttribute(HtmlTextWriterAttribute.Colspan, members.Count().ToString());
+            if(members.Any())
+                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, members.Count().ToString());
+
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             base.VisitPrimitiveTypeInEnumerable(element, members);
+            writer.RenderEndTag();
+        }
+
+        protected override void VisitEnumerableInEnumerable(IEnumerable enumerable, IEnumerable<MemberInfo> members)
+        {
+            if(members.Any())
+                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, members.Count().ToString());
+
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+            base.VisitEnumerableInEnumerable(enumerable, members);
             writer.RenderEndTag();
         }
 
