@@ -26,7 +26,7 @@ namespace CsharpCompiler
 
         private readonly string[] defaulReferences = new[]
                                                          {
-                                                             "System.dll", "Microsoft.CSharp.dll",
+                                                             "System.dll",
                                                              "System.Core.dll",
                                                              "System.Xml.dll", "System.Xml.Linq.dll",
                                                              "System.Web.dll"
@@ -90,15 +90,22 @@ namespace CsharpCompiler
 
         private void AddUsingStatements(StringBuilder program)
         {
-            program.Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";")))
+            program.Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";").ToArray()))
                 .AppendLine();
         }
 
         private CompilerResults Compile(StringBuilder program)
         {
-            var options = new CompilerParameters(References.ToArray()) {GenerateExecutable = true, GenerateInMemory = true};
+            var compilerParameters = new CompilerParameters(References.ToArray())
+                                         {
+                                             GenerateExecutable = true, 
+                                             GenerateInMemory = true,
+                                         };
 
-            return new CSharpCodeProvider().CompileAssemblyFromSource(options, GetSources(program).ToArray());
+            var options = new Dictionary<string, string> { { "CompilerVersion", "v3.5" } };
+
+            using (var provider = new CSharpCodeProvider(options))
+                return provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
         }
 
         private static IEnumerable<string> GetSources(StringBuilder program)

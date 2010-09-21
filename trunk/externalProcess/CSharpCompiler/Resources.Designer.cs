@@ -96,18 +96,17 @@ namespace CSharpCompiler {
         ///{
         ///    public class ArtifactObjectDumper : IObjectDumper
         ///    {
-        ///        private readonly HtmlObjectVisitorFactory factory;
+        ///        private readonly IFileOutputObjectVisitorFactory factory;
+        ///        private int currentSequence;
         ///
-        ///        public ArtifactObjectDumper(HtmlObjectVisitorFactory factory)
+        ///        public ArtifactObjectDumper(IFileOutputObjectVisitorFactory factory)
         ///        {
         ///            this.factory = factory;
         ///        }
         ///
         ///        public void Dump(object value, int maximumDepth)
         ///        {
-        ///            var tempFileName = Path.GetTempFileName();
-        ///
-        ///            using (var v [rest of string was truncated]&quot;;.
+        ///            var tempFileName = [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ArtifactObjectDumper {
             get {
@@ -345,15 +344,15 @@ namespace CSharpCompiler {
         ///        {
         ///        }
         ///
-        ///        protected override void VisitTypeInEnumerableFooter()
-        ///        {
-        ///        }
-        ///
         ///        protected override void VisitTypeInEnumerableMember(MemberInfo member)
         ///        {
         ///        }
         ///
-        ///        protected override void VisitPrimitiveType( [rest of string was truncated]&quot;;.
+        ///        protected override void VisitPrimitiveType(object value)
+        ///        {
+        ///        }
+        ///
+        ///        protected override void VisitTypeFooter( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultObjectVisitor {
             get {
@@ -423,6 +422,7 @@ namespace CSharpCompiler {
         ///using System.IO;
         ///using System.Reflection;
         ///using System.Web.UI;
+        ///using System.Linq;
         ///
         ///namespace CSharpCompiler.Runtime.Dumping
         ///{
@@ -433,9 +433,7 @@ namespace CSharpCompiler {
         ///        public HtmlObjectVisitor(TextWriter inner, int maximumDepth) : base(maximumDepth)
         ///        {
         ///            writer = new HtmlTextWriter(inner);
-        ///        }
-        ///
-        ///        public  [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HtmlObjectVisitor {
             get {
@@ -450,9 +448,9 @@ namespace CSharpCompiler {
         ///{
         ///    public class HtmlObjectVisitorFactory : IFileOutputObjectVisitorFactory
         ///    {
-        ///        public IFileOutputObjectVisitor Create(string outputPath, int maximumDepth)
+        ///        public IFileOutputObjectVisitor Create(string outputFilePath, int maximumDepth)
         ///        {
-        ///            return new HtmlObjectVisitor(new StreamWriter(outputPath), maximumDepth);
+        ///            return new HtmlObjectVisitor(new StreamWriter(outputFilePath), maximumDepth);
         ///        }
         ///    }
         ///}.
@@ -484,7 +482,7 @@ namespace CSharpCompiler {
         ///{
         ///    public interface IFileOutputObjectVisitorFactory
         ///    {
-        ///        IFileOutputObjectVisitor Create(string outputPath, int maximumDepth);
+        ///        IFileOutputObjectVisitor Create(string outputFilePath, int maximumDepth);
         ///    }
         ///}.
         /// </summary>

@@ -207,7 +207,11 @@ namespace CSharpCompiler.Runtime.Dumping
 
         private static IEnumerable<MemberInfo> GetMembers(Type type)
         {
-            return GetProperties(type).Concat<MemberInfo>(GetFields(type));
+            foreach (var property in GetProperties(type))
+                yield return property;
+
+            foreach (var field in GetFields(type))
+                yield return field;
         }
 
         protected abstract void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers);
