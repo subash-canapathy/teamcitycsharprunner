@@ -75,7 +75,9 @@
     <Compile Include="Runtime\Messages\BuildStatisticMessage.cs" />
     <Compile Include="Runtime\Messages\BuildStatusMessage.cs" />
     <Compile Include="Runtime\Messages\BuildSuccessMessage.cs" />
+    <Compile Include="Runtime\Messages\ProgressFinishMessage.cs" />
     <Compile Include="Runtime\Messages\ProgressMessage.cs" />
+    <Compile Include="Runtime\Messages\ProgressStartMessage.cs" />
     <Compile Include="Runtime\Messages\PublishArtifactsMessage.cs" />
     <Compile Include="Runtime\Messages\TeamCityServiceMessage.cs" />
     <Compile Include="Runtime\Messages\TeamCityServiceMessagesExtensions.cs" />

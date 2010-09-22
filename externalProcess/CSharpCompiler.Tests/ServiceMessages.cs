@@ -10,15 +10,27 @@ namespace CSharpCompiler.Tests
     public class ServiceMessages
     {
         private StringWriter outputWriter;
+    	private int currentIndex;
 
-        [SetUp]
+    	[SetUp]
         public void Setup()
-        {
+    	{
+    		currentIndex = 0;
             outputWriter = new StringWriter();
             TeamCityServiceMessagesExtensions.OutputWriter = outputWriter;
         }
 
-        private string Output { get { return outputWriter.GetStringBuilder().ToString(); } }
+    	private string Output
+    	{
+    		get
+    		{
+    			var currentOutput = outputWriter.GetStringBuilder().ToString().Substring(currentIndex);
+
+    			currentIndex = currentOutput.Length;
+
+    			return currentOutput;
+    		}
+    	}
 
         [Test]
         public void Success()
@@ -83,6 +95,18 @@ namespace CSharpCompiler.Tests
 
             AssertMessage("progressMessage 'wait'");
         }
+
+		[Test]
+		public void Progress_block()
+		{
+			var block = "waiting".ProgressBlock();
+
+			AssertMessage("progressStart 'waiting'");
+
+			block.Dispose();
+
+			AssertMessage("progressFinish 'waiting'");
+		}
 
         [Test]
         public void Build_number()
