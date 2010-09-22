@@ -1,68 +1,91 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
+using CSharpCompiler.Runtime.Messages;
 
 namespace CsharpCompiler
 {
     class Program
     {
-        static int Main(string[] args)
-        {
-            if (args.Length == 0)
-                return -"fuck".Length;
+    	private readonly string program;
+    	private readonly List<string> namespaces;
+    	private readonly List<string> references;
 
-            var program = Encoding.UTF8.GetString(Convert.FromBase64String(args[0]));
-            var namespaces = new List<string>();
-            var references = new List<string>();
+    	private TextWriter Out { get; set; }
+    	private TextWriter Error { get; set; }
 
-            if(args.Length > 1)
-                namespaces.AddRange(args[1].Split(new[]{';'}, StringSplitOptions.RemoveEmptyEntries));
+    	private static int Main(string[] args)
+    	{
+    		string.Format("Running on runtime {0}", RuntimeEnvironment.GetSystemVersion()).LogMessage();
 
-            if (args.Length > 2)
-                references.AddRange(args[2].Split(new[]{';'}, StringSplitOptions.RemoveEmptyEntries));
+    		if (args.Length == 0)
+    			return -"fuck".Length;
 
-            var compiler = new CompositeCompiler { AdditionalNamespaces = namespaces, AdditionalReferences = references };
+    		return new Program(args).Run();
+    	}
 
-            CompilerResults results;
+    	private Program(IList<string> args)
+    	{
+			program = Encoding.UTF8.GetString(Convert.FromBase64String(args[0]));
+			namespaces = new List<string>();
+			references = new List<string>();
 
-            try
-            {
-                results = compiler.Compile(program);
-            }
-            catch (CannotCompileException e)
-            {
-                Console.Out.WriteLine(e.Message);
-                return -1;
-            }
+			if (args.Count > 1)
+				namespaces.AddRange(args[1].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
 
-            if(results.Errors.HasErrors)
-            {
-                foreach (CompilerError error in results.Errors)
-                    Console.Error.WriteLine(error.ToString());
+			if (args.Count > 2)
+				references.AddRange(args[2].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
 
-                return results.NativeCompilerReturnValue;
-            }
+			Out = Console.Out;
+    		Error = Console.Error;
+    	}
 
-            var executor = new ArtifactPublisherExecutorDecorator(new Executor());
+    	private int Run()
+    	{
+			var compiler = new CompositeCompiler { AdditionalNamespaces = namespaces, AdditionalReferences = references };
 
-            try
-            {
-                executor.Execute(results);
-            }
-            catch (TargetInvocationException e)
-            {
-                Console.Error.WriteLine(e.InnerException);
-                return -1;
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e);
-                return -1;
-            }
+			CompilerResults results;
 
-            return 0;
-        }
+			try
+			{
+				results = compiler.Compile(program);
+			}
+			catch (CannotCompileException e)
+			{
+				Out.WriteLine(e.Message);
+				return -1;
+			}
+
+			if (results.Errors.HasErrors)
+			{
+				foreach (CompilerError compilerError in results.Errors)
+					Error.WriteLine(compilerError.ToString());
+
+				return results.NativeCompilerReturnValue;
+			}
+
+			var executor = new ArtifactPublisherExecutorDecorator(new Executor());
+
+			try
+			{
+				executor.Execute(results);
+			}
+			catch (TargetInvocationException e)
+			{
+				Error.WriteLine(e.InnerException);
+				return -1;
+			}
+			catch (Exception e)
+			{
+				Error.WriteLine(e);
+				return -1;
+			}
+
+			return 0;
+    	}
     }
 }

@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\Expression.cs" />
+    <Compile Include="Compilation\Statement.cs" />
     <Compile Include="ObjectVisitorTest.cs" />
     <Compile Include="Execution\OutputReporting.cs" />
     <Compile Include="HtmlObjectVisitorTest.cs" />
@@ -54,6 +55,9 @@
       <Project>{82BBF1B4-4E86-416A-ADCB-B1FDB5A874A7}</Project>
       <Name>CSharpCompiler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

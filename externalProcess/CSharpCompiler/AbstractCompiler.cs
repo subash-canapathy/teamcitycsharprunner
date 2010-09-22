@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using CSharpCompiler;
 using CSharpCompiler.Runtime.Dumping;
@@ -102,13 +103,22 @@ namespace CsharpCompiler
                                              GenerateInMemory = true,
                                          };
 
-            var options = new Dictionary<string, string> { { "CompilerVersion", "v3.5" } };
+        	var options = new Dictionary<string, string> { { "CompilerVersion", ChooseCompilerVersion() } };
 
             using (var provider = new CSharpCodeProvider(options))
                 return provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
         }
 
-        private static IEnumerable<string> GetSources(StringBuilder program)
+    	private static string ChooseCompilerVersion()
+    	{
+    		var runtime = RuntimeEnvironment.GetSystemVersion();
+
+    		var runtimeSubstring = runtime.Substring(0, "vX.X".Length);
+
+			return runtimeSubstring.Equals("v2.0", StringComparison.InvariantCultureIgnoreCase) ? "v3.5" : "v4.0";
+    	}
+
+    	private static IEnumerable<string> GetSources(StringBuilder program)
         {
             yield return program.ToString();
 
