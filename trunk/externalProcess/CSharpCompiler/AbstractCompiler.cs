@@ -64,17 +64,7 @@ namespace CsharpCompiler
         public IEnumerable<string> AdditionalNamespaces { private get; set; }
         public IEnumerable<string> AdditionalReferences { private get; set; }
 
-        private IEnumerable<string> Namespaces
-        {
-            get { return defaultNamespaces.Union(AdditionalNamespaces); }
-        }
-
-        private IEnumerable<string> References
-        {
-            get { return defaulReferences.Union(AdditionalReferences); }
-        }
-
-        public abstract bool CanCompile(string expression);
+    	public abstract bool CanCompile(string expression);
 
         public CompilerResults Compile(string expression)
         {
@@ -97,13 +87,27 @@ namespace CsharpCompiler
 
         private void AddUsingStatements(StringBuilder program)
         {
-            program.Append(string.Join(Environment.NewLine, Namespaces.Select(n => "using " + n + ";").ToArray()))
-                .AppendLine();
+            program.AppendLine(FormatNamespaces()).AppendLine();
         }
 
-        private CompilerResults Compile(StringBuilder program)
+    	private string FormatNamespaces()
+    	{
+    		return string.Join(Environment.NewLine, ComputeNamespaces().Select(n => "using " + n + ";").ToArray());
+    	}
+
+    	private IEnumerable<string> ComputeNamespaces()
+    	{
+    		var dupicates = AdditionalNamespaces.Intersect(defaultNamespaces);
+
+    		foreach (var dupicate in dupicates)
+    			string.Format("Importing the namespace {0} is not needed as it is imported by default", dupicate).LogWarning();
+
+    		return defaultNamespaces.Union(AdditionalNamespaces);
+    	}
+
+    	private CompilerResults Compile(StringBuilder program)
         {
-            var compilerParameters = new CompilerParameters(References.ToArray())
+            var compilerParameters = new CompilerParameters(ComputeReferences())
                                          {
                                              GenerateExecutable = true, 
                                              GenerateInMemory = true,
@@ -118,6 +122,16 @@ namespace CsharpCompiler
                 return provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
         }
 
+    	private string[] ComputeReferences()
+    	{
+    		var duplicates = defaulReferences.Intersect(AdditionalReferences);
+
+    		foreach (var duplicate in duplicates)
+    			string.Format("Referencing assembly {0} is not needed as it is referenced by default", duplicate).LogWarning();
+
+    		return defaulReferences.Union(AdditionalReferences).ToArray();
+    	}
+
     	private static string ChooseCompilerVersion()
     	{
     		var runtime = RuntimeEnvironment.GetSystemVersion();
@@ -131,7 +145,7 @@ namespace CsharpCompiler
         {
             yield return program.ToString();
 
-            foreach (string additionalCode in AdditionalCode)
+            foreach (var additionalCode in AdditionalCode)
                 yield return additionalCode;
         }
 
