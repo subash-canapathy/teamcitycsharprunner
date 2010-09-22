@@ -53,6 +53,7 @@
     <include name="**/?*.jsp"/>
     <include name="**/?*.js"/>
     <include name="**/?*.exe"/>
+    <include name="**/?*.config"/>
   </patternset>
   
   
