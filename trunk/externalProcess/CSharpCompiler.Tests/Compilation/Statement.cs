@@ -1,5 +1,3 @@
-using System;
-using System.Runtime.InteropServices;
 using NUnit.Framework;
 
 namespace CsharpCompiler.Tests.Compilation
@@ -18,8 +16,6 @@ namespace CsharpCompiler.Tests.Compilation
 		[Test]
 		public void Simple_statement()
 		{
-			Console.WriteLine(RuntimeEnvironment.GetSystemVersion());
-
 			var result = compiler.Compile("var a = 1;");
 
 			Assert.IsEmpty(result.Errors);

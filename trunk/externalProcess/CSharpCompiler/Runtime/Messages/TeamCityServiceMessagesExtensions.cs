@@ -90,6 +90,12 @@ namespace CSharpCompiler.Runtime.Messages
             return message;
         }
 
+		public static IDisposable ProgressBlock<T>(this T message)
+		{
+			return new DisposableAction(() => Run(new ProgressStartMessage(message)),
+			                            () => Run(new ProgressFinishMessage(message)));
+		}
+
         public static T BuildNumber<T>(this T buildNumber)
         {
             Run(new BuildNumberMessage(buildNumber));

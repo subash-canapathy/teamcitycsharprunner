@@ -78,16 +78,22 @@ namespace CsharpCompiler
 
         public CompilerResults Compile(string expression)
         {
-            var program = new StringBuilder();
-
-            AddUsingStatements(program);
-
-            CreateProgram(expression, program);
-
-            return Compile(program);
+        	using ("Compiling script".ProgressBlock())
+        		return CompilePrivate(expression);
         }
 
-        protected abstract void CreateProgram(string expression, StringBuilder program);
+    	private CompilerResults CompilePrivate(string expression)
+    	{
+    		var program = new StringBuilder();
+
+    		AddUsingStatements(program);
+
+    		CreateProgram(expression, program);
+
+    		return Compile(program);
+    	}
+
+    	protected abstract void CreateProgram(string expression, StringBuilder program);
 
         private void AddUsingStatements(StringBuilder program)
         {
@@ -103,7 +109,10 @@ namespace CsharpCompiler
                                              GenerateInMemory = true,
                                          };
 
-        	var options = new Dictionary<string, string> { { "CompilerVersion", ChooseCompilerVersion() } };
+        	var compilerVersion = ChooseCompilerVersion();
+        	var options = new Dictionary<string, string> { { "CompilerVersion", compilerVersion } };
+
+        	string.Format("Compiling code for compiler {0}", compilerVersion).LogMessage();
 
             using (var provider = new CSharpCodeProvider(options))
                 return provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
