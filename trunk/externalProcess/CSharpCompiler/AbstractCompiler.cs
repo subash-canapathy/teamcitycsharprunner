@@ -38,7 +38,8 @@ namespace CsharpCompiler
                                                          {
                                                              "System.dll",
                                                              "System.Core.dll",
-                                                             "System.Xml.dll", "System.Xml.Linq.dll",
+                                                             "System.Xml.dll", 
+															 "System.Xml.Linq.dll",
                                                              "System.Web.dll"
                                                          };
 
@@ -50,7 +51,7 @@ namespace CsharpCompiler
                                                               "System.Collections", "System.Collections.Generic",
                                                               "System.Linq", "System.Linq.Expressions",
                                                               "System.Xml", "System.Xml.Linq", "System.Xml.XPath",
-                                                              "System.Web",
+                                                              "System.Web", "System.Net",
                                                               typeof (TeamCityServiceMessagesExtensions).Namespace,
                                                               typeof(DumpExtensions).Namespace
                                                           };
@@ -103,7 +104,7 @@ namespace CsharpCompiler
     		var dupicates = AdditionalNamespaces.Intersect(defaultNamespaces);
 
     		foreach (var dupicate in dupicates)
-                serviceMessages.LogWarning(string.Format("Importing the namespace {0} is not needed as it is imported by default", dupicate));
+                serviceMessages.LogWarning(string.Format("Importing namespace {0} is not needed as it is imported by default", dupicate));
 
     		return defaultNamespaces.Union(AdditionalNamespaces);
     	}

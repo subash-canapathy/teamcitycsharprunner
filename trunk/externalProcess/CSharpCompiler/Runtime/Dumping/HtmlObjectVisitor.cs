@@ -25,7 +25,9 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected override void VisitNull()
         {
+			writer.RenderBeginTag(HtmlTextWriterTag.I);
             writer.Write("null");
+			writer.RenderEndTag();
         }
 
         protected override void VisitPrimitiveType(object value)
@@ -98,10 +100,10 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeMember(MemberInfo member, object value)
+        protected override void VisitTypeMember(MemberInfo member, Type memberType, object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            base.VisitTypeMember(member, value);
+            base.VisitTypeMember(member, memberType, value);
             writer.RenderEndTag();
         }
 
@@ -112,9 +114,10 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeMemberName(MemberInfo member)
+        protected override void VisitTypeMemberName(MemberInfo member, Type memberType)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "member");
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, memberType.Name);
             writer.RenderBeginTag(HtmlTextWriterTag.Th);
             writer.Write(FormatMemberName(member));
             writer.RenderEndTag();

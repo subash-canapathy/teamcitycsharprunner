@@ -156,10 +156,10 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitTypeSummary(value);
 
             foreach (var property in GetProperties(type))
-                VisitMember(property, value);
+                VisitMember(property, property.PropertyType, value);
 
             foreach (var field in GetFields(type))
-                VisitMember(field, value);
+                VisitMember(field, field.FieldType, value);
 
             VisitTypeFooter();
         }
@@ -180,9 +180,9 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected abstract void VisitTypeHeader(Type type);
 
-        protected virtual void VisitTypeMember(MemberInfo member, object value)
+        protected virtual void VisitTypeMember(MemberInfo member, Type memberType, object value)
         {
-            VisitTypeMemberName(member);
+            VisitTypeMemberName(member, memberType);
             VisitTypeMemberValue(value);
         }
 
@@ -191,11 +191,11 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitObject(value);
         }
 
-        protected abstract void VisitTypeMemberName(MemberInfo member);
+        protected abstract void VisitTypeMemberName(MemberInfo member, Type memberType);
 
-        private void VisitMember(MemberInfo property, object holder)
+        private void VisitMember(MemberInfo member, Type memberType, object holder)
         {
-            VisitTypeMember(property, GetMemberValue(property, holder));
+            VisitTypeMember(member, memberType, GetMemberValue(member, holder));
         }
 
         protected virtual void VisitEnumerable(IEnumerable value)

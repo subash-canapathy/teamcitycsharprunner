@@ -57,7 +57,7 @@ namespace CSharpCompiler.Tests
             Visit(ObjectSummary);
         }
 
-        protected override void VisitTypeMemberName(MemberInfo member)
+        protected override void VisitTypeMemberName(MemberInfo member, Type memberType)
         {
             Visit(MemberName);
         }
