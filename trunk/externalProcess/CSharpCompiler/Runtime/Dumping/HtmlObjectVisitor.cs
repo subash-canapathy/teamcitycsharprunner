@@ -87,20 +87,15 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeSummary(Type type)
+        protected override void VisitTypeSummary(object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "summary");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            writer.Write(FormatTypeForSummary(type));
+            writer.Write(value.ToString());
             writer.RenderEndTag();
             writer.RenderEndTag();
-        }
-
-        private static string FormatTypeForSummary(Type type)
-        {
-            return IsAnonymous(type) ? "": "";
         }
 
         protected override void VisitTypeMember(MemberInfo member, object value)
