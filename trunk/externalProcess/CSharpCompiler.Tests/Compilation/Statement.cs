@@ -1,3 +1,5 @@
+using System.IO;
+using CSharpCompiler.Runtime.Messages;
 using NUnit.Framework;
 
 namespace CsharpCompiler.Tests.Compilation
@@ -10,7 +12,7 @@ namespace CsharpCompiler.Tests.Compilation
 		[SetUp]
 		public void Setup()
 		{
-			compiler = new CompositeCompiler();
+			compiler = new CompositeCompiler(new ServiceMessages(new StringWriter()));
 		}
 
 		[Test]

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace CSharpCompiler.Runtime.Messages
 {
@@ -7,106 +6,91 @@ namespace CSharpCompiler.Runtime.Messages
     {
         static TeamCityServiceMessagesExtensions()
         {
-            OutputWriter = Console.Out;
+            serviceMessages = ServiceMessages.Default;
         }
 
-        public static TextWriter OutputWriter { get; set; }
+        public static IServiceMessages serviceMessages { get; set; }
 
         public static T LogMessage<T>(this T message)
         {
-            Run(new BuildLogNormalMessage(message));
-
+            serviceMessages.LogMessage(message);
             return message;
         }
 
         public static T LogWarning<T>(this T message)
         {
-            Run(new BuildLogWarningMessage(message));
-
+            serviceMessages.LogWarning(message);
             return message;
         }
 
         public static T LogFailure<T>(this T message)
         {
-            Run(new BuildLogFailureMessage(message));
-
+            serviceMessages.LogFailure(message);
             return message;
         }
 
         public static T LogError<T>(this T message)
         {
-            Run(new BuildLogErrorMessage(message));
-
+            serviceMessages.LogError(message);
             return message;
         }
 
         public static T LogError<T>(this T message, string errorDetails)
         {
-            Run(new BuildLogErrorMessageWithDetails(message, errorDetails));
-
+            serviceMessages.LogError(message, errorDetails);
             return message;
         }
 
-        public static T Failure<T>(this T value, string format)
+        public static T Failure<T>(this T message, string format)
         {
-            Run(new BuildFailureMessage(value, format));
-
-            return value;
+            serviceMessages.Failure(message, format);
+            return message;
         }
 
-        private static void Run(TeamCityServiceMessage message)
+        public static T Failure<T>(this T message)
         {
-            message.Run(OutputWriter);
+            serviceMessages.Failure(message);
+            return message;
         }
 
-        public static T Failure<T>(this T value)
+        public static T Success<T>(this T message, string format)
         {
-            return Failure(value, "{0}");
+            serviceMessages.Success(message, format);
+            return message;
         }
 
-        public static T Success<T>(this T value, string format)
+        public static T Success<T>(this T message)
         {
-            Run(new BuildSuccessMessage(value, format));
-
-            return value;
-        }
-
-        public static T Success<T>(this T value)
-        {
-            return Success(value, "{0}");
+            serviceMessages.Success(message);
+            return message;
         }
 
         public static string Publish(this string artifact, params string[] targets)
         {
-            Run(new PublishArtifactsMessage(artifact, targets));
-
+            serviceMessages.Publish(artifact, targets);
             return artifact;
         }
 
         public static T Progress<T>(this T message)
         {
-            Run(new ProgressMessage(message));
-
+            serviceMessages.Progress(message);
             return message;
         }
 
-		public static IDisposable ProgressBlock<T>(this T message)
-		{
-			return new DisposableAction(() => Run(new ProgressStartMessage(message)),
-			                            () => Run(new ProgressFinishMessage(message)));
-		}
+        public static IDisposable ProgressBlock<T>(this T message)
+        {
+            return serviceMessages.ProgressBlock(message);
+        }
 
         public static T BuildNumber<T>(this T buildNumber)
         {
-            Run(new BuildNumberMessage(buildNumber));
-
+            serviceMessages.BuildNumber(buildNumber);
             return buildNumber;
         }
 
         public static int Statistic(this int value, object key)
         {
-            Run(new BuildStatisticMessage(key, value));
-
+            serviceMessages.Statistic(value, key);
             return value;
         }
     }
