@@ -38,6 +38,10 @@ namespace CSharpCompiler.Tests
             Visit(ObjectHeader);
         }
 
+        protected override void VisitNull()
+        {
+        }
+
         protected override void VisitTypeInEnumerableMembers(IEnumerable<MemberInfo> members)
         {
             Visit(TypeInEnumerableHeader);

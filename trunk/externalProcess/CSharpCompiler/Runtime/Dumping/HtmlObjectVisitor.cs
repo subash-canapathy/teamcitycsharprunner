@@ -23,6 +23,11 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
+        protected override void VisitNull()
+        {
+            writer.Write("null");
+        }
+
         protected override void VisitPrimitiveType(object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.P);
@@ -57,7 +62,12 @@ namespace CSharpCompiler.Runtime.Dumping
 
         private static string FormatTypeNameForHeader(Type type)
         {
-            return type.Name.StartsWith("<>") ? "anonymous" : type.Name;
+            return IsAnonymous(type) ? "anonymous" : type.Name;
+        }
+
+        private static bool IsAnonymous(Type type)
+        {
+            return type.Name.StartsWith("<>");
         }
 
         protected override void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers)
@@ -83,9 +93,14 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "summary");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            writer.Write(type);
+            writer.Write(FormatTypeForSummary(type));
             writer.RenderEndTag();
             writer.RenderEndTag();
+        }
+
+        private static string FormatTypeForSummary(Type type)
+        {
+            return IsAnonymous(type) ? "": "";
         }
 
         protected override void VisitTypeMember(MemberInfo member, object value)

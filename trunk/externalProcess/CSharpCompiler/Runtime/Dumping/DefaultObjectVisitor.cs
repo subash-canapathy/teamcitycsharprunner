@@ -9,6 +9,10 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
+        protected override void VisitNull()
+        {
+        }
+
         protected override void VisitTypeInEnumerableMember(MemberInfo member)
         {
         }
