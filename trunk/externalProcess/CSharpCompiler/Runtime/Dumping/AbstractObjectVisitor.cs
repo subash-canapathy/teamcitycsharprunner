@@ -32,10 +32,9 @@ namespace CSharpCompiler.Runtime.Dumping
                 VisitNull();
                 return;
             }
-            if (value is IEnumerable && !(value is string))
-            {
+
+            if (IsEnumerable(value))
                 VisitEnumerable(value as IEnumerable);
-            }
             else if (IsPrimitive(value))
                 VisitPrimitiveType(value);
             else
@@ -43,6 +42,11 @@ namespace CSharpCompiler.Runtime.Dumping
                 using (Nest)
                     VisitType(value);
             }
+        }
+
+        private static bool IsEnumerable(object value)
+        {
+            return value is IEnumerable && !(value is string);
         }
 
         protected abstract void VisitNull();
@@ -217,7 +221,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
             foreach (var o in enumerable)
             {
-                if(!IsPrimitive(o))
+                if(!IsPrimitive(o) && !IsEnumerable(o))
                     foreach (var member in GetMembers(o.GetType()))
                         members.Add(member);
             }
