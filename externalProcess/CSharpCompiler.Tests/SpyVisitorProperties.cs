@@ -1,11 +1,10 @@
-using CSharpCompiler.Runtime;
 using CSharpCompiler.Runtime.Dumping;
 
 namespace CSharpCompiler.Tests
 {
     public class SpyVisitorProperties : DefaultObjectVisitor
     {
-        public SpyVisitorProperties() : base(int.MaxValue)
+        protected SpyVisitorProperties() : base(int.MaxValue)
         {
         }
 

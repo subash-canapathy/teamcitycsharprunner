@@ -27,6 +27,11 @@ namespace CSharpCompiler.Runtime.Dumping
 
         private void VisitObject(object value)
         {
+            if(value == null)
+            {
+                VisitNull();
+                return;
+            }
             if (value is IEnumerable && !(value is string))
             {
                 VisitEnumerable(value as IEnumerable);
@@ -39,6 +44,8 @@ namespace CSharpCompiler.Runtime.Dumping
                     VisitType(value);
             }
         }
+
+        protected abstract void VisitNull();
 
         private static bool IsPrimitive(object value)
         {
@@ -94,8 +101,26 @@ namespace CSharpCompiler.Runtime.Dumping
         private static object GetMemberValue(MemberInfo memberInfo, object holder)
         {
             if (memberInfo is PropertyInfo)
-                return ((PropertyInfo) memberInfo).GetValue(holder, null);
-            return ((FieldInfo)memberInfo).GetValue(holder);
+            {
+                return GetReturnValueOrExceptionMessage(() => ((PropertyInfo)memberInfo).GetValue(holder, null));
+            }
+            return GetReturnValueOrExceptionMessage(() => ((FieldInfo)memberInfo).GetValue(holder));
+        }
+
+        private static object GetReturnValueOrExceptionMessage(Func<object> func)
+        {
+            try
+            {
+                return func();
+            }
+            catch(TargetInvocationException e)
+            {
+                return e.InnerException.Message;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
         protected virtual void VisitTypeInEnumerableElement(IEnumerable elementValues)
@@ -127,22 +152,22 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitTypeSummary(type);
 
             foreach (var property in GetProperties(type))
-                VisitProperty(property, value);
+                VisitMember(property, value);
 
             foreach (var field in GetFields(type))
-                VisitField(field, value);
+                VisitMember(field, value);
 
             VisitTypeFooter();
         }
 
         private static IEnumerable<FieldInfo> GetFields(Type type)
         {
-            return type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+            return type.GetFields(BindingFlags.Instance | BindingFlags.Public);
         }
 
         private static IEnumerable<PropertyInfo> GetProperties(Type type)
         {
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic);
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
         }
 
         protected abstract void VisitTypeFooter();
@@ -150,11 +175,6 @@ namespace CSharpCompiler.Runtime.Dumping
         protected abstract void VisitTypeSummary(Type type);
 
         protected abstract void VisitTypeHeader(Type type);
-
-        private void VisitField(FieldInfo field, object holder)
-        {
-            VisitTypeMember(field, field.GetValue(holder));
-        }
 
         protected virtual void VisitTypeMember(MemberInfo member, object value)
         {
@@ -169,9 +189,9 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected abstract void VisitTypeMemberName(MemberInfo member);
 
-        private void VisitProperty(PropertyInfo property, object value)
+        private void VisitMember(MemberInfo property, object holder)
         {
-            VisitTypeMember(property, property.GetValue(value, null));
+            VisitTypeMember(property, GetMemberValue(property, holder));
         }
 
         protected virtual void VisitEnumerable(IEnumerable value)

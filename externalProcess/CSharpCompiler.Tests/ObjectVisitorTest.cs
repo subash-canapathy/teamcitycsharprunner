@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using CSharpCompiler.Runtime.Dumping;
 using NUnit.Framework;
 
@@ -139,6 +140,12 @@ namespace CSharpCompiler.Tests
             DoVisit(obj);
 
             Assert.AreEqual(2, sut.MaximumReachedDepth);
+        }
+
+        [Test]
+        public void Bug_NRE()
+        {
+            DoVisit(new StreamReader(new MemoryStream()));
         }
 
         private void AssertVisited(params string[] expectedVisited)

@@ -80,6 +80,12 @@ namespace CSharpCompiler.Tests
                        });
         }
 
+        [Test]
+        public void StreamReader()
+        {
+            Render(new StreamReader(new MemoryStream()));
+        }
+
         private static void Render(object obj)
         {
             var stringWriter = new StringWriter();
