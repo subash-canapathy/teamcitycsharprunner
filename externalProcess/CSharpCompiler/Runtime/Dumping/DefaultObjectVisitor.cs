@@ -33,7 +33,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitTypeMemberName(MemberInfo member)
+        protected override void VisitTypeMemberName(MemberInfo member, Type memberType)
         {
         }
 
