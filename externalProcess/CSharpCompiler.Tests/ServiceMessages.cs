@@ -7,7 +7,7 @@ using System.Linq;
 namespace CSharpCompiler.Tests
 {
     [TestFixture]
-    public class ServiceMessages
+    public class ServiceMessagesTest
     {
         private StringWriter outputWriter;
     	private int currentIndex;
@@ -17,7 +17,7 @@ namespace CSharpCompiler.Tests
     	{
     		currentIndex = 0;
             outputWriter = new StringWriter();
-            TeamCityServiceMessagesExtensions.OutputWriter = outputWriter;
+            TeamCityServiceMessagesExtensions.serviceMessages = new ServiceMessages(outputWriter);
         }
 
     	private string Output

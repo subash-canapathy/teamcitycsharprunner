@@ -15,6 +15,15 @@ namespace CsharpCompiler
 {
     public abstract class AbstractCompiler : ICompiler
     {
+        private readonly IServiceMessages serviceMessages;
+
+        protected AbstractCompiler(IServiceMessages serviceMessages)
+        {
+            this.serviceMessages = serviceMessages;
+            AdditionalNamespaces = Enumerable.Empty<string>();
+            AdditionalReferences = Enumerable.Empty<string>();
+        }
+
         protected const string MainTemplate =
             @"class Program 
 {{
@@ -46,12 +55,6 @@ namespace CsharpCompiler
                                                               typeof(DumpExtensions).Namespace
                                                           };
 
-        protected AbstractCompiler()
-        {
-            AdditionalNamespaces = Enumerable.Empty<string>();
-            AdditionalReferences = Enumerable.Empty<string>();
-        }
-
         private static IEnumerable<string> AdditionalCode
         {
             get
@@ -68,7 +71,7 @@ namespace CsharpCompiler
 
         public CompilerResults Compile(string expression)
         {
-        	using ("Compiling script".ProgressBlock())
+            using (serviceMessages.ProgressBlock("Compiling script"))
         		return CompilePrivate(expression);
         }
 
@@ -100,7 +103,7 @@ namespace CsharpCompiler
     		var dupicates = AdditionalNamespaces.Intersect(defaultNamespaces);
 
     		foreach (var dupicate in dupicates)
-    			string.Format("Importing the namespace {0} is not needed as it is imported by default", dupicate).LogWarning();
+                serviceMessages.LogWarning(string.Format("Importing the namespace {0} is not needed as it is imported by default", dupicate));
 
     		return defaultNamespaces.Union(AdditionalNamespaces);
     	}
@@ -116,7 +119,7 @@ namespace CsharpCompiler
         	var compilerVersion = ChooseCompilerVersion();
         	var options = new Dictionary<string, string> { { "CompilerVersion", compilerVersion } };
 
-        	string.Format("Compiling code for compiler {0}", compilerVersion).LogMessage();
+            serviceMessages.LogMessage(string.Format("Compiling code for compiler {0}", compilerVersion));
 
             using (var provider = new CSharpCodeProvider(options))
                 return provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
@@ -127,7 +130,7 @@ namespace CsharpCompiler
     		var duplicates = defaulReferences.Intersect(AdditionalReferences);
 
     		foreach (var duplicate in duplicates)
-    			string.Format("Referencing assembly {0} is not needed as it is referenced by default", duplicate).LogWarning();
+                serviceMessages.LogWarning(string.Format("Referencing assembly {0} is not needed as it is referenced by default", duplicate));
 
     		return defaulReferences.Union(AdditionalReferences).ToArray();
     	}

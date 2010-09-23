@@ -1,11 +1,14 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Text;
+﻿using System.Text;
+using CSharpCompiler.Runtime.Messages;
 
 namespace CsharpCompiler
 {
     internal class StatementCompiler : AbstractCompiler
     {
+        public StatementCompiler(IServiceMessages serviceMessages) : base(serviceMessages)
+        {
+        }
+
         public override bool CanCompile(string expression)
         {
             return !ContainsClassDefinition(expression) &&

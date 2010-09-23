@@ -1,3 +1,5 @@
+using System.IO;
+using CSharpCompiler.Runtime.Messages;
 using NUnit.Framework;
 
 namespace CsharpCompiler.Tests.Execution
@@ -8,9 +10,11 @@ namespace CsharpCompiler.Tests.Execution
         [Test]
         public void Test()
         {
-            var results = new CompositeCompiler().Compile("Console.WriteLine(\"hello\");");
+            var messages = new ServiceMessages(new StringWriter());
 
-            new Executor().Execute(results);
+            var results = new CompositeCompiler(messages).Compile("Console.WriteLine(\"hello\");");
+
+            new Executor(messages).Execute(results);
         }
     }
 }

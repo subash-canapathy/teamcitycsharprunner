@@ -6,7 +6,7 @@
 
         static DumpExtensions()
         {
-            Dumper = new ArtifactObjectDumper(new HtmlObjectVisitorFactory());
+            Dumper = ArtifactObjectDumper.Default;
         }
 
         public static T Dump<T>(this T value)

@@ -2,17 +2,23 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using CSharpCompiler;
+using CSharpCompiler.Runtime.Messages;
 
 namespace CsharpCompiler
 {
     public class CompositeCompiler : ICompiler
     {
-        private readonly IEnumerable<ICompiler> innerCompilers = new ICompiler[]
-                                                                     {
-                                                                         new ExpressionCompiler(),
-                                                                         new StatementCompiler(),
-                                                                         new ProgramCompiler()
-                                                                     };
+        public CompositeCompiler(IServiceMessages serviceMessages)
+        {
+            innerCompilers = new ICompiler[]
+                             {
+                                 new ExpressionCompiler(serviceMessages),
+                                 new StatementCompiler(serviceMessages),
+                                 new ProgramCompiler(serviceMessages)
+                             };
+        }
+
+        private readonly IEnumerable<ICompiler> innerCompilers;
 
         public bool CanCompile(string expression)
         {

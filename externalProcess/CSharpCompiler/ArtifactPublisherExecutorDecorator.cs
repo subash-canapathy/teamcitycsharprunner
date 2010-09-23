@@ -8,10 +8,12 @@ namespace CsharpCompiler
     class ArtifactPublisherExecutorDecorator : IExecutor
     {
         private readonly IExecutor inner;
+        private readonly IServiceMessages serviceMessages;
 
-        public ArtifactPublisherExecutorDecorator(IExecutor inner)
+        public ArtifactPublisherExecutorDecorator(IExecutor inner, IServiceMessages serviceMessages)
         {
             this.inner = inner;
+            this.serviceMessages = serviceMessages;
         }
 
         public void Execute(CompilerResults results)
@@ -27,18 +29,18 @@ namespace CsharpCompiler
             }
         }
 
-        private static void PublishReportEnd()
+        private void PublishReportEnd()
         {
             var path = Path.Combine(Path.GetTempPath(), "end");
             File.WriteAllText(path, string.Empty);
-            path.Publish();
+            serviceMessages.Publish(path);
         }
 
-        private static void PublishReportStart()
+        private void PublishReportStart()
         {
             var path = Path.Combine(Path.GetTempPath(), "CSharpOutput.html");
             File.WriteAllText(path, Reports.CSharpOutput);
-            path.Publish();
+            serviceMessages.Publish(path);
         }
     }
 }
