@@ -153,7 +153,7 @@ namespace CSharpCompiler.Runtime.Dumping
             var type = value.GetType();
 
             VisitTypeHeader(type);
-            VisitTypeSummary(type);
+            VisitTypeSummary(value);
 
             foreach (var property in GetProperties(type))
                 VisitMember(property, value);
@@ -176,7 +176,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected abstract void VisitTypeFooter();
 
-        protected abstract void VisitTypeSummary(Type type);
+        protected abstract void VisitTypeSummary(object type);
 
         protected abstract void VisitTypeHeader(Type type);
 

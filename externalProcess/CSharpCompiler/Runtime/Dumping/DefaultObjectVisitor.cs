@@ -25,7 +25,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitTypeSummary(Type type)
+        protected override void VisitTypeSummary(object type)
         {
         }
 

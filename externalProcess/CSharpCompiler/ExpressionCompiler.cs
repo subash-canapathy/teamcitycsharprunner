@@ -18,7 +18,5 @@ namespace CsharpCompiler
         {
             program.AppendFormat(MainTemplate, expression + ".Dump();");
         }
-
-
     }
 }

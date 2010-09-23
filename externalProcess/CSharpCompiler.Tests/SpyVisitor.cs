@@ -52,7 +52,7 @@ namespace CSharpCompiler.Tests
             MaximumReachedDepth = Math.Max(nestingLevel, MaximumReachedDepth);
         }
 
-        protected override void VisitTypeSummary(Type summary)
+        protected override void VisitTypeSummary(object summary)
         {
             Visit(ObjectSummary);
         }
