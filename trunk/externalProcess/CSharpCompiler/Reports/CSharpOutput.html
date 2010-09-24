@@ -775,29 +775,51 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
         }
     </style>
     <script type="text/javascript">
-        jQuery(function () {
-            tryLoad(0);
+        jQuery(function() {
+            tryLoad(0, new Date());
         });
 
-        function tryLoad(progr) {
-            jQuery('<div>').attr('id', progr).load(progr + ".html", function (response, status, xhr) {
+        function tryLoad(progr, begin) {
+            jQuery('<div>').attr('id', progr).load(progr + ".html", function(response, status, xhr) {
                 if (status == 'success') {
-                    jQuery(this).appendTo('body');
-                    tryLoad(++progr);
+                    jQuery(this).appendTo('#container');
+                    tryLoad(++progr, begin);
                 }
                 else {
                     jQuery.ajax({
                         url: "end",
-                        error: function () {
+                        success: function() {
+                            var elapsed = new Date(new Date().getTime() - begin.getTime());
+                                
+                                $('#progressContainer img').hide();
+                                $('#progressContainer span').text("Completed in " + twoDigits(elapsed.getMinutes()) + ":" +
+																				    twoDigits(elapsed.getSeconds()) + "." +
+																				    threeDigits(elapsed.getMilliseconds()));
+                        },
+                        error: function() {
                             // ugly, but IE doesn't support anything else
-                            setTimeout("tryLoad(" + progr + ")", 2000);
+                            setTimeout("tryLoad(" + progr + ", " + begin + ")", 2000);
                         }
                     });
                 }
             });
         }
+
+        function twoDigits(v) {
+            return v > 9 ? v : "0" + v;
+        }
+
+        function threeDigits(v) {
+            return v > 99 ? v : twoDigits(v);
+        }
     </script>
 </head>
 <body>
+    <div id="progressContainer">
+        <span>Running...</span><img style="vertical-align: top" src="ajax-loader.gif" alt="running" />
+    </div>
+    <div id="container">
+    </div>
+  
 </body>
 </html>

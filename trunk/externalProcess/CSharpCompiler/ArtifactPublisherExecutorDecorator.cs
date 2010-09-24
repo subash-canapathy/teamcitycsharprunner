@@ -38,9 +38,22 @@ namespace CsharpCompiler
 
         private void PublishReportStart()
         {
-            var path = Path.Combine(Path.GetTempPath(), "CSharpOutput.html");
-            File.WriteAllText(path, Reports.CSharpOutput);
-            serviceMessages.Publish(path);
+        	PublishProgressIndicator();
+        	PublishReport();
         }
+
+    	private void PublishProgressIndicator()
+    	{
+    		var path = Path.Combine(Path.GetTempPath(), "ajax-loader.gif");
+    		Reports.ajax_loader.Save(path);
+    		serviceMessages.Publish(path);
+    	}
+
+    	private void PublishReport()
+    	{
+    		var path = Path.Combine(Path.GetTempPath(), "CSharpOutput.html");
+    		File.WriteAllText(path, Reports.CSharpOutput);
+    		serviceMessages.Publish(path);
+    	}
     }
 }
