@@ -33,8 +33,6 @@ namespace CSharpCompiler.Tests
 
         protected override void VisitTypeHeader(Type @object)
         {
-            nestingLevel++;
-            ComputeMaxNestingLevel();
             Visit(ObjectHeader);
         }
 
@@ -54,6 +52,9 @@ namespace CSharpCompiler.Tests
 
         protected override void VisitTypeSummary(object summary)
         {
+			nestingLevel++;
+			ComputeMaxNestingLevel();
+
             Visit(ObjectSummary);
         }
 
