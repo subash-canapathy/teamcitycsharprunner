@@ -16,7 +16,13 @@ namespace CSharpCompiler.Runtime.Dumping
             writer = new HtmlTextWriter(inner);
         }
 
-        public override void Visit(object value)
+    	protected override void VisitNestingLimitReached()
+    	{
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, "Maximum nesting limit reached");
+    		writer.AddAttribute(HtmlTextWriterAttribute.Class, "limit");
+    	}
+
+    	public override void Visit(object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             base.Visit(value);
