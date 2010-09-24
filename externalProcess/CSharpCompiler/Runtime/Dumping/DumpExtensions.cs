@@ -11,7 +11,7 @@
 
         public static T Dump<T>(this T value)
         {
-            return Dump(value, 5);
+            return Dump(value, 3);
         }
 
         public static T Dump<T>(this T value, int maximumDepth)

@@ -117,7 +117,7 @@ namespace CSharpCompiler.Runtime.Dumping
         protected override void VisitTypeMemberName(MemberInfo member, Type memberType)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "member");
-			writer.AddAttribute(HtmlTextWriterAttribute.Title, memberType.Name);
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, memberType.ToString());
             writer.RenderBeginTag(HtmlTextWriterTag.Th);
             writer.Write(FormatMemberName(member));
             writer.RenderEndTag();

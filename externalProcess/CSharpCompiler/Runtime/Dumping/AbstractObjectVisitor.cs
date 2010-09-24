@@ -147,12 +147,13 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected virtual void VisitType(object value)
         {
-            if (currentNesting > MaximumDepth)
-                return;
-
             var type = value.GetType();
 
             VisitTypeHeader(type);
+
+			if (currentNesting > MaximumDepth)
+				return;
+
             VisitTypeSummary(value);
 
             foreach (var property in GetProperties(type))
