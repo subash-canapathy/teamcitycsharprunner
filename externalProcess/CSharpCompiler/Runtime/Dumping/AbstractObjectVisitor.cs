@@ -40,7 +40,12 @@ namespace CSharpCompiler.Runtime.Dumping
             else
             {
                 using (Nest)
-                    VisitType(value);
+                {
+					if (currentNesting > MaximumDepth)
+						VisitNestingLimitReached();
+
+                	VisitType(value);
+                }
             }
         }
 
@@ -87,19 +92,10 @@ namespace CSharpCompiler.Runtime.Dumping
 
             var values = new ArrayList();
 
-            foreach (var memberInfo in members)
-            {
-                if(memberInfo.DeclaringType == type)
-                {
-                    values.Add(GetMemberValue(memberInfo, holder));
-                }
-                else
-                {
-                    values.Add("");
-                }
-            }
+        	foreach (var memberInfo in members)
+        		values.Add(memberInfo.DeclaringType == type ? GetMemberValue(memberInfo, holder) : "");
 
-            VisitTypeInEnumerableElement(values);
+        	VisitTypeInEnumerableElement(values);
         }
 
         private static object GetMemberValue(MemberInfo memberInfo, object holder)
@@ -149,15 +145,12 @@ namespace CSharpCompiler.Runtime.Dumping
         {
             var type = value.GetType();
 
-            VisitTypeHeader(type);
+        	VisitTypeHeader(type);
 
         	VisitTypeSummary(value);
 
         	if (currentNesting > MaximumDepth)
-        	{
-        		VisitNestingLimitReached();
         		return;
-        	}
 
         	foreach (var property in GetProperties(type))
                 VisitMember(property, property.PropertyType, value);
@@ -170,12 +163,12 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected abstract void VisitNestingLimitReached();
 
-    	private static IEnumerable<FieldInfo> GetFields(Type type)
+    	private static IEnumerable<FieldInfo> GetFields(IReflect type)
         {
             return type.GetFields(BindingFlags.Instance | BindingFlags.Public);
         }
 
-        private static IEnumerable<PropertyInfo> GetProperties(Type type)
+        private static IEnumerable<PropertyInfo> GetProperties(IReflect type)
         {
             return type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
         }
