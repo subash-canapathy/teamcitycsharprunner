@@ -21,7 +21,12 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitTypeFooter()
+    	protected override void VisitNestingLimitReached()
+    	{
+    		
+    	}
+
+    	protected override void VisitTypeFooter()
         {
         }
 

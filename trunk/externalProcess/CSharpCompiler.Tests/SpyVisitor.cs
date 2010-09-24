@@ -26,7 +26,15 @@ namespace CSharpCompiler.Tests
             Visit(EnumerableHeader);
         }
 
-        protected override void VisitEnumerableFooter()
+    	protected override void VisitTypeMember(MemberInfo member, Type memberType, object value)
+    	{
+			nestingLevel++;
+			ComputeMaxNestingLevel();
+
+			base.VisitTypeMember(member, memberType, value);
+    	}
+
+    	protected override void VisitEnumerableFooter()
         {
             Visit(EnumerableFooter);
         }
@@ -52,10 +60,7 @@ namespace CSharpCompiler.Tests
 
         protected override void VisitTypeSummary(object summary)
         {
-			nestingLevel++;
-			ComputeMaxNestingLevel();
-
-            Visit(ObjectSummary);
+			Visit(ObjectSummary);
         }
 
         protected override void VisitTypeMemberName(MemberInfo member, Type memberType)

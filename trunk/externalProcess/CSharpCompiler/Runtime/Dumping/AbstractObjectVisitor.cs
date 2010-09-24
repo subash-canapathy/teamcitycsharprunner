@@ -151,12 +151,15 @@ namespace CSharpCompiler.Runtime.Dumping
 
             VisitTypeHeader(type);
 
-			if (currentNesting > MaximumDepth)
-				return;
+        	VisitTypeSummary(value);
 
-            VisitTypeSummary(value);
+        	if (currentNesting > MaximumDepth)
+        	{
+        		VisitNestingLimitReached();
+        		return;
+        	}
 
-            foreach (var property in GetProperties(type))
+        	foreach (var property in GetProperties(type))
                 VisitMember(property, property.PropertyType, value);
 
             foreach (var field in GetFields(type))
@@ -165,7 +168,9 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitTypeFooter();
         }
 
-        private static IEnumerable<FieldInfo> GetFields(Type type)
+    	protected abstract void VisitNestingLimitReached();
+
+    	private static IEnumerable<FieldInfo> GetFields(Type type)
         {
             return type.GetFields(BindingFlags.Instance | BindingFlags.Public);
         }
