@@ -1,6 +1,6 @@
 ﻿using System.CodeDom.Compiler;
 using System.IO;
-using CSharpCompiler;
+using CSharpCompiler.Runtime;
 using CSharpCompiler.Runtime.Messages;
 
 namespace CsharpCompiler
