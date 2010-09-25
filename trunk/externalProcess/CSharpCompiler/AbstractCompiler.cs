@@ -120,16 +120,10 @@ namespace CsharpCompiler
         	var compilerVersion = ChooseCompilerVersion();
         	var options = new Dictionary<string, string> { { "CompilerVersion", compilerVersion } };
 
-            serviceMessages.LogMessage(string.Format("Compiling code for compiler {0}", compilerVersion));
+            serviceMessages.LogMessage(string.Format("Compiling script code for compiler {0}", compilerVersion));
 
-            using (var provider = new CSharpCodeProvider(options))
-            {
-            	var results = provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
-
-            	serviceMessages.LogMessage(string.Join(Environment.NewLine, results.Output.Cast<string>().ToArray()));
-
-            	return results;
-            }
+    		using (var provider = new CSharpCodeProvider(options))
+    			return provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
         }
 
     	private string[] ComputeReferences()
