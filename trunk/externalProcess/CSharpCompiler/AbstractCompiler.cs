@@ -1,7 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -40,7 +39,7 @@ namespace CsharpCompiler
                                                              "System.Xml.dll", 
 															 "System.Xml.Linq.dll",
                                                              "System.Web.dll",
-															 Path.GetFileName(typeof(DumpExtensions).Assembly.Location)
+															 typeof(DumpExtensions).Assembly.Location
                                                          };
 
         private readonly string[] defaultNamespaces = new[]
