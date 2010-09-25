@@ -791,10 +791,10 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
                         success: function() {
                             var elapsed = new Date(new Date().getTime() - begin.getTime());
                                 
-                                $('#progressContainer img').hide();
-                                $('#progressContainer span').text("Completed in " + twoDigits(elapsed.getMinutes()) + ":" +
-																				    twoDigits(elapsed.getSeconds()) + "." +
-																				    threeDigits(elapsed.getMilliseconds()));
+                            $('#progressContainer img').hide();
+                            $('#progressContainer span').text("Completed in " + twoDigits(elapsed.getMinutes()) + ":" +
+																			    twoDigits(elapsed.getSeconds()) + "." +
+																			    threeDigits(elapsed.getMilliseconds()));
                         },
                         error: function() {
                             // ugly, but IE doesn't support anything else
@@ -806,11 +806,11 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
         }
 
         function twoDigits(v) {
-            return v > 9 ? v : "0" + v;
+            return v > 9 ? v : ("0" + v);
         }
 
         function threeDigits(v) {
-            return v > 99 ? v : twoDigits(v);
+            return v > 99 ? v : ("0" + twoDigits(v));
         }
     </script>
 </head>
@@ -820,6 +820,5 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
     </div>
     <div id="container">
     </div>
-  
 </body>
 </html>
