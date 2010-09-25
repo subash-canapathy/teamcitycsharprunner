@@ -114,7 +114,7 @@ namespace CsharpCompiler
             var compilerParameters = new CompilerParameters(ComputeReferences())
                                          {
                                              GenerateExecutable = true, 
-                                             GenerateInMemory = true,
+                                             GenerateInMemory = false,
                                          };
 
         	var compilerVersion = ChooseCompilerVersion();
