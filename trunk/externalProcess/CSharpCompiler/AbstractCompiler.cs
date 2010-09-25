@@ -113,7 +113,7 @@ namespace CsharpCompiler
         {
             var compilerParameters = new CompilerParameters(ComputeReferences())
                                          {
-                                             GenerateExecutable = true, 
+                                             GenerateExecutable = true,
                                              GenerateInMemory = false,
                                          };
 
@@ -123,7 +123,13 @@ namespace CsharpCompiler
             serviceMessages.LogMessage(string.Format("Compiling code for compiler {0}", compilerVersion));
 
             using (var provider = new CSharpCodeProvider(options))
-                return provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
+            {
+            	var results = provider.CompileAssemblyFromSource(compilerParameters, GetSources(program).ToArray());
+
+            	serviceMessages.LogMessage(string.Join(Environment.NewLine, results.Output.Cast<string>().ToArray()));
+
+            	return results;
+            }
         }
 
     	private string[] ComputeReferences()
