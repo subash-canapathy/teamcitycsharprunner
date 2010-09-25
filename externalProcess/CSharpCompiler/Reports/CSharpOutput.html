@@ -790,7 +790,7 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
                         url: "end",
                         success: function() {
                             var elapsed = new Date(new Date().getTime() - begin.getTime());
-                                
+
                             $('#progressContainer img').hide();
                             $('#progressContainer span').text("Completed in " + twoDigits(elapsed.getMinutes()) + ":" +
 																			    twoDigits(elapsed.getSeconds()) + "." +
@@ -798,7 +798,7 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
                         },
                         error: function() {
                             // ugly, but IE doesn't support anything else
-                            setTimeout("tryLoad(" + progr + ", " + begin + ")", 2000);
+                            setTimeout(function() { tryLoad(progr, begin); }, 2000);
                         }
                     });
                 }
