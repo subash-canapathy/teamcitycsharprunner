@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AB17FCE5-DD3C-4893-99B1-B257F4599471}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CSharpCompiler.Runtime</RootNamespace>
+    <AssemblyName>CSharpCompiler.Runtime</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dumping\AbstractObjectVisitor.cs" />
+    <Compile Include="Dumping\ArtifactObjectDumper.cs" />
+    <Compile Include="Dumping\DefaultObjectVisitor.cs" />
+    <Compile Include="Dumping\DumpExtensions.cs" />
+    <Compile Include="Dumping\HtmlObjectVisitor.cs" />
+    <Compile Include="Dumping\HtmlObjectVisitorFactory.cs" />
+    <Compile Include="Dumping\IFileOutputObjectVisitor.cs" />
+    <Compile Include="Dumping\IFileOutputObjectVisitorFactory.cs" />
+    <Compile Include="Dumping\IObjectDumper.cs" />
+    <Compile Include="Dumping\IObjectVisitor.cs" />
+    <Compile Include="Dumping\VisitableObject.cs" />
+    <Compile Include="Messages\BuildFailureMessage.cs" />
+    <Compile Include="Messages\BuildLogErrorMessage.cs" />
+    <Compile Include="Messages\BuildLogErrorMessageWithDetails.cs" />
+    <Compile Include="Messages\BuildLogFailureMessage.cs" />
+    <Compile Include="Messages\BuildLogMessageBase.cs" />
+    <Compile Include="Messages\BuildLogNormalMessage.cs" />
+    <Compile Include="Messages\BuildLogWarningMessage.cs" />
+    <Compile Include="Messages\BuildNumberMessage.cs" />
+    <Compile Include="Messages\BuildStatisticMessage.cs" />
+    <Compile Include="Messages\BuildStatusMessage.cs" />
+    <Compile Include="Messages\BuildSuccessMessage.cs" />
+    <Compile Include="Messages\IServiceMessages.cs" />
+    <Compile Include="Messages\ProgressFinishMessage.cs" />
+    <Compile Include="Messages\ProgressMessage.cs" />
+    <Compile Include="Messages\ProgressStartMessage.cs" />
+    <Compile Include="Messages\PublishArtifactsMessage.cs" />
+    <Compile Include="Messages\ServiceMessages.cs" />
+    <Compile Include="Messages\TeamCityServiceMessage.cs" />
+    <Compile Include="Messages\TeamCityServiceMessagesExtensions.cs" />
+    <Compile Include="Messages\TeamCityServiceMessageSimple.cs" />
+    <Compile Include="Messages\TeamCityServiceMessageWithAttributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports.Designer.cs">
+      <DependentUpon>Reports.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Runtime\DisposableAction.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\ajax-loader.gif" />
+    <Content Include="Reports\CSharpOutput.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Reports.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

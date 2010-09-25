@@ -35,6 +35,8 @@
       <entry name="?*.jsp" />
       <entry name="?*.js" />
       <entry name="?*.exe" />
+      <entry name="?*.config" />
+      <entry name="?*.dll" />
     </wildcardResourcePatterns>
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>

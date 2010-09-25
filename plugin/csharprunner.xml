@@ -54,6 +54,7 @@
     <include name="**/?*.js"/>
     <include name="**/?*.exe"/>
     <include name="**/?*.config"/>
+    <include name="**/?*.dll"/>
   </patternset>
   
   
