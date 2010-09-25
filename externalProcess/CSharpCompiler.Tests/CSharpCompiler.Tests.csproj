@@ -51,10 +51,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\CSharpCompiler.Runtime\CSharpCompiler.Runtime.csproj">
-      <Project>{AB17FCE5-DD3C-4893-99B1-B257F4599471}</Project>
-      <Name>CSharpCompiler.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CsharpCompiler\CSharpCompiler.csproj">
       <Project>{82BBF1B4-4E86-416A-ADCB-B1FDB5A874A7}</Project>
       <Name>CSharpCompiler</Name>

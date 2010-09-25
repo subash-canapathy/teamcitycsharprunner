@@ -1,6 +1,8 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -38,8 +40,7 @@ namespace CsharpCompiler
                                                              "System.Core.dll",
                                                              "System.Xml.dll", 
 															 "System.Xml.Linq.dll",
-                                                             "System.Web.dll",
-															 typeof(DumpExtensions).Assembly.Location
+                                                             "System.Web.dll"
                                                          };
 
         private readonly string[] defaultNamespaces = new[]
@@ -59,7 +60,8 @@ namespace CsharpCompiler
         {
             get
             {
-            	yield break;
+                return Resources.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, false)
+                    .Cast<DictionaryEntry>().Select(d => d.Value.ToString());
             }
         }
 
