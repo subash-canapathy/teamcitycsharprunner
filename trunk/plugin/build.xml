@@ -18,7 +18,6 @@
         <agent-additional-files>
             <fileset dir="${csharprunner-agent.output.dir}" id="agent-additional-files">
                 <include name="**/*.exe"></include>
-                <include name="**/*.dll"></include>
                 <include name="**/*.config"></include>
             </fileset>
         </agent-additional-files>
