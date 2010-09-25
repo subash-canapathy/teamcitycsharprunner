@@ -115,7 +115,6 @@ namespace CsharpCompiler
                                          {
                                              GenerateExecutable = true, 
                                              GenerateInMemory = false,
-											 OutputAssembly = "CSharpGeneratedAssembly.exe"
                                          };
 
         	var compilerVersion = ChooseCompilerVersion();
