@@ -28,16 +28,16 @@ namespace CsharpCompiler
 
     	private static void ExecutePrivate(MethodBase entryPoint, IEnumerable<string> additionalReferences)
     	{
-    		AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => CurrentDomainOnAssemblyResolve(args, additionalReferences);
+    		AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => CurrentDomainOnAssemblyResolve(args.Name, additionalReferences);
 
     		entryPoint.Invoke(entryPoint.DeclaringType, null);
     	}
 
-    	private static Assembly CurrentDomainOnAssemblyResolve(ResolveEventArgs args, IEnumerable<string> additionalReferences)
+    	private static Assembly CurrentDomainOnAssemblyResolve(string assemblyFullName, IEnumerable<string> additionalReferences)
     	{
     		try
     		{
-    			var assemblyName = new AssemblyName(args.Name).Name;
+    			var assemblyName = new AssemblyName(assemblyFullName).Name;
 
     			var found = additionalReferences.First(r => Path.GetFileNameWithoutExtension(r).Equals(assemblyName));
 
