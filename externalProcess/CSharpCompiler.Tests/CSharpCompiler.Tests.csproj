@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Compilation\Expression.cs" />
     <Compile Include="Compilation\Statement.cs" />
+    <Compile Include="Execution\Additional_references.cs" />
+    <Compile Include="Execution\Console_output.cs" />
     <Compile Include="ObjectVisitorTest.cs" />
     <Compile Include="Execution\OutputReporting.cs" />
     <Compile Include="HtmlObjectVisitorTest.cs" />
@@ -58,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExternalReferences\One.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Two.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -79,7 +79,7 @@ namespace CsharpCompiler
 
             try
             {
-                executor.Execute(results);
+                executor.Execute(results, references);
             }
             catch (TargetInvocationException e)
             {

@@ -1,4 +1,5 @@
 ﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.IO;
 using CSharpCompiler;
 using CSharpCompiler.Runtime.Messages;
@@ -16,12 +17,12 @@ namespace CsharpCompiler
             this.serviceMessages = serviceMessages;
         }
 
-        public void Execute(CompilerResults results)
+        public void Execute(CompilerResults results, IEnumerable<string> additionalReferences)
         {
             try
             {
                 PublishReportStart();
-                inner.Execute(results);
+                inner.Execute(results, additionalReferences);
             }
             finally
             {
