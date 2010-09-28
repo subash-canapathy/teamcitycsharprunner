@@ -150,11 +150,16 @@ namespace CSharpCompiler.Runtime.Dumping
         {
             var type = value.GetType();
 
-        	VisitTypeHeader(type);
+			if (NestinLimitReached)
+				VisitStaticTypeHeader(type);
+			else if (IsCollapsed(type))
+				VisitCollapsedTypeHeader(type);
+			else
+				VisitExpandedTypeHeader(type);
 
         	VisitTypeSummary(value);
 
-        	if (currentNesting > MaximumDepth)
+        	if (NestinLimitReached)
         		return;
 
         	foreach (var property in GetProperties(type))
@@ -166,7 +171,11 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitTypeFooter();
         }
 
-    	private static bool IsCollapsed(Type type)
+    	protected abstract void VisitExpandedTypeHeader(Type type);
+
+    	protected abstract void VisitCollapsedTypeHeader(Type type);
+
+    	private bool IsCollapsed(Type type)
     	{
     		return GetMembers(type).Count() > 5;
     	}
@@ -187,7 +196,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected abstract void VisitTypeSummary(object type);
 
-        protected abstract void VisitTypeHeader(Type type);
+        protected abstract void VisitStaticTypeHeader(Type type);
 
         protected virtual void VisitTypeMember(MemberInfo member, Type memberType, object value)
         {

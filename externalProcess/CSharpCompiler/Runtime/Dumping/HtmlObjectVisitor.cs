@@ -57,18 +57,39 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeHeader(Type type)
+        protected override void VisitStaticTypeHeader(Type type)
         {
-            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
-            writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            writer.Write(FormatTypeNameForHeader(type));
-            writer.RenderEndTag();
-            writer.RenderEndTag();
+            BeforeTypeHeader();
+        	writer.Write(FormatTypeNameForHeader(type));
+            AfterTypeHeader();
         }
 
-        private static string FormatTypeNameForHeader(Type type)
+    	protected override void VisitCollapsedTypeHeader(Type type)
+    	{
+			BeforeTypeHeader();
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
+			writer.RenderBeginTag(HtmlTextWriterTag.Span);
+			writer.Write(6);
+			writer.RenderEndTag();
+			writer.Write(FormatTypeNameForHeader(type));
+			AfterTypeHeader();
+    	}
+
+    	private void AfterTypeHeader()
+    	{
+    		writer.RenderEndTag();
+    		writer.RenderEndTag();
+    	}
+
+    	private void BeforeTypeHeader()
+    	{
+    		writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+    		writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
+    		writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
+    		writer.RenderBeginTag(HtmlTextWriterTag.Td);
+    	}
+
+    	private static string FormatTypeNameForHeader(Type type)
         {
             return IsAnonymous(type) ? "anonymous" : type.Name;
         }
