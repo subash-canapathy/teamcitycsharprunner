@@ -21,6 +21,14 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
+    	protected override void VisitExpandedTypeHeader(Type type)
+    	{
+    	}
+
+    	protected override void VisitCollapsedTypeHeader(Type type)
+    	{
+    	}
+
     	protected override void VisitNestingLimitReached()
     	{
     		
@@ -34,7 +42,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitTypeHeader(Type type)
+        protected override void VisitStaticTypeHeader(Type type)
         {
         }
 

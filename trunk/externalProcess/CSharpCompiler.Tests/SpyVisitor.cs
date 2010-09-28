@@ -39,10 +39,20 @@ namespace CSharpCompiler.Tests
             Visit(EnumerableFooter);
         }
 
-        protected override void VisitTypeHeader(Type @object)
+        protected override void VisitStaticTypeHeader(Type @object)
         {
             Visit(ObjectHeader);
         }
+
+		protected override void VisitCollapsedTypeHeader(Type type)
+		{
+			Visit(ObjectHeader);
+		}
+
+		protected override void VisitExpandedTypeHeader(Type type)
+		{
+			Visit(ObjectHeader);
+		}
 
         protected override void VisitNull()
         {
