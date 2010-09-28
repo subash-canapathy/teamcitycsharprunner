@@ -22,10 +22,10 @@ namespace CSharpCompiler.Runtime.Dumping
 
         public virtual void Visit(object value)
         {
-            VisitObject(value);
+            VisitImpl(value);
         }
 
-        private void VisitObject(object value)
+        private void VisitImpl(object value)
         {
             if(value == null)
             {
@@ -41,7 +41,7 @@ namespace CSharpCompiler.Runtime.Dumping
             {
                 using (Nest)
                 {
-					if (currentNesting > MaximumDepth)
+					if (NestinLimitReached)
 						VisitNestingLimitReached();
 
                 	VisitType(value);
@@ -49,7 +49,12 @@ namespace CSharpCompiler.Runtime.Dumping
             }
         }
 
-        private static bool IsEnumerable(object value)
+    	private bool NestinLimitReached
+    	{
+    		get { return currentNesting > MaximumDepth; }
+    	}
+
+    	private static bool IsEnumerable(object value)
         {
             return value is IEnumerable && !(value is string);
         }
@@ -161,6 +166,11 @@ namespace CSharpCompiler.Runtime.Dumping
             VisitTypeFooter();
         }
 
+    	private static bool IsCollapsed(Type type)
+    	{
+    		return GetMembers(type).Count() > 5;
+    	}
+
     	protected abstract void VisitNestingLimitReached();
 
     	private static IEnumerable<FieldInfo> GetFields(IReflect type)
@@ -187,7 +197,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected virtual void VisitTypeMemberValue(object value)
         {
-            VisitObject(value);
+            VisitImpl(value);
         }
 
         protected abstract void VisitTypeMemberName(MemberInfo member, Type memberType);
