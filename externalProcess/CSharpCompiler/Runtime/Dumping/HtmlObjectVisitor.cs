@@ -66,19 +66,26 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected override void VisitCollapsedTypeHeader(Type type)
     	{
-			BeforeTypeHeader();
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
-			writer.RenderBeginTag(HtmlTextWriterTag.Span);
-			writer.Write(6);
-			writer.RenderEndTag();
-			writer.Write(FormatTypeNameForHeader(type));
-			AfterTypeHeader();
+    		VisitToggleableTypeHeader(6, type);
     	}
 
-    	private void AfterTypeHeader()
+    	protected override void VisitExpandedTypeHeader(Type type)
     	{
+    		VisitToggleableTypeHeader(5, type);	
+    	}
+
+    	private void VisitToggleableTypeHeader(int buffer, Type type)
+    	{
+    		BeforeTypeHeader();
+			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "return toggle(this);");
+			writer.RenderBeginTag(HtmlTextWriterTag.A);
+    				writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
+    				writer.RenderBeginTag(HtmlTextWriterTag.Span);
+    				writer.Write(buffer);
+    				writer.RenderEndTag();
+    			writer.Write(FormatTypeNameForHeader(type));
     		writer.RenderEndTag();
-    		writer.RenderEndTag();
+    		AfterTypeHeader();
     	}
 
     	private void BeforeTypeHeader()
@@ -87,6 +94,12 @@ namespace CSharpCompiler.Runtime.Dumping
     		writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
     		writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
     		writer.RenderBeginTag(HtmlTextWriterTag.Td);
+    	}
+
+    	private void AfterTypeHeader()
+    	{
+    		writer.RenderEndTag();
+    		writer.RenderEndTag();
     	}
 
     	private static string FormatTypeNameForHeader(Type type)
