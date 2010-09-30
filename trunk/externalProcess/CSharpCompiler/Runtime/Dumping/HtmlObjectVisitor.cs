@@ -78,7 +78,7 @@ namespace CSharpCompiler.Runtime.Dumping
     	{
     		BeforeTypeHeader();
 			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, string.Format("return {0}(this);", onClick));
-			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Empty);
+			writer.AddAttribute(HtmlTextWriterAttribute.Href, "#");
 			writer.RenderBeginTag(HtmlTextWriterTag.A);
     				writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
     				writer.RenderBeginTag(HtmlTextWriterTag.Span);
