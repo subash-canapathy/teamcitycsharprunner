@@ -773,6 +773,16 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
         {
             background: #ff8;
         }
+        
+        .hidden
+        {
+        	display: none;
+        }
+        
+        .visible
+        {
+        	display: block;
+        }
     </style>
     <script type="text/javascript">
         jQuery(function() {
@@ -813,8 +823,14 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
             return v > 99 ? v : ("0" + twoDigits(v));
         }
 
-        function toggle(element) {
-            var wrapped = $(element);
+        function show(sourceTr) {
+            $(sourceTr).siblings('.hidden').toggleClass('hidden').toggleClass('visible');
+            $(sourceTr).children('span').text('5');
+        }
+        
+        function hide(sourceTr) {
+            $(sourceTr).siblings('.visible').toggleClass('visible').toggleClass('hidden');
+            $(sourceTr).children('span').text('6');
         }
     </script>
 </head>

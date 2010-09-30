@@ -66,23 +66,23 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected override void VisitCollapsedTypeHeader(Type type)
     	{
-    		VisitToggleableTypeHeader(6, type);
+    		VisitToggleableTypeHeader(6, type, "show");
     	}
 
     	protected override void VisitExpandedTypeHeader(Type type)
     	{
-    		VisitToggleableTypeHeader(5, type);	
+    		VisitToggleableTypeHeader(5, type, "hide");	
     	}
 
-    	private void VisitToggleableTypeHeader(int buffer, Type type)
+    	private void VisitToggleableTypeHeader(int toggleGliph, Type type, string onClick)
     	{
     		BeforeTypeHeader();
-			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "return toggle(this);");
+			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, string.Format("return {0}(this);", onClick));
 			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Empty);
 			writer.RenderBeginTag(HtmlTextWriterTag.A);
     				writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
     				writer.RenderBeginTag(HtmlTextWriterTag.Span);
-    				writer.Write(buffer);
+    				writer.Write(toggleGliph);
     				writer.RenderEndTag();
     			writer.Write(FormatTypeNameForHeader(type));
     		writer.RenderEndTag();
@@ -108,12 +108,12 @@ namespace CSharpCompiler.Runtime.Dumping
             return IsAnonymous(type) ? "anonymous" : type.Name;
         }
 
-        private static bool IsAnonymous(Type type)
+    	private static bool IsAnonymous(Type type)
         {
             return type.Name.StartsWith("<>");
         }
 
-        protected override void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers)
+    	protected override void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
@@ -130,7 +130,7 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeSummary(object value)
+    	protected override void VisitTypeSummary(object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Colspan, 2.ToString());
@@ -141,14 +141,20 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeMember(MemberInfo member, Type memberType, object value)
+    	protected override void VisitHiddenTypeMember(MemberInfo member, Type memberType, object value)
+    	{
+    		writer.AddAttribute(HtmlTextWriterAttribute.Class, "hidden");
+			VisitTypeMember(member, memberType, value);
+    	}
+
+    	protected override void VisitTypeMember(MemberInfo member, Type memberType, object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             base.VisitTypeMember(member, memberType, value);
             writer.RenderEndTag();
         }
 
-        protected override void VisitTypeMemberValue(object value)
+    	protected override void VisitTypeMemberValue(object value)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             base.VisitTypeMemberValue(value);

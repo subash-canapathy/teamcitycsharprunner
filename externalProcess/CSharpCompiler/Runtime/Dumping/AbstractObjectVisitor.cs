@@ -41,7 +41,7 @@ namespace CSharpCompiler.Runtime.Dumping
             {
                 using (Nest)
                 {
-					if (NestinLimitReached)
+					if (NestingLimitReached)
 						VisitNestingLimitReached();
 
                 	VisitType(value);
@@ -49,7 +49,7 @@ namespace CSharpCompiler.Runtime.Dumping
             }
         }
 
-    	private bool NestinLimitReached
+    	private bool NestingLimitReached
     	{
     		get { return currentNesting > MaximumDepth; }
     	}
@@ -150,7 +150,7 @@ namespace CSharpCompiler.Runtime.Dumping
         {
             var type = value.GetType();
 
-			if (NestinLimitReached)
+			if (NestingLimitReached)
 				VisitStaticTypeHeader(type);
 			else if (IsCollapsed(type))
 				VisitCollapsedTypeHeader(type);
@@ -159,14 +159,14 @@ namespace CSharpCompiler.Runtime.Dumping
 
         	VisitTypeSummary(value);
 
-        	if (NestinLimitReached)
+        	if (NestingLimitReached)
         		return;
 
         	foreach (var property in GetProperties(type))
-                VisitMember(property, property.PropertyType, value);
+                VisitTypeMember(property, property.PropertyType, value, IsCollapsed(type) == false);
 
             foreach (var field in GetFields(type))
-                VisitMember(field, field.FieldType, value);
+				VisitTypeMember(field, field.FieldType, value, IsCollapsed(type) == false);
 
             VisitTypeFooter();
         }
@@ -175,7 +175,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected abstract void VisitCollapsedTypeHeader(Type type);
 
-    	private bool IsCollapsed(Type type)
+    	private static bool IsCollapsed(Type type)
     	{
     		return GetMembers(type).Count() > 5;
     	}
@@ -198,25 +198,30 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected abstract void VisitStaticTypeHeader(Type type);
 
-        protected virtual void VisitTypeMember(MemberInfo member, Type memberType, object value)
+    	private void VisitTypeMember(MemberInfo member, Type memberType, object holder, bool visible)
+    	{
+			if (visible)
+				VisitTypeMember(member, memberType, GetMemberValue(member, holder));
+			else
+				VisitHiddenTypeMember(member, memberType, GetMemberValue(member, holder));
+    	}
+
+    	protected abstract void VisitHiddenTypeMember(MemberInfo member, Type memberType, object value);
+
+    	protected virtual void VisitTypeMember(MemberInfo member, Type memberType, object value)
         {
             VisitTypeMemberName(member, memberType);
             VisitTypeMemberValue(value);
         }
 
-        protected virtual void VisitTypeMemberValue(object value)
+    	protected virtual void VisitTypeMemberValue(object value)
         {
             VisitImpl(value);
         }
 
-        protected abstract void VisitTypeMemberName(MemberInfo member, Type memberType);
+    	protected abstract void VisitTypeMemberName(MemberInfo member, Type memberType);
 
-        private void VisitMember(MemberInfo member, Type memberType, object holder)
-        {
-            VisitTypeMember(member, memberType, GetMemberValue(member, holder));
-        }
-
-        protected virtual void VisitEnumerable(IEnumerable value)
+    	protected virtual void VisitEnumerable(IEnumerable value)
         {
             var members = GetMembersFromEnumerableElements(value);
 
