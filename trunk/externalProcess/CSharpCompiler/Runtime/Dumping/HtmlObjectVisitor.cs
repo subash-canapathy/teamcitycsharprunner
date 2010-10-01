@@ -79,6 +79,7 @@ namespace CSharpCompiler.Runtime.Dumping
     		BeforeTypeHeader();
 			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "return toggle(this);");
 			writer.AddAttribute(HtmlTextWriterAttribute.Href, "#");
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
 			writer.RenderBeginTag(HtmlTextWriterTag.A);
     				writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
     				writer.RenderBeginTag(HtmlTextWriterTag.Span);
