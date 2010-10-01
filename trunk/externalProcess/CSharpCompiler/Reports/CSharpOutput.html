@@ -833,13 +833,16 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
         }
 
         function show(clickSource) {
-            $(clickSource).parents('table').find('tr.hidden').toggleClass('hidden').toggleClass('visible');
-            $(clickSource).children('span').text('5');
+            return doToggle(clickSource, 'hidden', 'visible', '5');
         }
 
         function hide(clickSource) {
-            $(clickSource).parents('table').find('tr.visible').toggleClass('visible').toggleClass('hidden');
-            $(clickSource).children('span').text('6');
+            return doToggle(clickSource, 'visible', 'hidden', '6');
+        }
+        
+        function doToggle(clickSource, classToRemove, classToAdd, newGliph) {
+            $(clickSource).parents('table:first').find('tr.' + classToRemove).toggleClass(classToRemove).toggleClass(classToAdd);
+            $(clickSource).children('span').text(newGliph);
         }
     </script>
 </head>
