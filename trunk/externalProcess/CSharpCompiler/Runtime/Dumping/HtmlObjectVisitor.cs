@@ -66,18 +66,18 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected override void VisitCollapsedTypeHeader(Type type)
     	{
-    		VisitToggleableTypeHeader(6, type, "show");
+    		VisitToggleableTypeHeader(6, type);
     	}
 
     	protected override void VisitExpandedTypeHeader(Type type)
     	{
-    		VisitToggleableTypeHeader(5, type, "hide");	
+    		VisitToggleableTypeHeader(5, type);	
     	}
 
-    	private void VisitToggleableTypeHeader(int toggleGliph, Type type, string onClick)
+    	private void VisitToggleableTypeHeader(int toggleGliph, Type type)
     	{
     		BeforeTypeHeader();
-			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, string.Format("return {0}(this);", onClick));
+			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "return toggle(this);");
 			writer.AddAttribute(HtmlTextWriterAttribute.Href, "#");
 			writer.RenderBeginTag(HtmlTextWriterTag.A);
     				writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
