@@ -201,12 +201,16 @@ namespace CSharpCompiler.Runtime.Dumping
     	private void VisitTypeMember(MemberInfo member, Type memberType, object holder, bool visible)
     	{
 			if (visible)
-				VisitTypeMember(member, memberType, GetMemberValue(member, holder));
+				VisitVisibleTypeMember();
 			else
-				VisitHiddenTypeMember(member, memberType, GetMemberValue(member, holder));
+				VisitHiddenTypeMember();
+
+			VisitTypeMember(member, memberType, GetMemberValue(member, holder));
     	}
 
-    	protected abstract void VisitHiddenTypeMember(MemberInfo member, Type memberType, object value);
+    	protected abstract void VisitVisibleTypeMember();
+
+    	protected abstract void VisitHiddenTypeMember();
 
     	protected virtual void VisitTypeMember(MemberInfo member, Type memberType, object value)
         {

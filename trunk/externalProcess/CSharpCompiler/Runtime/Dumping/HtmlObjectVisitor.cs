@@ -141,15 +141,19 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-    	protected override void VisitHiddenTypeMember(MemberInfo member, Type memberType, object value)
+    	protected override void VisitHiddenTypeMember()
     	{
     		writer.AddAttribute(HtmlTextWriterAttribute.Class, "hidden");
-			VisitTypeMember(member, memberType, value);
     	}
+
+		protected override void VisitVisibleTypeMember()
+		{
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "visible");
+		}
 
     	protected override void VisitTypeMember(MemberInfo member, Type memberType, object value)
         {
-            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+			writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             base.VisitTypeMember(member, memberType, value);
             writer.RenderEndTag();
         }
