@@ -833,12 +833,12 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
         }
 
         function show(clickSource) {
-            $(clickSource).parents('table').children('tr.hidden').toggleClass('hidden').toggleClass('visible');
+            $(clickSource).parents('table').find('tr.hidden').toggleClass('hidden').toggleClass('visible');
             $(clickSource).children('span').text('5');
         }
 
         function hide(clickSource) {
-            $(clickSource).parents('table').children('tr.visible').toggleClass('visible').toggleClass('hidden');
+            $(clickSource).parents('table').find('tr.visible').toggleClass('visible').toggleClass('hidden');
             $(clickSource).children('span').text('6');
         }
     </script>
