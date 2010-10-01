@@ -823,6 +823,15 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
             return v > 99 ? v : ("0" + twoDigits(v));
         }
 
+        function toggle(clickSource) {
+            var gliph = $(clickSource).children('span').text();
+
+            if (gliph == "5")
+                return hide(clickSource);
+            else
+                return show(clickSource);
+        }
+
         function show(clickSource) {
             $(clickSource).parents('table').children('tr .hidden').toggleClass('hidden').toggleClass('visible');
             $(clickSource).children('span').text('5');
