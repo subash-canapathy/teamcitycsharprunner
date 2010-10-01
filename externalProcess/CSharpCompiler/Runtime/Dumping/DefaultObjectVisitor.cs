@@ -46,9 +46,12 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-    	protected override void VisitHiddenTypeMember(MemberInfo member, Type memberType, object value)
+    	protected override void VisitHiddenTypeMember()
     	{
-    		
+    	}
+
+    	protected override void VisitVisibleTypeMember()
+    	{
     	}
 
     	protected override void VisitTypeMemberName(MemberInfo member, Type memberType)
