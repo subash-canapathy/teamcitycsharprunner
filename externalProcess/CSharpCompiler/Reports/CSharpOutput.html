@@ -841,7 +841,7 @@ e && e.document ? e.document.compatMode === "CSS1Compat" && e.document.documentE
         }
         
         function doToggle(clickSource, classToRemove, classToAdd, newGliph) {
-            $(clickSource).parents('table:first').find('tr.' + classToRemove).toggleClass(classToRemove).toggleClass(classToAdd);
+            $(clickSource).parents('tr:first').siblings('.' + classToRemove).toggleClass(classToRemove).toggleClass(classToAdd);
             $(clickSource).children('span').text(newGliph);
         }
     </script>
