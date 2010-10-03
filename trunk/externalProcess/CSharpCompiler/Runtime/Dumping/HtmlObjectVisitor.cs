@@ -13,6 +13,7 @@ namespace CSharpCompiler.Runtime.Dumping
     	private const int Expand = 6;
     	private const int Collapse = 5;
     	private readonly HtmlTextWriter writer;
+    	private const string CyclicReferenceGliph = "q";
 
     	public HtmlObjectVisitor(TextWriter inner, int maximumDepth) : base(maximumDepth)
         {
@@ -24,6 +25,12 @@ namespace CSharpCompiler.Runtime.Dumping
 			writer.AddAttribute(HtmlTextWriterAttribute.Title, "Maximum nesting limit reached");
     		writer.AddAttribute(HtmlTextWriterAttribute.Class, "limit");
     	}
+
+    	protected override void VisitCyclicReferenceFound()
+		{
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, "Cyclic reference found");
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "limit");
+		}
 
     	public override void Visit(object value)
         {
@@ -46,10 +53,10 @@ namespace CSharpCompiler.Runtime.Dumping
             writer.RenderEndTag();
         }
 
-        protected override void VisitType(object value)
+        protected override void VisitType(object value, bool b, bool isCyclicReference)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Table);
-            base.VisitType(value);
+            base.VisitType(value, b, isCyclicReference);
             writer.RenderEndTag();
         }
 
@@ -98,6 +105,19 @@ namespace CSharpCompiler.Runtime.Dumping
     		writer.RenderEndTag();
     		writer.Write(headerText);
     		writer.RenderEndTag();
+    	}
+
+    	protected override void VisitCyclicReferenceTypeHeader(Type type)
+    	{
+			BeforeTypeHeader();
+
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
+			writer.RenderBeginTag(HtmlTextWriterTag.Span);
+			writer.Write(CyclicReferenceGliph);
+			writer.RenderEndTag();
+			writer.Write(FormatTypeNameForHeader(type));
+
+			AfterTypeHeader();
     	}
 
     	private void BeforeTypeHeader()

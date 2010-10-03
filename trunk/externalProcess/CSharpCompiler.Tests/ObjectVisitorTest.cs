@@ -128,6 +128,23 @@ namespace CSharpCompiler.Tests
             Assert.AreEqual(5, sut.MaximumReachedDepth);
         }
 
+		[Test]
+		public void Cyclic_references()
+		{
+			var cyclic = new Cyclic("ciao", null);
+			cyclic.Value2 = cyclic;
+
+			DoVisit(cyclic);
+
+			AssertVisited(ObjectHeader,
+							ObjectSummary,
+								MemberName, Primitive,
+								MemberName,
+									ObjectHeader,
+									ObjectSummary,
+							ObjectFooter);
+		}
+
         [Test]
         public void Custom_nesting_limit()
         {

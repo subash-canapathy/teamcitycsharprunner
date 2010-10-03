@@ -9,11 +9,19 @@ namespace CSharpCompiler.Runtime.Dumping
         {
         }
 
-        protected override void VisitNull()
+    	protected override void VisitCyclicReferenceFound()
+    	{
+    	}
+
+    	protected override void VisitNull()
         {
         }
 
-        protected override void VisitTypeInEnumerableMember(MemberInfo member)
+    	protected override void VisitCyclicReferenceTypeHeader(Type type)
+    	{
+    	}
+
+    	protected override void VisitTypeInEnumerableMember(MemberInfo member)
         {
         }
 
@@ -31,7 +39,6 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected override void VisitNestingLimitReached()
     	{
-    		
     	}
 
     	protected override void VisitTypeFooter()

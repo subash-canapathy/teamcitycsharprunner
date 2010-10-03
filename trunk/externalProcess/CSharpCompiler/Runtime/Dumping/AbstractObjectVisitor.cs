@@ -9,12 +9,18 @@ namespace CSharpCompiler.Runtime.Dumping
     public abstract class AbstractObjectVisitor : IObjectVisitor
     {
         private int currentNesting;
+    	private readonly Stack<object > objectsStack = new Stack<object>();
     	private const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public;
 
     	private IDisposable Nest
         {
             get { return new DisposableAction(() => ++currentNesting, () => --currentNesting); }
         }
+
+		private IDisposable CyclicReference(object value)
+		{
+			return new DisposableAction(() => objectsStack.Push(value), () => objectsStack.Pop());
+		}
 
         protected AbstractObjectVisitor(int maximumDepth)
         {
@@ -35,18 +41,30 @@ namespace CSharpCompiler.Runtime.Dumping
             }
 
             if (IsEnumerable(value))
-                VisitEnumerable(value as IEnumerable);
+            {
+            	VisitEnumerable(value as IEnumerable);
+            }
             else if (IsPrimitive(value))
             	VisitPrimitiveType(value);
             else
             	using (Nest)
+				using(CyclicReference(value))
             	{
-            		if (NestingLimitReached)
+					if (IsCyclicReference)
+						VisitCyclicReferenceFound();
+					else if (NestingLimitReached)
             			VisitNestingLimitReached();
-
-            		VisitType(value);
+					
+					VisitType(value, NestingLimitReached, IsCyclicReference);
             	}
         }
+
+    	protected abstract void VisitCyclicReferenceFound();
+
+    	private bool IsCyclicReference
+    	{
+    		get { return objectsStack.Skip(1).Any(e => ReferenceEquals(e, objectsStack.Peek())); }
+    	}
 
     	private bool NestingLimitReached
     	{
@@ -145,20 +163,25 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected abstract void VisitPrimitiveType(object value);
 
-        protected virtual void VisitType(object value)
+        protected virtual void VisitType(object value, bool nestingLimitReached, bool isCyclicReference)
         {
             var type = value.GetType();
 
-			if (NestingLimitReached)
-				VisitStaticTypeHeader(type);
-			else if (IsCollapsed(type))
-				VisitCollapsedTypeHeader(type);
+			if (isCyclicReference)
+				VisitCyclicReferenceTypeHeader(type);
 			else
-				VisitExpandedTypeHeader(type);
+			{
+				if (nestingLimitReached)
+					VisitStaticTypeHeader(type);
+				else if (IsCollapsed(type))
+					VisitCollapsedTypeHeader(type);
+				else
+					VisitExpandedTypeHeader(type);
+			}
 
         	VisitTypeSummary(value);
 
-        	if (NestingLimitReached)
+        	if (nestingLimitReached || isCyclicReference)
         		return;
 
         	foreach (var property in GetProperties(type))
@@ -169,6 +192,8 @@ namespace CSharpCompiler.Runtime.Dumping
 
             VisitTypeFooter();
         }
+
+    	protected abstract void VisitCyclicReferenceTypeHeader(Type type);
 
     	protected abstract void VisitExpandedTypeHeader(Type type);
 

@@ -49,7 +49,12 @@ namespace CSharpCompiler.Tests
 			Visit(ObjectHeader);
 		}
 
-		protected override void VisitExpandedTypeHeader(Type type)
+    	protected override void VisitCyclicReferenceTypeHeader(Type type)
+    	{
+    		Visit(ObjectHeader);
+    	}
+
+    	protected override void VisitExpandedTypeHeader(Type type)
 		{
 			Visit(ObjectHeader);
 		}
