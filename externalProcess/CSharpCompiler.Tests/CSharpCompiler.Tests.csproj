@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Compilation\Expression.cs" />
     <Compile Include="Compilation\Statement.cs" />
+    <Compile Include="Cyclic.cs" />
     <Compile Include="Execution\Additional_references.cs" />
     <Compile Include="Execution\Console_output.cs" />
     <Compile Include="ObjectVisitorTest.cs" />
