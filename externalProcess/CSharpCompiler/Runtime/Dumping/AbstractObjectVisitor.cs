@@ -37,17 +37,15 @@ namespace CSharpCompiler.Runtime.Dumping
             if (IsEnumerable(value))
                 VisitEnumerable(value as IEnumerable);
             else if (IsPrimitive(value))
-                VisitPrimitiveType(value);
+            	VisitPrimitiveType(value);
             else
-            {
-                using (Nest)
-                {
-					if (NestingLimitReached)
-						VisitNestingLimitReached();
+            	using (Nest)
+            	{
+            		if (NestingLimitReached)
+            			VisitNestingLimitReached();
 
-                	VisitType(value);
-                }
-            }
+            		VisitType(value);
+            	}
         }
 
     	private bool NestingLimitReached
@@ -176,7 +174,7 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected abstract void VisitCollapsedTypeHeader(Type type);
 
-    	private static bool IsCollapsed(Type type)
+    	private static bool IsCollapsed(IReflect type)
     	{
     		return GetMembers(type).Count() > 5;
     	}

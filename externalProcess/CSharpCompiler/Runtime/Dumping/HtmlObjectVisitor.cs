@@ -228,7 +228,8 @@ namespace CSharpCompiler.Runtime.Dumping
 
         protected override void VisitEnumerableElement(object element, IEnumerable<MemberInfo> members)
         {
-            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "visible"); 
+			writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             base.VisitEnumerableElement(element, members);
             writer.RenderEndTag();
         }
