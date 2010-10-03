@@ -9,8 +9,9 @@ namespace CSharpCompiler.Runtime.Dumping
     public abstract class AbstractObjectVisitor : IObjectVisitor
     {
         private int currentNesting;
+    	private const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public;
 
-        private IDisposable Nest
+    	private IDisposable Nest
         {
             get { return new DisposableAction(() => ++currentNesting, () => --currentNesting); }
         }
@@ -184,12 +185,12 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	private static IEnumerable<FieldInfo> GetFields(IReflect type)
         {
-            return type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+            return type.GetFields(Flags);
         }
 
         private static IEnumerable<PropertyInfo> GetProperties(IReflect type)
         {
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            return type.GetProperties(Flags);
         }
 
         protected abstract void VisitTypeFooter();
@@ -256,7 +257,7 @@ namespace CSharpCompiler.Runtime.Dumping
             return members;
         }
 
-        private static IEnumerable<MemberInfo> GetMembers(Type type)
+        private static IEnumerable<MemberInfo> GetMembers(IReflect type)
         {
             foreach (var property in GetProperties(type))
                 yield return property;

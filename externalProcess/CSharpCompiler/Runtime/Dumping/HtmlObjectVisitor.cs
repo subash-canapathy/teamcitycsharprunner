@@ -3,15 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Web.UI;
 
 namespace CSharpCompiler.Runtime.Dumping
 {
     public class HtmlObjectVisitor : DefaultObjectVisitor, IFileOutputObjectVisitor
     {
-        private readonly HtmlTextWriter writer;
+    	private const int Expand = 6;
+    	private const int Collapse = 5;
+    	private readonly HtmlTextWriter writer;
 
-        public HtmlObjectVisitor(TextWriter inner, int maximumDepth) : base(maximumDepth)
+    	public HtmlObjectVisitor(TextWriter inner, int maximumDepth) : base(maximumDepth)
         {
             writer = new HtmlTextWriter(inner);
         }
@@ -66,28 +69,35 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected override void VisitCollapsedTypeHeader(Type type)
     	{
-    		VisitToggleableTypeHeader(6, type);
+    		VisitToggleableTypeHeader(Expand, type);
     	}
 
     	protected override void VisitExpandedTypeHeader(Type type)
     	{
-    		VisitToggleableTypeHeader(5, type);	
+    		VisitToggleableTypeHeader(Collapse, type);	
     	}
 
     	private void VisitToggleableTypeHeader(int toggleGliph, Type type)
     	{
     		BeforeTypeHeader();
-			writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "return toggle(this);");
-			writer.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:void(0)");
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
-			writer.RenderBeginTag(HtmlTextWriterTag.A);
-    				writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
-    				writer.RenderBeginTag(HtmlTextWriterTag.Span);
-    				writer.Write(toggleGliph);
-    				writer.RenderEndTag();
-    			writer.Write(FormatTypeNameForHeader(type));
-    		writer.RenderEndTag();
+
+    		VisitToggleableHeader(toggleGliph, FormatTypeNameForHeader(type));
+
     		AfterTypeHeader();
+    	}
+
+    	private void VisitToggleableHeader(int toggleGliph, string headerText)
+    	{
+    		writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "return toggle(this);");
+    		writer.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:void(0)");
+    		writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
+    		writer.RenderBeginTag(HtmlTextWriterTag.A);
+    		writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
+    		writer.RenderBeginTag(HtmlTextWriterTag.Span);
+    		writer.Write(toggleGliph);
+    		writer.RenderEndTag();
+    		writer.Write(headerText);
+    		writer.RenderEndTag();
     	}
 
     	private void BeforeTypeHeader()
@@ -116,20 +126,36 @@ namespace CSharpCompiler.Runtime.Dumping
 
     	protected override void VisitEnumerableHeader(Type enumerableType, int count, int numberOfMembers)
         {
-            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
-            
-            if(numberOfMembers > 1)
-                writer.AddAttribute(HtmlTextWriterAttribute.Colspan, numberOfMembers.ToString());
-            
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            writer.Write(FormatTypeNameForHeader(enumerableType));
-            writer.Write(" (");
-            writer.Write(count);
-            writer.Write(" item" + AddPluralSuffix(count) + ")");
-            writer.RenderEndTag();
-            writer.RenderEndTag();
+            BeforeEnumerableHeader(numberOfMembers);
+
+    		var headerText = new StringBuilder(FormatTypeNameForHeader(enumerableType))
+    			.Append(" (")
+    			.Append(count)
+    			.Append(" item")
+    			.Append(AddPluralSuffix(count))
+    			.Append(")").ToString();
+
+			VisitToggleableHeader(Collapse, headerText);
+    		
+			AfterEnumerableHeader();
         }
+
+    	private void AfterEnumerableHeader()
+    	{
+    		writer.RenderEndTag();
+    		writer.RenderEndTag();
+    	}
+
+    	private void BeforeEnumerableHeader(int numberOfMembers)
+    	{
+    		writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+    		writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
+            
+    		if(numberOfMembers > 1)
+    			writer.AddAttribute(HtmlTextWriterAttribute.Colspan, numberOfMembers.ToString());
+            
+    		writer.RenderBeginTag(HtmlTextWriterTag.Td);
+    	}
 
     	protected override void VisitTypeSummary(object value)
         {
