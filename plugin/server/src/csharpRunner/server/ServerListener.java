@@ -1,18 +1,13 @@
 package csharpRunner.server;
 
-import com.intellij.openapi.diagnostic.Logger;
+import csharpRunner.common.PluginConstants;
 import jetbrains.buildServer.log.Loggers;
 import jetbrains.buildServer.serverSide.BuildServerAdapter;
 import jetbrains.buildServer.serverSide.BuildServerListener;
-import jetbrains.buildServer.serverSide.SBuildAgent;
 import jetbrains.buildServer.serverSide.SBuildServer;
 import jetbrains.buildServer.util.EventDispatcher;
 import org.jetbrains.annotations.NotNull;
-import csharpRunner.common.Util;
 
-/**
- * Example server events listener
- */
 public class ServerListener extends BuildServerAdapter {
   private SBuildServer myServer;
 
@@ -23,6 +18,6 @@ public class ServerListener extends BuildServerAdapter {
 
   @Override
   public void serverStartup() {
-    Loggers.SERVER.info("Plugin '" + Util.NAME + "'. Is running on server version " + myServer.getFullServerVersion() + ".");
+    Loggers.SERVER.info("Plugin '" + PluginConstants.RUN_TYPE + "'. Is running on server version " + myServer.getFullServerVersion() + ".");
   }
 }

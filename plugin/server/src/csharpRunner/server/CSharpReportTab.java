@@ -19,7 +19,6 @@ package csharpRunner.server;
 import csharpRunner.common.PluginConstants;
 import jetbrains.buildServer.serverSide.SBuild;
 import jetbrains.buildServer.serverSide.SBuildServer;
-import jetbrains.buildServer.serverSide.artifacts.ArtifactsInfo;
 import jetbrains.buildServer.web.openapi.PagePlaces;
 import jetbrains.buildServer.web.openapi.ViewLogTab;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +31,7 @@ public class CSharpReportTab extends ViewLogTab {
     private static final String TAB_STARTPAGE = PluginConstants.OUTPUT_FILE_NAME;
 
     public CSharpReportTab(PagePlaces pagePlaces, SBuildServer server) {
-        super("C#", "csharpReportTab", pagePlaces, server);
+        super("C#", PluginConstants.REPORT_TAB_CODE, pagePlaces, server);
         setIncludeUrl("/artifactsViewer.jsp");
     }
 
@@ -50,7 +49,6 @@ public class CSharpReportTab extends ViewLogTab {
         final String projectId = build.getProjectId();
         if (projectId == null) return false;
 
-        final ArtifactsInfo info = new ArtifactsInfo(build);
-        return info.getSize(TAB_STARTPAGE) >= 0;
+        return ReportUtils.isReportTabAvailable(build);
     }
 }

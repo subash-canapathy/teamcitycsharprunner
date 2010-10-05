@@ -11,4 +11,5 @@
   <bean id="csharpRunnerListener" class="csharpRunner.server.ServerListener"/>
   <bean id="csharpRunnerRunType" class="csharpRunner.server.CSharpRunnerRunType"/>
   <bean id="csharpReportTab" class="csharpRunner.server.CSharpReportTab"/>
+  <bean id="csharpReportFragment" class="csharpRunner.server.CSharpReportFragment"/>
 </beans>
