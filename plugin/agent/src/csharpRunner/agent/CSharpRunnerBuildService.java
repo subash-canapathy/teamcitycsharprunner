@@ -30,7 +30,7 @@ public class CSharpRunnerBuildService extends CommandLineBuildService {
 
         List<String> args = createArgs();
 
-        return new SimpleProgramCommandLine(build,
+        return new SimpleProgramCommandLine(getRunnerContext(),
                 build.getAgentConfiguration().getAgentPluginsDirectory() +  "\\" + PluginConstants.RUN_TYPE + "\\bin\\" + PluginConstants.EXTERNAL_RUNNER_NAME,
                 args);
     }
