@@ -240,6 +240,13 @@ e.document.body["client"+b]:e.nodeType===9?Math.max(e.documentElement["client"+b
             margin: 0;
         }
         
+        img.updown
+        {
+            padding: 0 0.2em 0 0;
+            margin: 0;
+            border: 0;
+        }
+        
         table.group
         {
             border: none;
@@ -382,18 +389,18 @@ e.document.body["client"+b]:e.nodeType===9?Math.max(e.documentElement["client"+b
         function toggle(clickSource) {
             var img = $(clickSource).children('img').attr('src');
 
-            if (img == 'down.png')
+            if (img == 'up.png')
                 return hide(clickSource);
             else
                 return show(clickSource);
         }
 
         function show(clickSource) {
-            return doToggle(clickSource, 'hidden', 'visible', 'down.png');
+            return doToggle(clickSource, 'hidden', 'visible', 'up.png');
         }
 
         function hide(clickSource) {
-            return doToggle(clickSource, 'visible', 'hidden', 'up.png');
+            return doToggle(clickSource, 'visible', 'hidden', 'down.png');
         }
 
         function doToggle(clickSource, classToRemove, classToAdd, newImg) {
