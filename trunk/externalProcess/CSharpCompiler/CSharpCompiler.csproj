@@ -105,6 +105,8 @@
   <ItemGroup>
     <Content Include="Reports\ajax-loader.gif" />
     <Content Include="Reports\CSharpOutput.html" />
+    <Content Include="Reports\down.png" />
+    <Content Include="Reports\up.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
