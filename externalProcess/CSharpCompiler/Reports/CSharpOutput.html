@@ -380,25 +380,25 @@ e.document.body["client"+b]:e.nodeType===9?Math.max(e.documentElement["client"+b
         }
 
         function toggle(clickSource) {
-            var gliph = $(clickSource).children('span').text();
+            var img = $(clickSource).children('img').attr('src');
 
-            if (gliph == '5')
+            if (img == 'down.png')
                 return hide(clickSource);
             else
                 return show(clickSource);
         }
 
         function show(clickSource) {
-            return doToggle(clickSource, 'hidden', 'visible', '5');
+            return doToggle(clickSource, 'hidden', 'visible', 'down.png');
         }
 
         function hide(clickSource) {
-            return doToggle(clickSource, 'visible', 'hidden', '6');
+            return doToggle(clickSource, 'visible', 'hidden', 'up.png');
         }
-        
-        function doToggle(clickSource, classToRemove, classToAdd, newGliph) {
+
+        function doToggle(clickSource, classToRemove, classToAdd, newImg) {
             $(clickSource).parents('tr:first').siblings('.' + classToRemove).toggleClass(classToRemove).toggleClass(classToAdd);
-            $(clickSource).children('span').text(newGliph);
+            $(clickSource).children('img').attr('src', newImg);
         }
     </script>
 </head>

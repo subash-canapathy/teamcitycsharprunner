@@ -72,20 +72,36 @@ namespace CSharpCompiler {
         ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
         ///&lt;head&gt;
         ///    &lt;script type=&quot;text/javascript&quot;&gt;
-        ///        /*!
-        ///        * jQuery JavaScript Library v1.4.2
-        ///        * http://jquery.com/
-        ///        *
-        ///        * Copyright 2010, John Resig
-        ///        * Dual licensed under the MIT or GPL Version 2 licenses.
-        ///        * http://jquery.org/license
-        ///        *
-        ///        * Includes Sizzle.js
-        ///        * http://sizzlejs.com/        /// [rest of string was truncated]&quot;;.
+        ///   /*!
+        /// * jQuery JavaScript Library v1.4.1
+        /// * http://jquery.com/
+        /// *
+        /// * Copyright 2010, John Resig
+        /// * Dual licensed under the MIT or GPL Version 2 licenses.
+        /// * http://jquery.org/license
+        /// *
+        /// * Includes Sizzle.js
+        /// * http://sizzlejs.com/
+        /// * Copyright 2010, The Dojo Foundation
+        /// * Released under the MIT,  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CSharpOutput {
             get {
                 return ResourceManager.GetString("CSharpOutput", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap down {
+            get {
+                object obj = ResourceManager.GetObject("down", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap up {
+            get {
+                object obj = ResourceManager.GetObject("up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

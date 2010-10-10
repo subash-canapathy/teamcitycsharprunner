@@ -10,8 +10,8 @@ namespace CSharpCompiler.Runtime.Dumping
 {
     public class HtmlObjectVisitor : DefaultObjectVisitor, IFileOutputObjectVisitor
     {
-    	private const int Expand = 6;
-    	private const int Collapse = 5;
+    	private const string Expand = "down.png";
+    	private const string Collapse = "up.png";
     	private readonly HtmlTextWriter writer;
     	private const string CyclicReferenceGliph = "q";
 
@@ -84,26 +84,32 @@ namespace CSharpCompiler.Runtime.Dumping
     		VisitToggleableTypeHeader(Collapse, type);	
     	}
 
-    	private void VisitToggleableTypeHeader(int toggleGliph, Type type)
+    	private void VisitToggleableTypeHeader(string image, Type type)
     	{
     		BeforeTypeHeader();
 
-    		VisitToggleableHeader(toggleGliph, FormatTypeNameForHeader(type));
+    		VisitToggleableHeader(image, FormatTypeNameForHeader(type));
 
     		AfterTypeHeader();
     	}
 
-    	private void VisitToggleableHeader(int toggleGliph, string headerText)
+    	private void VisitToggleableHeader(string image, string headerText)
     	{
     		writer.AddAttribute(HtmlTextWriterAttribute.Onclick, "return toggle(this);");
     		writer.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:void(0)");
     		writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeheader");
     		writer.RenderBeginTag(HtmlTextWriterTag.A);
-    		writer.AddAttribute(HtmlTextWriterAttribute.Class, "typeglyph");
-    		writer.RenderBeginTag(HtmlTextWriterTag.Span);
-    		writer.Write(toggleGliph);
-    		writer.RenderEndTag();
+    		RenderUpDownImage(image);
     		writer.Write(headerText);
+    		writer.RenderEndTag();
+    	}
+
+    	private void RenderUpDownImage(string image)
+    	{
+    		writer.AddAttribute(HtmlTextWriterAttribute.Src, image);
+    		writer.AddAttribute(HtmlTextWriterAttribute.Alt, Path.GetFileNameWithoutExtension(image));
+    		writer.RenderBeginTag(HtmlTextWriterTag.Img);
+    		writer.Write(image);
     		writer.RenderEndTag();
     	}
 
@@ -149,11 +155,7 @@ namespace CSharpCompiler.Runtime.Dumping
             BeforeEnumerableHeader(numberOfMembers);
 
     		var headerText = new StringBuilder(FormatTypeNameForHeader(enumerableType))
-    			.Append(" (")
-    			.Append(count)
-    			.Append(" item")
-    			.Append(AddPluralSuffix(count))
-    			.Append(")").ToString();
+    			.AppendFormat(" ({0} item{1})", count, AddPluralSuffix(count)).ToString();
 
 			VisitToggleableHeader(Collapse, headerText);
     		
