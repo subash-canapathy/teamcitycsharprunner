@@ -108,9 +108,9 @@ namespace CSharpCompiler.Runtime.Dumping
     	{
     		writer.AddAttribute(HtmlTextWriterAttribute.Src, image);
     		writer.AddAttribute(HtmlTextWriterAttribute.Alt, Path.GetFileNameWithoutExtension(image));
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "updown");
     		writer.RenderBeginTag(HtmlTextWriterTag.Img);
     		writer.Write(image);
-    		writer.RenderEndTag();
     	}
 
     	protected override void VisitCyclicReferenceTypeHeader(Type type)
