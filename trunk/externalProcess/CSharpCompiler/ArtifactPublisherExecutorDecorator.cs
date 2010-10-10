@@ -39,9 +39,30 @@ namespace CsharpCompiler
 
         private void PublishReportStart()
         {
-        	PublishProgressIndicator();
+        	PublishResources();
         	PublishReport();
         }
+
+    	private void PublishResources()
+    	{
+    		PublishProgressIndicator();
+    		PublishUpImage();
+    		PublishDownImage();
+    	}
+
+    	private void PublishDownImage()
+    	{
+			var path = Path.Combine(Path.GetTempPath(), "down.png");
+			Reports.down.Save(path);
+			serviceMessages.Publish(path);
+    	}
+
+    	private void PublishUpImage()
+    	{
+			var path = Path.Combine(Path.GetTempPath(), "up.png");
+			Reports.up.Save(path);
+			serviceMessages.Publish(path);
+    	}
 
     	private void PublishProgressIndicator()
     	{
