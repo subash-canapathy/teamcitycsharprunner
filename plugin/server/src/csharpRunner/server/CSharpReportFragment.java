@@ -36,6 +36,8 @@ public class CSharpReportFragment extends SimplePageExtension {
 
     @Override
     public boolean isAvailable(@NotNull HttpServletRequest request) {
-        return ReportUtils.isReportTabAvailable(getBuild(request));
+        SBuild build = getBuild(request);
+
+        return build != null && ReportUtils.isReportTabAvailable(build);
     }
 }
