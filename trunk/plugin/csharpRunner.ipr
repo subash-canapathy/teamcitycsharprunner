@@ -52,45 +52,12 @@
     </module2copyright>
     <LanguageOptions name="JSPX">
       <option name="fileTypeOverride" value="1" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="block" value="true" />
-      <option name="separateBefore" value="false" />
-      <option name="separateAfter" value="false" />
-      <option name="prefixLines" value="true" />
-      <option name="lenBefore" value="80" />
-      <option name="lenAfter" value="80" />
-      <option name="box" value="false" />
-      <option name="filler" value=" " />
     </LanguageOptions>
     <LanguageOptions name="Properties">
       <option name="fileTypeOverride" value="1" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="block" value="true" />
-      <option name="separateBefore" value="false" />
-      <option name="separateAfter" value="false" />
-      <option name="prefixLines" value="true" />
-      <option name="lenBefore" value="80" />
-      <option name="lenAfter" value="80" />
-      <option name="box" value="false" />
-      <option name="filler" value=" " />
     </LanguageOptions>
     <LanguageOptions name="XML">
       <option name="fileTypeOverride" value="1" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="block" value="true" />
-      <option name="separateBefore" value="false" />
-      <option name="separateAfter" value="false" />
-      <option name="prefixLines" value="true" />
-      <option name="lenBefore" value="80" />
-      <option name="lenAfter" value="80" />
-      <option name="box" value="false" />
-      <option name="filler" value=" " />
     </LanguageOptions>
   </component>
   <component name="DependencyValidationManager">
@@ -289,6 +256,9 @@
       <module fileurl="file://$PROJECT_DIR$/server/csharpRunner-server.iml" filepath="$PROJECT_DIR$/server/csharpRunner-server.iml" />
     </modules>
   </component>
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
@@ -360,9 +330,10 @@
         <root url="jar://$TeamCityDistribution$/devPackage/src/openApi-source.jar!/" />
       </SOURCES>
     </library>
-    <library name="TeamCity Open API server">
+    <library name="TeamCity Open API common">
       <CLASSES>
-        <root url="jar://$TeamCityDistribution$/devPackage/server-api.jar!/" />
+        <root url="jar://$TeamCityDistribution$/devPackage/runtime-util.jar!/" />
+        <root url="jar://$TeamCityDistribution$/devPackage/common-api.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$TeamCityDistribution$/devPackage/javadoc/openApi-help.jar!/" />
@@ -371,10 +342,9 @@
         <root url="jar://$TeamCityDistribution$/devPackage/src/openApi-source.jar!/" />
       </SOURCES>
     </library>
-    <library name="TeamCity Open API common">
+    <library name="TeamCity Open API server">
       <CLASSES>
-        <root url="jar://$TeamCityDistribution$/devPackage/runtime-util.jar!/" />
-        <root url="jar://$TeamCityDistribution$/devPackage/common-api.jar!/" />
+        <root url="jar://$TeamCityDistribution$/devPackage/server-api.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$TeamCityDistribution$/devPackage/javadoc/openApi-help.jar!/" />
@@ -393,16 +363,16 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Tomcat">
+    <library name="TeamCity Third-Party server">
       <CLASSES>
-        <root url="jar://$TeamCityDistribution$/lib/servlet-api.jar!/" />
+        <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="TeamCity Third-Party server">
+    <library name="Tomcat">
       <CLASSES>
-        <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar!/" />
+        <root url="jar://$TeamCityDistribution$/lib/servlet-api.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
