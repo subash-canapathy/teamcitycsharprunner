@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     public interface IExecutor
     {

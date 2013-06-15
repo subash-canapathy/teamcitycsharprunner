@@ -1,10 +1,9 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
-using CSharpCompiler;
 using CSharpCompiler.Runtime.Messages;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     public class CompositeCompiler : ICompiler
     {

@@ -6,12 +6,11 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using CSharpCompiler;
 using CSharpCompiler.Runtime.Dumping;
 using CSharpCompiler.Runtime.Messages;
 using Microsoft.CSharp;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     public abstract class AbstractCompiler : ICompiler
     {
@@ -153,7 +152,7 @@ namespace CsharpCompiler
                 yield return additionalCode;
         }
 
-        protected static bool ContainsSemicolumn(string expression)
+        protected static bool ContainsSemicolon(string expression)
         {
             return expression.Contains(";");
         }

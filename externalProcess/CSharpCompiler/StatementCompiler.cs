@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using CSharpCompiler.Runtime.Messages;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     internal class StatementCompiler : AbstractCompiler
     {
@@ -17,7 +17,7 @@ namespace CsharpCompiler
 
         private bool ContainsStatement(string expression)
         {
-            return ContainsSemicolumn(expression);
+            return ContainsSemicolon(expression);
         }
         
         protected override void CreateProgram(string expression, StringBuilder program)

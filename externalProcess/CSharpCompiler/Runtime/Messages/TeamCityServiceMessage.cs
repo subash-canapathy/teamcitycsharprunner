@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace CSharpCompiler.Runtime.Messages
 {
@@ -14,7 +13,7 @@ namespace CSharpCompiler.Runtime.Messages
 
         public void Run(TextWriter outputWriter)
         {
-            outputWriter.WriteLine(String.Format("##teamcity[{0}{1}]", Name, FormattedAndEscapedValue));
+            outputWriter.WriteLine("##teamcity[{0}{1}]", Name, FormattedAndEscapedValue);
         }
 
         protected abstract string FormattedAndEscapedValue { get; }

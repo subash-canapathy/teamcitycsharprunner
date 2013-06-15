@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace CsharpCompiler.Tests.Execution
+namespace CSharpCompiler.Tests.Execution
 {
 	public class Additional_references : OutputReporting
 	{

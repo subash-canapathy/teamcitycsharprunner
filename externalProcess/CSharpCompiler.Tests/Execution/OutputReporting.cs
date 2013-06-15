@@ -6,7 +6,7 @@ using CSharpCompiler.Runtime.Messages;
 using NUnit.Framework;
 using System.Linq;
 
-namespace CsharpCompiler.Tests.Execution
+namespace CSharpCompiler.Tests.Execution
 {
     [TestFixture]
     public abstract class OutputReporting
@@ -31,7 +31,7 @@ namespace CsharpCompiler.Tests.Execution
 
 			Assume.That(results.Errors.HasErrors, Is.False, "Compilation failed: " + string.Join(Environment.NewLine, results.Errors.Cast<CompilerError>().Select(e => e.ToString()).ToArray()));
 
-			new Executor(messages).Execute(results, AdditionalReferences.ToArray());
+			new Executor("whatever", messages).Execute(results, AdditionalReferences.ToArray());
 		}
 
     	protected virtual IEnumerable<string> AdditionalReferences { get { yield break; } }

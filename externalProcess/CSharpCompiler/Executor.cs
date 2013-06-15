@@ -6,18 +6,20 @@ using System.Reflection;
 using CSharpCompiler.Runtime.Messages;
 using System.Linq;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     public class Executor : IExecutor
     {
-        private readonly IServiceMessages serviceMessages;
+	    private readonly string artifactsPath;
+	    private readonly IServiceMessages serviceMessages;
 
-        public Executor(IServiceMessages serviceMessages)
+        public Executor(string artifactsPath, IServiceMessages serviceMessages)
         {
-            this.serviceMessages = serviceMessages;
+	        this.artifactsPath = artifactsPath;
+	        this.serviceMessages = serviceMessages;
         }
 
-        /// <exception cref="TargetInvocationException">When the supplied assembly's main method throws</exception>
+	    /// <exception cref="TargetInvocationException">When the supplied assembly's main method throws</exception>
         public void Execute(CompilerResults results, IEnumerable<string> additionalReferences)
         {
         	var entryPoint = results.CompiledAssembly.EntryPoint;
@@ -26,9 +28,11 @@ namespace CsharpCompiler
 				ExecutePrivate(entryPoint, additionalReferences);
         }
 
-    	private static void ExecutePrivate(MethodBase entryPoint, IEnumerable<string> additionalReferences)
+    	private void ExecutePrivate(MethodBase entryPoint, IEnumerable<string> additionalReferences)
     	{
     		AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => CurrentDomainOnAssemblyResolve(args.Name, additionalReferences);
+
+			Environment.SetEnvironmentVariable("CSharpRunner_ArtifactsPath", artifactsPath);
 
     		entryPoint.Invoke(entryPoint.DeclaringType, null);
     	}

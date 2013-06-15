@@ -18,6 +18,7 @@
     <exclude name="**/CVS/**"/>
     <exclude name="**/SCCS/**"/>
     <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
     <exclude name="**/.DS_Store/**"/>
     <exclude name="**/.svn/**"/>
     <exclude name="**/.pyc/**"/>
@@ -32,12 +33,15 @@
     <exclude name="**/*~/**"/>
     <exclude name="**/__pycache__/**"/>
     <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
   </patternset>
   <patternset id="library.patterns">
     <include name="*.zip"/>
+    <include name="*.apk"/>
     <include name="*.war"/>
     <include name="*.egg"/>
     <include name="*.ear"/>
+    <include name="*.ane"/>
     <include name="*.swc"/>
     <include name="*.jar"/>
   </patternset>
