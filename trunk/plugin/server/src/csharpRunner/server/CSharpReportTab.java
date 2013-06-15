@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class CSharpReportTab extends ViewLogTab {
-    private static final String TAB_STARTPAGE = PluginConstants.OUTPUT_FILE_NAME;
+    private static final String TAB_STARTPAGE = PluginConstants.OUTPUT_DIRECTORY + "/" + PluginConstants.OUTPUT_FILE_NAME;
 
     public CSharpReportTab(PagePlaces pagePlaces, SBuildServer server) {
         super("C#", PluginConstants.REPORT_TAB_CODE, pagePlaces, server);

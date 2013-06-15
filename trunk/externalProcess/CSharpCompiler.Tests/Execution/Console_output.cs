@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace CsharpCompiler.Tests.Execution
+namespace CSharpCompiler.Tests.Execution
 {
 	public class Console_output : OutputReporting
 	{

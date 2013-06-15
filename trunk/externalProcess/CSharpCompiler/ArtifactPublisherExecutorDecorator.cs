@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.IO;
 using CSharpCompiler;
+using CSharpCompiler.Runtime;
 using CSharpCompiler.Runtime.Messages;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     class ArtifactPublisherExecutorDecorator : IExecutor
     {
-        private readonly IExecutor inner;
+	    private readonly string artifactsPath;
+	    private readonly string reportName;
+	    private readonly IExecutor inner;
         private readonly IServiceMessages serviceMessages;
 
-        public ArtifactPublisherExecutorDecorator(IExecutor inner, IServiceMessages serviceMessages)
+        public ArtifactPublisherExecutorDecorator(string artifactsPath, string reportName, IExecutor inner, IServiceMessages serviceMessages)
         {
-            this.inner = inner;
+	        this.artifactsPath = artifactsPath;
+	        this.reportName = reportName;
+	        this.inner = inner;
             this.serviceMessages = serviceMessages;
         }
 
@@ -30,52 +35,57 @@ namespace CsharpCompiler
             }
         }
 
-        private void PublishReportEnd()
-        {
-            var path = Path.Combine(Path.GetTempPath(), "end");
-            File.WriteAllText(path, string.Empty);
-            serviceMessages.Publish(path);
-        }
+	    private void PublishReportStart()
+	    {
+		    PublishResources();
+		    PublishReport();
+	    }
 
-        private void PublishReportStart()
-        {
-        	PublishResources();
-        	PublishReport();
-        }
+	    private void PublishResources()
+	    {
+		    PublishProgressIndicator();
+		    PublishUpImage();
+		    PublishDownImage();
+	    }
 
-    	private void PublishResources()
-    	{
-    		PublishProgressIndicator();
-    		PublishUpImage();
-    		PublishDownImage();
-    	}
+	    private void PublishReport()
+	    {
+		    var path = PathUtilities.MakeTempPath(reportName);
+		    
+			File.WriteAllText(path, Reports.CSharpOutput);
+		    serviceMessages.Publish(path, artifactsPath);
+	    }
 
-    	private void PublishDownImage()
-    	{
-			var path = Path.Combine(Path.GetTempPath(), "down.png");
-			Reports.down.Save(path);
-			serviceMessages.Publish(path);
-    	}
+	    private void PublishProgressIndicator()
+	    {
+		    var path = PathUtilities.MakeTempPath(Constants.AjaxLoaderFileName);
+		    
+			Reports.ajax_loader.Save(path);
+			serviceMessages.Publish(path, artifactsPath);
+	    }
 
-    	private void PublishUpImage()
-    	{
-			var path = Path.Combine(Path.GetTempPath(), "up.png");
+	    private void PublishUpImage()
+	    {
+		    var path = PathUtilities.MakeTempPath(Constants.UpImageFileName);
+		    
 			Reports.up.Save(path);
-			serviceMessages.Publish(path);
-    	}
+			serviceMessages.Publish(path, artifactsPath);
+	    }
 
-    	private void PublishProgressIndicator()
-    	{
-    		var path = Path.Combine(Path.GetTempPath(), "ajax-loader.gif");
-    		Reports.ajax_loader.Save(path);
-    		serviceMessages.Publish(path);
-    	}
+	    private void PublishDownImage()
+	    {
+		    var path = PathUtilities.MakeTempPath(Constants.DownImageFileName);
+		    
+			Reports.down.Save(path);
+			serviceMessages.Publish(path, artifactsPath);
+	    }
 
-    	private void PublishReport()
-    	{
-    		var path = Path.Combine(Path.GetTempPath(), "CSharpOutput.html");
-    		File.WriteAllText(path, Reports.CSharpOutput);
-    		serviceMessages.Publish(path);
-    	}
+	    private void PublishReportEnd()
+        {
+            var path = PathUtilities.MakeTempPath(Constants.ReportEndFileName);
+            
+			File.WriteAllText(path, string.Empty);
+			serviceMessages.Publish(path, artifactsPath);
+        }
     }
 }

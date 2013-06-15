@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpCompiler", "CSharpCompiler\CSharpCompiler.csproj", "{82BBF1B4-4E86-416A-ADCB-B1FDB5A874A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpCompiler.Tests", "CSharpCompiler.Tests\CSharpCompiler.Tests.csproj", "{44A5F931-6140-48E6-BF51-5FB017293A8E}"

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     public class CannotCompileException : Exception
     {

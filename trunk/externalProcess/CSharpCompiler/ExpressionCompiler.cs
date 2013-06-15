@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using CSharpCompiler.Runtime.Messages;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     internal class ExpressionCompiler : AbstractCompiler
     {

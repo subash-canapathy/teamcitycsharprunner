@@ -50,8 +50,12 @@ public class CSharpRunnerBuildService extends CommandLineBuildService {
 
         result.add(program);
 
+        result.add(PluginConstants.OUTPUT_DIRECTORY);
+        result.add(PluginConstants.OUTPUT_FILE_NAME);
+
         String namespaces = parameters.get(PluginConstants.PROPERTY_SCRIPT_NAMESPACES);
         result.add(namespaces == null || StringUtil.isEmpty(namespaces) ? ";" : StringUtil.convertLineSeparators(namespaces, ";"));
+
         String references = parameters.get(PluginConstants.PROPERTY_SCRIPT_REFERENCES);
         result.add(references == null || StringUtil.isEmpty(references) ? ";" : StringUtil.convertLineSeparators(references, ";"));
 

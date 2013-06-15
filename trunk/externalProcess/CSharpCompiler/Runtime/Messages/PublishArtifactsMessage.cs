@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 
 namespace CSharpCompiler.Runtime.Messages
@@ -15,7 +14,7 @@ namespace CSharpCompiler.Runtime.Messages
             var artifactSpecification = new StringBuilder(artifact);
 
             if (targets.Any())
-                artifactSpecification.Append(" => ").Append(String.Join(", ", targets));
+                artifactSpecification.Append(" => ").Append(string.Join(", ", targets));
 
             return artifactSpecification.ToString();
         }

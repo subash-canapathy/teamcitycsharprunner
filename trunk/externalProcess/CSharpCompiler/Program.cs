@@ -7,18 +7,22 @@ using System.Runtime.InteropServices;
 using System.Text;
 using CSharpCompiler.Runtime.Messages;
 
-namespace CsharpCompiler
+namespace CSharpCompiler
 {
     internal class Program
     {
         private readonly string program;
-        private readonly List<string> namespaces;
-        private readonly List<string> references;
+	    private string artifactsPath;
+	    private string reportName;
 
-        private static TextWriter Out { get; set; }
-        private static TextWriter Error { get; set; }
+	    private readonly List<string> namespaces;
+	    private readonly List<string> references;
 
-        private static int Main(string[] args)
+	    private static TextWriter Out { get; set; }
+	    private static TextWriter Error { get; set; }
+	    private static IServiceMessages serviceMessages { get; set; }
+
+	    private static int Main(string[] args)
         {
             Out = Console.Out;
             Error = Console.Error;
@@ -32,22 +36,23 @@ namespace CsharpCompiler
             return new Program(args).Run();
         }
 
-        private Program(IList<string> args)
+	    private Program(IList<string> args)
         {
             program = Encoding.UTF8.GetString(Convert.FromBase64String(args[0]));
-            namespaces = new List<string>();
+		    artifactsPath = args[1];
+		    reportName = args[2];
+
+		    namespaces = new List<string>();
             references = new List<string>();
 
-            if (args.Count > 1)
-                namespaces.AddRange(args[1].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+            if (args.Count > 3)
+                namespaces.AddRange(args[3].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
 
-            if (args.Count > 2)
-                references.AddRange(args[2].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+            if (args.Count > 4)
+                references.AddRange(args[4].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
-        private static IServiceMessages serviceMessages { get; set; }
-
-        private int Run()
+	    private int Run()
         {
             var compiler = new CompositeCompiler(serviceMessages)
                            {
@@ -75,7 +80,7 @@ namespace CsharpCompiler
                 return results.NativeCompilerReturnValue;
             }
 
-            var executor = new ArtifactPublisherExecutorDecorator(new Executor(serviceMessages), serviceMessages);
+            var executor = new ArtifactPublisherExecutorDecorator(artifactsPath, reportName, new Executor(artifactsPath, serviceMessages), serviceMessages);
 
             try
             {

@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System;
 using CSharpCompiler.Runtime.Messages;
 
 namespace CSharpCompiler.Runtime.Dumping
@@ -7,28 +7,31 @@ namespace CSharpCompiler.Runtime.Dumping
     {
         private readonly IFileOutputObjectVisitorFactory factory;
         private readonly IServiceMessages serviceMessages;
-        private int currentSequence;
+	    private readonly string artifactsPath;
+	    private int currentSequence;
+
         public static readonly IObjectDumper Default;
 
         static ArtifactObjectDumper()
         {
-            Default = new ArtifactObjectDumper(new HtmlObjectVisitorFactory(), ServiceMessages.Default);
+            Default = new ArtifactObjectDumper(new HtmlObjectVisitorFactory(), ServiceMessages.Default, Environment.GetEnvironmentVariable("CSharpRunner_ArtifactsPath"));
         }
 
-        private ArtifactObjectDumper(IFileOutputObjectVisitorFactory factory, IServiceMessages serviceMessages)
+        private ArtifactObjectDumper(IFileOutputObjectVisitorFactory factory, IServiceMessages serviceMessages, string artifactsPath)
         {
             this.factory = factory;
             this.serviceMessages = serviceMessages;
+	        this.artifactsPath = artifactsPath;
         }
 
         public void Dump(object value, int maximumDepth)
         {
-            var tempFileName = Path.Combine(Path.GetTempPath(), currentSequence++ + ".html");
+	        var tempFile = PathUtilities.MakeTempPath(currentSequence++ + ".html");
 
-            using (var visitor = factory.Create(tempFileName, maximumDepth))
+            using (var visitor = factory.Create(tempFile, maximumDepth))
                 new VisitableObject(value).AcceptVisitor(visitor);
 
-            serviceMessages.Publish(tempFileName);
+            serviceMessages.Publish(tempFile, artifactsPath);
         }
     }
 }

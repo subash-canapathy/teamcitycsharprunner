@@ -6,6 +6,7 @@ public interface PluginConstants {
     @NonNls String RUN_TYPE = "csharpRunner";
     @NonNls String RUNNER_DISPLAY_NAME = "C#";
     String RUNNER_DESCRIPTION = "Runner for executing snippets of C# code";
+    String OUTPUT_DIRECTORY = ".csharpRunner-artifacts";
     String OUTPUT_FILE_NAME = "CSharpOutput.html";
 
     String PROPERTY_SCRIPT_CONTENT = "script.content";
