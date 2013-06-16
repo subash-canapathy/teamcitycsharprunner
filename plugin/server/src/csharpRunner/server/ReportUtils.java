@@ -9,6 +9,6 @@ import java.io.File;
 public final class ReportUtils {
     static boolean isReportTabAvailable(SBuild build) {
         final ArtifactsInfo info = new ArtifactsInfo(build);
-        return info.getSize(new File(PluginConstants.OUTPUT_DIRECTORY, PluginConstants.OUTPUT_FILE_NAME).getPath()) >= 0;
+        return info.getSize(new File(PluginConstants.OUTPUT_PATH, PluginConstants.OUTPUT_FILE_NAME).getPath()) >= 0;
     }
 }

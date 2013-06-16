@@ -39,7 +39,7 @@ namespace CSharpCompiler
 	    private Program(IList<string> args)
         {
             program = Encoding.UTF8.GetString(Convert.FromBase64String(args[0]));
-		    artifactsPath = args[1];
+		    artifactsPath = args[1].Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
 		    reportName = args[2];
 
 		    namespaces = new List<string>();

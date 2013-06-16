@@ -25,10 +25,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Map;
 
 public class CSharpReportTab extends ViewLogTab {
-    private static final String TAB_STARTPAGE = PluginConstants.OUTPUT_DIRECTORY + "/" + PluginConstants.OUTPUT_FILE_NAME;
+    private static final String TAB_STARTPAGE = PluginConstants.OUTPUT_PATH.replace(File.separatorChar, '/') + "/" + PluginConstants.OUTPUT_FILE_NAME;
 
     public CSharpReportTab(PagePlaces pagePlaces, SBuildServer server) {
         super("C#", PluginConstants.REPORT_TAB_CODE, pagePlaces, server);
